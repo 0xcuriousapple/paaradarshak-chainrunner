@@ -1,0 +1,74 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.10.2",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "antd": "^4.1.2",
+    "antd-dayjs-webpack-plugin": "^1.0.0",
+    "axios": "^0.19.2",
+    "babel-plugin-import": "^1.13.0",
+    "crypto-js": "^4.0.0",
+    "customize-cra": "^0.9.1",
+    "cytoscape": "^3.2.19",
+    "d3": "^5.5.0",
+    "emailjs-com": "^2.4.1",
+    "glamor": "^2.20.40",
+    "glamorous": "^5.0.0",
+    "govuk-colours": "^1.1.0",
+    "less": "^3.11.1",
+    "less-loader": "^5.0.0",
+    "node-sass": "^4.14.1",
+    "react": "^16.13.1",
+    "react-app-rewired": "^2.1.5",
+    "react-cytoscapejs": "^1.2.1",
+    "react-d3-graph": "^2.4.1",
+    "react-d3-tree": "^1.16.1",
+    "react-digraph": "^6.7.1",
+    "react-dom": "^16.13.1",
+    "react-horizontal-timeline": "^1.5.3",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "redux": "^4.0.5",
+    "web3": "^1.2.9"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "sass": "sass --watch src/scss/app.scss:src/css/app.css --style compressed"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "plugins": [
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "libraryDirectory": "es",
+        "style": "css"
+      }
+    ]
+  ],
+  "devDependencies": {
+    "redux-devtools": "^3.5.0",
+    "redux-devtools-extension": "^2.13.8"
+  }
+}
