@@ -13288,7 +13288,7 @@
       "events": {},
       "links": {},
       "address": "0x9F93491C16C2D8e827BbE7c33cd7313f30DA2349",
-      "transactionHash": "0x211a818189f16a733942b01f74adc3d68506649c6745bb1b8824dedb89c6716c"
+      "transactionHash": "0x0ffa3c6b723fca44715a9c6c3d35ce435f2ffbb352376e79e9ce2c475efaa5db"
     },
     "15001": {
       "events": {},
@@ -13298,7 +13298,7 @@
     }
   },
   "schemaVersion": "3.0.20",
-  "updatedAt": "2020-06-24T20:02:24.140Z",
+  "updatedAt": "2020-06-24T22:10:57.346Z",
   "networkType": "ethereum",
   "devdoc": {
     "author": "Abhishek Vispute",

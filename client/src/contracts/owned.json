@@ -656,7 +656,7 @@
       "events": {},
       "links": {},
       "address": "0xd241B8f562365B0fe3D77472A35415eA6971C7d9",
-      "transactionHash": "0x9941d026e87654e0df38330b5d57044f07c54736388662bb41caa5ac268d4a04"
+      "transactionHash": "0xfbd798d2a82cfd57320d6d9ba4acca671c3975bd2d4456bc21a407409313e384"
     },
     "15001": {
       "events": {},
@@ -666,7 +666,7 @@
     }
   },
   "schemaVersion": "3.0.20",
-  "updatedAt": "2020-06-24T20:01:55.907Z",
+  "updatedAt": "2020-06-24T22:10:56.622Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

@@ -14,18 +14,20 @@ const myConfig = {
   height: "650",
   width: "1500",
   d3: {
-    gravity: -2000,
+    gravity: -1000,
     linkLength: 600,
   },
 
   node: {
     color: "lightgreen",
     size: 400,
-    highlightStrokeColor: "blue",
+    highlightStrokeColor: "green",
     fontSize: 14,
+    renderLabel: true,
   },
   link: {
-    highlightColor: "blue",
+    color: "#001529",
+    highlightColor: "lightgreen",
     fontSize: 10,
     renderLabel: true,
     labelProperty: "label",
@@ -64,9 +66,9 @@ const myConfig = {
 //     window.alert(`Right clicked link between ${source} and ${target}`);
 // };
 
-// const onMouseOverLink = function (source, target) {
-//     window.alert(`Mouse over in link between ${source} and ${target}`);
-// };
+const onMouseOverLink = function (source, target) {
+  window.alert(`Mouse over in link between ${source} and ${target}`);
+};
 
 // const onMouseOutLink = function (source, target) {
 //     window.alert(`Mouse out link between ${source} and ${target}`);
@@ -103,6 +105,7 @@ class RTree extends React.Component {
         nodes: [
           {
             id: "Root",
+            label: "value",
             x: 750,
             y: 325,
             size: 500, // only this node will have size 300
@@ -160,7 +163,7 @@ class RTree extends React.Component {
                               target: temp[j + 1].nameOfOwner,
                               label: `Purpose : ${temp[j + 1].purpose} Value: ${
                                 temp[j + 1].value
-                              }`,
+                                }`,
                             });
                           } else if (temp[j + 1]._owner == parentadd) {
                             data.links.push({
@@ -168,7 +171,7 @@ class RTree extends React.Component {
                               target: "Root",
                               label: `Purpose : ${temp[j + 1].purpose} Value: ${
                                 temp[j + 1].value
-                              }`,
+                                }`,
                             });
                           } else {
                             data.links.push({
@@ -176,7 +179,7 @@ class RTree extends React.Component {
                               target: temp[j + 1].nameOfOwner,
                               label: `Purpose : ${temp[j + 1].purpose} Value: ${
                                 temp[j + 1].value
-                              }`,
+                                }`,
                             });
                           }
 
@@ -283,9 +286,9 @@ class RTree extends React.Component {
             // onRightClickLink={onRightClickLink}
             // onMouseOverNode={onMouseOverNode}
             // onMouseOutNode={onMouseOutNode}
-            // onMouseOverLink={onMouseOverLink}
-            // onMouseOutLink={onMouseOutLink}
-            // onNodePositionChange={onNodePositionChange}
+            onMouseOverLink={onMouseOverLink}
+          // onMouseOutLink={onMouseOutLink}
+          // onNodePositionChange={onNodePositionChange}
           />
         </div>
       </div>

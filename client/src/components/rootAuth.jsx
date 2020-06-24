@@ -41,17 +41,19 @@ class RootAuth extends React.Component {
                 })
             this.setState({ labels: l })
             this.setState({ mapAuthNametoAddress: map })
-            let promises = [];
-            promises.push(contract.methods.getAllTokenKeys().call({ from: accounts[0], gas: 3000000 })
+
+            contract.methods.getAllTokenKeys().call({ from: accounts[0], gas: 3000000 })
                 .then((result) => {
                     console.log(result);
                     tokenkeys = result
                 })
                 .then(() => {
-
-                    tokenkeys.reduce((p, value) => {
-                        return p.then(() => {
-                            promises.push(
+                    let promises = [];
+                    let i = 0;
+                    for (i = 0; i < tokenkeys.length; i++) {
+                        let value = tokenkeys[i];
+                        promises.push(
+                            new Promise((resolve, reject) => {
                                 contract.methods.getSingleTokenDetails(value).call({ from: accounts[0], gas: 3000000 })
                                     .then((result) => {
 
@@ -63,34 +65,38 @@ class RootAuth extends React.Component {
                                             this.setState({ tokensAtThisAddress: t });
                                         }
 
-                                    }));
-                        });
+                                    }).then(() => {
+                                        console.log('resolve')
+                                        resolve()
+                                    })
+                            }));
 
-                    }, Promise.resolve());
+
+                    }
+                    Promise.all(promises)
+                        .then(() => {
+
+                            console.log('resolve All')
+
+                            let total = 0;
+                            let i = 0;
+                            for (i = 0; i < this.state.tokensAtThisAddress.length; i++) {
+                                total = total + parseInt(this.state.tokensAtThisAddress[i].value);
+                            }
+                            this.setState({ funds: total })
+                            let temp = this.state.tokensAtThisAddress;
+                            temp.sort(function (a, b) {
+                                return a.value.localeCompare(b.value);
+                            });
+                            this.setState(temp);
+                            console.log(this.state.tokensAtThisAddress)
+
+
+                        })
 
                 })
-            );
-            Promise.all(promises)
-                .then(() => {
-                    // i AGREE THIS VERY VERY WORST WAY 
-                    // bUT ITS 3 AM AND I AM EXASUTED
 
-                    setTimeout(() => {
-                        let total = 0;
-                        let i = 0;
-                        for (i = 0; i < this.state.tokensAtThisAddress.length; i++) {
-                            total = total + parseInt(this.state.tokensAtThisAddress[i].value);
-                        }
-                        this.setState({ funds: total })
-                        let temp = this.state.tokensAtThisAddress;
-                        temp.sort(function (a, b) {
-                            return a.value.localeCompare(b.value);
-                        });
-                        this.setState(temp);
-                        console.log(this.state.tokensAtThisAddress)
 
-                    }, 2000);
-                })
 
         } catch (error) {
             // Catch any errors for any of the above operations.
