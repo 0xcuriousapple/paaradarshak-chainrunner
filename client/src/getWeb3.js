@@ -27,7 +27,7 @@ const getWeb3 = () =>
             else {
 
                 const provider = new Web3.providers.HttpProvider(
-                    'https://rpc-mumbai.matic.today'
+                    'https://testnetv3.matic.network'
                 );
                 const web3 = new Web3(provider);
                 console.log("No web3 instance injected, using Local web3.");
