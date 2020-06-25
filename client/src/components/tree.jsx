@@ -6,7 +6,8 @@ import { SearchOutlined } from "@ant-design/icons";
 import { message } from "antd";
 import { Graph } from "react-d3-graph";
 import CytoscapeComponent from "react-cytoscapejs";
-
+import { Typography, Space } from 'antd';
+const { Text, Link } = Typography;
 const myConfig = {
   nodeHighlightBehavior: true,
   linkHighlightBehavior: true,
@@ -23,7 +24,7 @@ const myConfig = {
     size: 400,
     highlightStrokeColor: "green",
     fontSize: 14,
-    renderLabel: true,
+
   },
   link: {
     color: "#001529",
@@ -38,9 +39,7 @@ const myConfig = {
 //     window.alert(`Clicked the graph background`);
 // };
 
-// const onClickNode = function (nodeId) {
-//     window.alert(`Clicked node ${nodeId}`);
-// };
+
 
 // const onDoubleClickNode = function (nodeId) {
 //     window.alert(`Double clicked node ${nodeId}`);
@@ -58,17 +57,17 @@ const myConfig = {
 //     window.alert(`Mouse out node ${nodeId}`);
 // };
 
-// const onClickLink = function (source, target) {
-//     window.alert(`Clicked link between ${source} and ${target}`);
-// };
+const onClickLink = function (source, target) {
+  window.alert(`Clicked link between ${source} and ${target}`);
+};
 
 // const onRightClickLink = function (event, source, target) {
 //     window.alert(`Right clicked link between ${source} and ${target}`);
 // };
 
-const onMouseOverLink = function (source, target) {
-  window.alert(`Mouse over in link between ${source} and ${target}`);
-};
+// const onMouseOverLink = function (source, target) {
+//   window.alert(`Mouse over in link between ${source} and ${target}`);
+// };
 
 // const onMouseOutLink = function (source, target) {
 //     window.alert(`Mouse out link between ${source} and ${target}`);
@@ -82,11 +81,7 @@ const tokenArray = ["hsfe7sfb", "je73bwd83", "hjse833rv", "weru32478c"];
 
 let tokenkeys;
 
-// for parent , no of chiderns "parent" = [c1,c2,c3...]
-let relations = {};
-
-let checkifitsyourchild = {};
-
+let linkvalue = {}
 let ownerCompleteInfo = {};
 // map owner to his tokens
 let tokensAtAddress = {};
@@ -106,6 +101,7 @@ class RTree extends React.Component {
           {
             id: "Root",
             label: "value",
+            renderLabel: true,
             x: 750,
             y: 325,
             size: 500, // only this node will have size 300
@@ -114,6 +110,7 @@ class RTree extends React.Component {
         ],
         links: [],
       },
+      selectedNode: "",
     };
   }
 
@@ -154,17 +151,33 @@ class RTree extends React.Component {
                       ) {
                         ifnodeexist[temp[j]._owner] = true;
                         data.nodes.push({ id: temp[j].nameOfOwner });
+                        ownerCompleteInfo[temp[j]._nameOfOwner] = {}
+                        if (j != temp.length - 1) ownerCompleteInfo[temp[j + 1]._nameOfOwner] = {}
                       }
                       if (j < temp.length - 1) {
                         if (temp[j].nameOfOwner != temp[j + 1].nameOfOwner) {
+
+                          let link = temp[j].nameOfOwner + temp[j + 1].nameOfOwner;
                           if (temp[j]._owner == parentadd) {
-                            data.links.push({
-                              source: "Root",
-                              target: temp[j + 1].nameOfOwner,
-                              label: `Purpose : ${temp[j + 1].purpose} Value: ${
-                                temp[j + 1].value
-                                }`,
-                            });
+
+                            if (linkvalue.hasOwnProperty(link)) {
+
+                              let prop = linkvalue.hasOwnProperty(link)
+                              data.links[prop.index].label = parseInt(data.links[prop.index].value) + temp[j + 1].value
+                              let temp = {}
+                              // if(temp['Debit'])  
+
+                            }
+                            else {
+                              data.links.push({
+                                source: "Root",
+                                target: temp[j + 1].nameOfOwner,
+                                label: `Purpose : ${temp[j + 1].purpose} Value: ${
+                                  temp[j + 1].value
+                                  }`,
+                              });
+                            }
+
                           } else if (temp[j + 1]._owner == parentadd) {
                             data.links.push({
                               source: temp[j].nameOfOwner,
@@ -222,6 +235,13 @@ class RTree extends React.Component {
   handleToggleDrawer = (bool) => {
     this.setState({ drawerVisible: bool });
   };
+
+  onClickNode = (nodeId) => {
+    // window.alert(`Clicked node ${nodeId}`);
+    console.log("Token name:", nodeId);
+    this.setState({ 'drawerVisible': true });
+    this.setState({ 'selectedNode': nodeId });
+  };
   handleSearchToken = (e) => {
     var name = e.target.name;
     if (e.target.value != "")
@@ -252,12 +272,15 @@ class RTree extends React.Component {
         <div id="treeWrapper" style={{ width: "100%", height: "80vh" }}>
           <Drawer
             className="token-drawer-wrapper"
-            title="Tokens"
+            title={this.state.selectedNode}
             placement="right"
             closable={true}
             onClose={() => this.handleToggleDrawer(false)}
             visible={this.state.drawerVisible}
           >
+            <Text mark>Total Funds Received: </Text>
+            <Text mark>Remaining Funds: </Text>
+            <Text>Tokens At this Address</Text>
             <div className="token-drawer">
               <Input
                 value={this.state.searchTokenTxt}
@@ -278,15 +301,15 @@ class RTree extends React.Component {
             id="graph-id" // id is mandatory, if no id is defined rd3g will throw an error
             data={this.state.data}
             config={myConfig}
-            // onClickNode={onClickNode}
+            onClickNode={this.onClickNode}
             // onDoubleClickNode={onDoubleClickNode}
             // onRightClickNode={onRightClickNode}
             // onClickGraph={onClickGraph}
-            // onClickLink={onClickLink}
-            // onRightClickLink={onRightClickLink}
-            // onMouseOverNode={onMouseOverNode}
-            // onMouseOutNode={onMouseOutNode}
-            onMouseOverLink={onMouseOverLink}
+            onClickLink={onClickLink}
+          // onRightClickLink={onRightClickLink}
+          // onMouseOverNode={onMouseOverNode}
+          // onMouseOutNode={onMouseOutNode}
+          //onMouseOverLink={onMouseOverLink}
           // onMouseOutLink={onMouseOutLink}
           // onNodePositionChange={onNodePositionChange}
           />
