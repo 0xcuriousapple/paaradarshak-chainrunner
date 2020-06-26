@@ -6,7 +6,7 @@
 	.header {
 		height: 10%;
 		color: #eee;
-		font-family: 'Raleway', sans-serif;
+		font-family: "Raleway", sans-serif;
 		font-size: 30px;
 		display: flex;
 		align-items: center;
@@ -14,6 +14,169 @@
 		padding: 0 15px !important;
 		.desktop-menu {
 			display: none;
+		}
+	}
+	@media screen and (min-width: 768px) {
+		.header {
+			padding: 0 50px !important;
+			.menu-unfold {
+				display: none;
+			}
+			.desktop-menu {
+				display: inline;
+			}
+		}
+	}
+	.features {
+		text-align: center;
+		padding: 20px 0;
+		.features-title {
+			font-family: "Raleway", sans-serif;
+			font-weight: 600;
+			font-size: 36px;
+			text-align: center;
+		}
+		.features-subtitle {
+			font-family: "Open Sans", sans-serif;
+			text-align: center;
+			width: 600px;
+			font-size: 18px;
+			margin: 10px auto;
+		}
+		.feature-row {
+			margin: 30px 0 20px;
+			.feature-card {
+				width: 300px !important;
+				// box-shadow: 0px 0px 19px -7px rgba(153,153,153,1);
+				transition: all ease-in-out 0.2s;
+				margin-bottom: 20px;
+				// &:hover {
+				// 	box-shadow: 0px 0px 19px -4px rgba(153,153,153,1);
+				// }
+				img {
+					text-align: center;
+					width: auto;
+					height: 200px;
+				}
+				.feature-title {
+					font-size: 24px;
+					font-family: "Raleway", sans-serif;
+					font-weight: 600;
+				}
+				.feature-subtitle {
+					font-size: 16px;
+					font-family: "Open Sans", sans-serif;
+					font-weight: 400;
+				}
+			}
+		}
+	}
+	@media only screen and(max-width: 768px) {
+		.features {
+			.features-subtitle {
+				width: unset;
+				padding: 0 10px;
+			}
+		}
+	}
+	.workflow {
+		text-align: center;
+		padding: 20px 0;
+		.workflow-title {
+			font-family: "Raleway", sans-serif;
+			font-weight: 600;
+			font-size: 36px;
+			text-align: center;
+		}
+		.workflow-subtitle {
+			font-family: "Open Sans", sans-serif;
+			text-align: center;
+			width: 600px;
+			font-size: 18px;
+			margin: 10px auto;
+		}
+		.workflow-row {
+			margin: 50px 20px;
+			.workflow-txt-wrapper {
+				.workflow-txt-title {
+					font-family: "Raleway", sans-serif;
+					font-weight: 600;
+					font-size: 24px;
+					text-align: center;
+				}
+				.workflow-txt-subtitle {
+					font-family: "Open Sans", sans-serif;
+					text-align: center;
+					font-size: 18px;
+					margin: 10px auto;
+				}
+				img {
+					max-width: 100%;
+				}
+			}
+		}
+	}
+	@media only screen and(max-width: 768px) {
+		.workflow {
+			.workflow-subtitle {
+				width: unset;
+				padding: 0 10px;
+			}
+		}
+	}
+	.authority-wrapper,
+	.donation-wrapper {
+		height: 90vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		.authority,
+		.donation {
+			.authority-title,
+			.donation-title {
+				font-family: "Raleway", sans-serif;
+				font-weight: 500;
+				font-size: 24px;
+				text-align: center;
+			}
+		}
+	}
+	.landing {
+		.hero {
+			height: 90vh;
+			display: flex;
+			justify-content: space-evenly;
+			align-items: center;
+			.hero-txt {
+				text-align: center;
+				.hero-title {
+					font-size: 40px;
+					font-family: "Raleway", sans-serif;
+					font-weight: 600;
+				}
+				.hero-details {
+					font-size: 24px;
+					font-family: "Raleway", sans-serif;
+				}
+			}
+			.hero-img {
+				width: 600px;
+			}
+		}
+		@media screen and(max-width: 768px) {
+			.hero {
+				.hero-txt {
+					.hero-title {
+						font-size: 30px;
+						font-family: "Raleway", sans-serif;
+						font-weight: 600;
+					}
+					.hero-details {
+						font-size: 18px;
+						font-family: "Raleway", sans-serif;
+					}
+				}
+			}
 		}
 	}
 	@media screen and (min-width: 768px) {
@@ -37,7 +200,7 @@
 		.donation {
 			.authority-title,
 			.donation-title {
-				font-family: 'Raleway', sans-serif;
+				font-family: "Raleway", sans-serif;
 				font-weight: 500;
 				font-size: 24px;
 				text-align: center;
@@ -54,16 +217,16 @@
 				text-align: center;
 				.hero-title {
 					font-size: 40px;
-					font-family: 'Raleway', sans-serif;
+					font-family: "Raleway", sans-serif;
 					font-weight: 600;
 				}
 				.hero-details {
 					font-size: 24px;
-					font-family: 'Raleway', sans-serif;
+					font-family: "Raleway", sans-serif;
 				}
 			}
 			.hero-img {
-				width: 600px;
+				width: 500px;
 			}
 		}
 		@media screen and(max-width: 768px) {
@@ -71,147 +234,67 @@
 				.hero-txt {
 					.hero-title {
 						font-size: 30px;
-						font-family: 'Raleway', sans-serif;
+						font-family: "Raleway", sans-serif;
 						font-weight: 600;
 					}
 					.hero-details {
 						font-size: 18px;
-						font-family: 'Raleway', sans-serif;
+						font-family: "Raleway", sans-serif;
 					}
 				}
 				.hero-img {
-					width: 300px;
+					width: 280px;
 				}
 			}
 		}
 	}
-	.problem-title {
-		font-size: 40px;
-		font-family: 'Raleway', sans-serif;
-		font-weight: 600;
-		margin: 0 auto;
-    }
-    .problem-content{
-        font-size: 16px;
-        font-family: 'Raleway', sans-serif;
-        font-weight: 700;
-    }
-    @media screen and (min-width: 768px) {
-        .header {
-            padding: 0 50px !important;
-            .menu-unfold {
-                display: none;
-            }
-            .desktop-menu {
-                display: inline;
-            }
-        }
-    }
-    .authority-wrapper,
-    .donation-wrapper {
-        height: 90vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .authority,
-        .donation {
-            .authority-title,
-            .donation-title {
-                font-family: "Raleway", sans-serif;
-                font-weight: 500;
-                font-size: 24px;
-                text-align: center;
-            }
-        }
-    }
-    .landing {
-        .hero {
-            height: 90vh;
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-            .hero-txt {
-                text-align: center;
-                .hero-title {
-                    font-size: 40px;
-                    font-family: "Raleway", sans-serif;
-                    font-weight: 600;
-                }
-                .hero-details {
-                    font-size: 24px;
-                    font-family: "Raleway", sans-serif;
-                }
-            }
-            .hero-img {
-                width: 600px;
-            }
-        }
-        @media screen and(max-width: 768px) {
-            .hero {
-                .hero-txt {
-                    .hero-title {
-                        font-size: 30px;
-                        font-family: "Raleway", sans-serif;
-                        font-weight: 600;
-                    }
-                    .hero-details {
-                        font-size: 18px;
-                        font-family: "Raleway", sans-serif;
-                    }
-                }
-                .hero-img {
-                    width: 300px;
-                }
-            }
-        }
-    }
-    .register-wrapper {
-        padding: 30px 20px;
-        .ant-form-item-control-input-content {
-            text-align: center;
-        }
-    }
-    .tree {
-        margin: 10px;
-    }
-    .track {
-        margin: 40px 20px;
-        text-align: center;
-        display: block;
-        .token-inp {
-            margin-bottom: 20px;
-            max-width: 450px;
-        }
-        .track-btn {
-            margin-bottom: 40px;
-        }
-        .card {
-            box-shadow: 0px 0px 16px -5px rgba(17, 17, 17, 1);
-            padding: 20px;
-            border-radius: 10px;
-            hr {
-                border-color: #111;
-            }
-        }
-    }
-    .root-auth {
-        margin-top: 40px;
-        text-align: center;
-        .fund-card {
-            // margin-bottom: 30px;
-            box-shadow: 0px 0px 16px -5px rgba(17, 17, 17, 1);
-            padding: 20px;
-            border-radius: 10px;
-            font-family: "Raleway", sans-serif;
-            .fund-card-title {
-                font-size: 18px;
-                font-weight: 600;
-            }
-            .fund-value {
-                font-size: 24px;
-            }
-        }
-    }
+	.register-wrapper {
+		padding: 30px 20px;
+		.ant-form-item-control-input-content {
+			text-align: center;
+		}
+	}
+	.tree {
+		margin: 10px;
+	}
+	.track {
+		margin: 40px 20px;
+		text-align: center;
+		display: block;
+		.token-inp {
+			margin-bottom: 20px;
+			max-width: 450px;
+		}
+		.track-btn {
+			margin-bottom: 40px;
+		}
+		.card {
+			box-shadow: 0px 0px 16px -5px rgba(17, 17, 17, 1);
+			padding: 20px;
+			border-radius: 10px;
+			hr {
+				border-color: #111;
+			}
+		}
+	}
+	.root-auth {
+		margin-top: 40px;
+		text-align: center;
+		.fund-card {
+			// margin-bottom: 30px;
+			box-shadow: 0px 0px 16px -5px rgba(17, 17, 17, 1);
+			padding: 20px;
+			border-radius: 10px;
+			font-family: "Raleway", sans-serif;
+			.fund-card-title {
+				font-size: 18px;
+				font-weight: 600;
+			}
+			.fund-value {
+				font-size: 24px;
+			}
+		}
+	}
 	.register-wrapper {
 		padding: 30px 20px;
 		.ant-form-item-control-input-content {

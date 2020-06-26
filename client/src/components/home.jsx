@@ -10,6 +10,7 @@ import Track from './track';
 import Donate from './donate';
 import RootAuth from './rootAuth';
 import MidAuth from './midAuth';
+import { GithubOutlined } from '@ant-design/icons';
 import './home.scss';
 const { Header, Content, Footer } = Layout;
 
@@ -57,6 +58,7 @@ class Home extends React.Component {
                             if (parseInt(obj.key) < 5)
                                 return <Menu.Item onClick={() => this.handleChangeMenu(obj.key)} key={obj.key}>{obj.value}</Menu.Item>
                         })}
+                        <Menu.Item><a href="https://github.com" target="_blank"><GithubOutlined style={{ fontSize: '24px' }} /></a></Menu.Item>
                     </Menu>
                 </Header>
                 <Drawer
@@ -76,6 +78,12 @@ class Home extends React.Component {
                                     {obj.value}
                                 </Menu.Item>
                         })}
+                        <Menu.Item key={10} icon={<GithubOutlined />}>
+                            <a href="https://github.com" target="_blank">
+                                Github
+                            </a>
+                        </Menu.Item>
+                        {/* <Menu.Item><a href="https://github.com" target="_blank"><GithubOutlined style={{ fontSize: '24px' }} /></a></Menu.Item> */}
                     </Menu>
                 </Drawer>
                 {this.state.selectedMenuItem == '0' ? <Landing /> :
