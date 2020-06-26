@@ -14,8 +14,9 @@ class RootAuth extends React.Component {
         super(props);
         this.state = {
             utilizeVisible: false, purpose: '', value: '', authority: '', authName: '', authAddr: '', funds: '', labels: [],
-            mapAuthNametoAddress: {}, tokensAtThisAddress: []
+            mapAuthNametoAddress: {}, tokensAtThisAddress: [], refresh: 'false'
         }
+
     }
     componentDidMount = async () => {
 
@@ -132,12 +133,16 @@ class RootAuth extends React.Component {
 
                 if (temp == aim) {
                     let k;
+                    let before = this.state.funds;
+
                     for (k = 0; k <= breakp; k++) {
                         contract.methods.transferToken(this.state.tokensAtThisAddress[k].key, '1', this.state.authority, this.state.purpose, this.state.mapAuthNametoAddress[this.state.authority]).send({ from: accounts[0], gas: 3000000 })
                             .then((receipt) => {
 
-                                if (k == 0) {
+                                if (this.state.funds === before) {
                                     let newbal = this.state.funds - parseInt(aim);
+                                    console.log("hello");
+                                    console.log(newbal);
                                     this.setState({ funds: newbal });
                                 }
 
@@ -157,17 +162,21 @@ class RootAuth extends React.Component {
                     contract.methods.breakToken(this.state.tokensAtThisAddress[breakp].key, requiredvaluedtoken, "0x" + uhash).send({ from: accounts[0], gas: 3000000 })
                         .then(() => {
                             let k;
+                            let before = this.state.funds;
                             for (k = 0; k <= breakp; k++) {
                                 contract.methods.transferToken(this.state.tokensAtThisAddress[k].key, '1', this.state.authority, this.state.purpose, this.state.mapAuthNametoAddress[this.state.authority]).send({ from: accounts[0], gas: 3000000 })
                                     .then((receipt) => {
-                                        if (k == 0) {
+
+                                        if (this.state.funds === before) {
                                             let newbal = this.state.funds - parseInt(aim);
+                                            console.log("hello");
+                                            console.log(newbal);
                                             this.setState({ funds: newbal });
                                         }
-
                                     })
                             }
                             this.setState({ transferVisible: false });
+
                         })
                 }
                 console.log(this.state.purpose, parseInt(this.state.value), this.state.authority);

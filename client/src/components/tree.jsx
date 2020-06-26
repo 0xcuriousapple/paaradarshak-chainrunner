@@ -7,7 +7,8 @@ import { message } from "antd";
 import { Graph } from "react-d3-graph";
 import CytoscapeComponent from "react-cytoscapejs";
 import { Typography, Space } from 'antd';
-const { Text, Link } = Typography;
+import { List, Divider } from 'antd';
+const { Text, Title } = Typography;
 const myConfig = {
   nodeHighlightBehavior: true,
   linkHighlightBehavior: true,
@@ -15,8 +16,8 @@ const myConfig = {
   height: "650",
   width: "1500",
   d3: {
-    gravity: -1000,
-    linkLength: 600,
+    gravity: -500,
+    // linkLength: 600,
   },
 
   node: {
@@ -29,72 +30,24 @@ const myConfig = {
   link: {
     color: "#001529",
     highlightColor: "lightgreen",
-    fontSize: 10,
+    fontSize: 16,
     renderLabel: true,
     labelProperty: "label",
   },
 };
-
-// const onClickGraph = function () {
-//     window.alert(`Clicked the graph background`);
-// };
-
-
-
-// const onDoubleClickNode = function (nodeId) {
-//     window.alert(`Double clicked node ${nodeId}`);
-// };
-
-// const onRightClickNode = function (event, nodeId) {
-//     window.alert(`Right clicked node ${nodeId}`);
-// };
-
-// const onMouseOverNode = function (nodeId) {
-//     window.alert(`Mouse over node ${nodeId}`);
-// };
-
-// const onMouseOutNode = function (nodeId) {
-//     window.alert(`Mouse out node ${nodeId}`);
-// };
-
-const onClickLink = function (source, target) {
-  window.alert(`Clicked link between ${source} and ${target}`);
-};
-
-// const onRightClickLink = function (event, source, target) {
-//     window.alert(`Right clicked link between ${source} and ${target}`);
-// };
-
-// const onMouseOverLink = function (source, target) {
-//   window.alert(`Mouse over in link between ${source} and ${target}`);
-// };
-
-// const onMouseOutLink = function (source, target) {
-//     window.alert(`Mouse out link between ${source} and ${target}`);
-// };
-
-// const onNodePositionChange = function (nodeId, x, y) {
-//     window.alert(`Node ${nodeId} is moved to new position. New position is x= ${x} y= ${y}`);
-// };
-
-const tokenArray = ["hsfe7sfb", "je73bwd83", "hjse833rv", "weru32478c"];
-
 let tokenkeys;
-
+let parentadd;
 let linkvalue = {}
-let ownerCompleteInfo = {};
+let ownerCompleteInfo = { 'root': { 'debit': {}, 'credit': { 'value': 0 } } };
 // map owner to his tokens
 let tokensAtAddress = {};
-
-// to store the root address
-let rootAddress;
 
 class RTree extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       drawerVisible: false,
-      tokenArray: tokenArray,
+      tokenArray: [],
       searchTokenTxt: "",
       data: {
         nodes: [
@@ -111,10 +64,24 @@ class RTree extends React.Component {
         links: [],
       },
       selectedNode: "",
+      debitlist: [],
+      creditlist: [],
+      totalrecv: "",
+      totalu: "",
+      totalr: "",
+      drawerVisibleRoot: false,
+      drawerVisibleLink: false,
+      selectedLinkSource: "",
+      selectedLinkDestination: "",
+      linklist: [],
     };
   }
 
   componentDidMount = async () => {
+    linkvalue = {}
+    ownerCompleteInfo = { 'root': { 'debit': {}, 'credit': { 'value': 0 } } };
+    // map owner to his tokens
+    tokensAtAddress = {};
     const { accounts, contract } = this.props.web3;
     try {
       let data = this.state.data;
@@ -133,6 +100,7 @@ class RTree extends React.Component {
 
           for (i = 0; i < tokenkeys.length; i++) {
             let value = tokenkeys[i];
+            console.log(ownerCompleteInfo);
             promises.push(
               new Promise(function (resolve, reject) {
                 contract.methods
@@ -143,7 +111,7 @@ class RTree extends React.Component {
                     temp = result.CompleteHistoryOfToken;
                     let j;
                     console.log(temp);
-                    let parentadd = temp[0]._owner;
+                    parentadd = temp[0]._owner;
                     for (j = 0; j < temp.length; j++) {
                       if (
                         !ifnodeexist.hasOwnProperty(temp[j]._owner) &&
@@ -151,49 +119,148 @@ class RTree extends React.Component {
                       ) {
                         ifnodeexist[temp[j]._owner] = true;
                         data.nodes.push({ id: temp[j].nameOfOwner });
-                        ownerCompleteInfo[temp[j]._nameOfOwner] = {}
-                        if (j != temp.length - 1) ownerCompleteInfo[temp[j + 1]._nameOfOwner] = {}
+                        ownerCompleteInfo[temp[j].nameOfOwner] = {
+
+                          'credit': {},
+                          'debit': {}
+                        }
+                        if (j != temp.length - 1) ownerCompleteInfo[temp[j + 1].nameOfOwner] = {
+                          'credit': {},
+                          'debit': {}
+                        }
                       }
+                      let flag = 1;
+                      if (j < temp.length - 1 && temp[j].nameOfOwner == temp[j + 1].nameOfOwner) {
+                        flag = 0;
+                      }
+                      if (temp[j]._owner == parentadd && flag == 1) {
+                        //root owner credit
+                        ownerCompleteInfo['root'].credit.value = parseInt(ownerCompleteInfo['root'].credit.value) + parseInt(temp[j].value);
+                      }
+                      if (j > 0 && flag == 1) {
+                        // j owner credit
+                        let name = temp[j].nameOfOwner;
+                        if (temp[j]._owner != parentadd) {
+
+                          let t = ownerCompleteInfo[name];
+                          let credit = t['credit'];
+                          //let credit = ownerCompleteInfo[temp[j].nameOfOwner]['credit'];
+                          if (credit.hasOwnProperty(temp[j].purpose)) {
+                            credit[temp[j].purpose].value = credit[temp[j].purpose].value + parseInt(temp[j].value);
+                            credit[temp[j].purpose].tokens.push(tokenkeys[i]);
+                          }
+                          else {
+                            credit[temp[j].purpose] = { 'value': parseInt(temp[j].value), 'from': temp[j - 1].nameOfOwner, 'tokens': [tokenkeys[i]] }
+                          }
+                          ownerCompleteInfo[name]['credit'] = credit;
+                        }
+                      }
+
+                      if (j < temp.length - 1 && flag == 1) {
+                        //j owner debit
+                        let name = temp[j].nameOfOwner;
+                        if (temp[j]._owner === parentadd) name = 'root'
+
+                        let t = ownerCompleteInfo[name];
+                        let debit = t['debit'];
+                        if (debit.hasOwnProperty(temp[j + 1].purpose)) {
+                          debit[temp[j + 1].purpose].value = debit[temp[j + 1].purpose].value + parseInt(temp[j + 1].value);
+                          debit[temp[j + 1].purpose].tokens.push(tokenkeys[i]);
+                        }
+                        else {
+                          debit[temp[j + 1].purpose] = { 'value': parseInt(temp[j + 1].value), 'to': temp[j + 1].nameOfOwner, 'tokens': [tokenkeys[i]] }
+                        }
+                        ownerCompleteInfo[name]['debit'] = debit;
+                      }
+
                       if (j < temp.length - 1) {
                         if (temp[j].nameOfOwner != temp[j + 1].nameOfOwner) {
 
-                          let link = temp[j].nameOfOwner + temp[j + 1].nameOfOwner;
+
                           if (temp[j]._owner == parentadd) {
-
+                            let link = 'root' + temp[j + 1].nameOfOwner;
                             if (linkvalue.hasOwnProperty(link)) {
-
-                              let prop = linkvalue.hasOwnProperty(link)
-                              data.links[prop.index].label = parseInt(data.links[prop.index].value) + temp[j + 1].value
-                              let temp = {}
-                              // if(temp['Debit'])  
+                              let prop = linkvalue[link]
+                              linkvalue[link].totalvalue = parseInt(linkvalue[link].totalvalue) + parseInt(temp[j + 1].value);
+                              if (!linkvalue[link].purposes.hasOwnProperty(temp[j + 1].purpose)) linkvalue[link].purposes[temp[j + 1].purpose] = 0;
+                              linkvalue[link].purposes[temp[j + 1].purpose] = parseInt(linkvalue[link].purposes[temp[j + 1].purpose]) + parseInt(temp[j + 1].value);
+                              data.links[prop.index].label = parseInt(data.links[prop.index].label) + parseInt(temp[j + 1].value)
 
                             }
                             else {
+
                               data.links.push({
                                 source: "Root",
                                 target: temp[j + 1].nameOfOwner,
-                                label: `Purpose : ${temp[j + 1].purpose} Value: ${
-                                  temp[j + 1].value
-                                  }`,
+                                label: parseInt(temp[j + 1].value),
                               });
+                              linkvalue[link] = {
+
+                                'index': data.links.length - 1,
+                                'totalvalue': parseInt(temp[j + 1].value),
+                                'purposes': {
+                                  [temp[j + 1].purpose]: parseInt(temp[j + 1].value)
+                                }
+
+                              }
                             }
 
                           } else if (temp[j + 1]._owner == parentadd) {
-                            data.links.push({
-                              source: temp[j].nameOfOwner,
-                              target: "Root",
-                              label: `Purpose : ${temp[j + 1].purpose} Value: ${
-                                temp[j + 1].value
-                                }`,
-                            });
+                            let link = temp[j + 1].nameOfOwner + 'root';
+
+                            if (linkvalue.hasOwnProperty(link)) {
+
+                              let prop = linkvalue[link]
+                              linkvalue[link].totalvalue = parseInt(linkvalue[link].totalvalue) + parseInt(temp[j + 1].value);
+                              if (!linkvalue[link].purposes.hasOwnProperty(temp[j + 1].purpose)) linkvalue[link].purposes[temp[j + 1].purpose] = 0;
+                              linkvalue[link].purposes[temp[j + 1].purpose] = parseInt(linkvalue[link].purposes[temp[j + 1].purpose]) + parseInt(temp[j + 1].value);
+                              data.links[prop.index].label = parseInt(data.links[prop.index].label) + parseInt(temp[j + 1].value)
+                            }
+                            else {
+
+                              data.links.push({
+                                source: temp[j].nameOfOwner,
+                                target: "Root",
+                                label: parseInt(temp[j + 1].value),
+                              });
+                              linkvalue[link] = {
+
+                                'index': data.links.length - 1,
+                                'totalvalue': parseInt(temp[j + 1].value),
+                                'purposes': {
+                                  [temp[j + 1].purpose]: parseInt(temp[j + 1].value)
+                                }
+
+                              }
+                            }
+
                           } else {
-                            data.links.push({
-                              source: temp[j].nameOfOwner,
-                              target: temp[j + 1].nameOfOwner,
-                              label: `Purpose : ${temp[j + 1].purpose} Value: ${
-                                temp[j + 1].value
-                                }`,
-                            });
+                            let link = temp[j].nameOfOwner + temp[j + 1].nameOfOwner;
+                            if (linkvalue.hasOwnProperty(link)) {
+
+                              let prop = linkvalue[link]
+                              linkvalue[link].totalvalue = parseInt(linkvalue[link].totalvalue) + parseInt(temp[j + 1].value);
+                              if (!linkvalue[link].purposes.hasOwnProperty(temp[j + 1].purpose)) linkvalue[link].purposes[temp[j + 1].purpose] = 0;
+                              linkvalue[link].purposes[temp[j + 1].purpose] = parseInt(linkvalue[link].purposes[temp[j + 1].purpose]) + parseInt(temp[j + 1].value);
+                              data.links[prop.index].label = parseInt(data.links[prop.index].label) + parseInt(temp[j + 1].value);
+                            }
+                            else {
+
+                              data.links.push({
+                                source: temp[j].nameOfOwner,
+                                target: temp[j + 1].nameOfOwner,
+                                label: parseInt(temp[j + 1].value)
+                              });
+                              linkvalue[link] = {
+
+                                'index': data.links.length - 1,
+                                'totalvalue': parseInt(temp[j + 1].value),
+                                'purposes': {
+                                  [temp[j + 1].purpose]: parseInt(temp[j + 1].value)
+                                }
+                              }
+                            }
+
                           }
 
                           // this.setState({ data: t })
@@ -210,7 +277,7 @@ class RTree extends React.Component {
                   .then(() => {
                     console.log("resolved");
                     resolve();
-                  });
+                  })
               })
             );
           }
@@ -219,6 +286,8 @@ class RTree extends React.Component {
             console.log("resolved all");
             this.setState({ data: data });
             console.log(this.state.data);
+            console.log(ownerCompleteInfo);
+            console.log(linkvalue);
           });
         });
     } catch (error) {
@@ -235,41 +304,102 @@ class RTree extends React.Component {
   handleToggleDrawer = (bool) => {
     this.setState({ drawerVisible: bool });
   };
-
+  handleToggleDrawerRoot = (bool) => {
+    this.setState({ drawerVisibleRoot: bool });
+  };
+  handleToggleDrawerLink = (bool) => {
+    this.setState({ drawerVisibleLink: bool });
+  };
   onClickNode = (nodeId) => {
     // window.alert(`Clicked node ${nodeId}`);
-    console.log("Token name:", nodeId);
-    this.setState({ 'drawerVisible': true });
-    this.setState({ 'selectedNode': nodeId });
+
+    if (nodeId === 'Root') {
+      this.setState({ 'drawerVisibleRoot': true });
+      this.setState({ selectedNode: nodeId })
+
+      //credit
+      this.setState({ totalrecv: ownerCompleteInfo['root'].credit.value });
+      this.setState({ tokenArray: tokensAtAddress[parentadd] })
+      //debit
+      let t = ownerCompleteInfo['root'].debit;
+      let tempdebitlist = [];
+      let temptu = 0;
+      for (const [key, value] of Object.entries(t)) {
+        tempdebitlist.push(`Purpose: ${key} Funds: ${value.value} To: ${value.to}`)
+        temptu = temptu + parseInt(value.value);
+      }
+      this.setState({ debitlist: tempdebitlist });
+      this.setState({ totalu: temptu });
+      this.setState({ totalr: ownerCompleteInfo['root'].debit.value - temptu });
+    }
+    else {
+
+      this.setState({ 'drawerVisible': true });
+      this.setState({ selectedNode: nodeId })
+      this.setState({ drawertype: 'normal' });
+      //credit
+      let t1 = ownerCompleteInfo[nodeId].credit;
+      let tempcreditlist = [];
+      let temptrecv = 0;
+      for (const [key, value] of Object.entries(t1)) {
+        tempcreditlist.push(`Purpose: ${key} Funds: ${value.value} From : ${value.from}`)
+        temptrecv = temptrecv + parseInt(value.value);
+      }
+      this.setState({ creditlist: tempcreditlist });
+      this.setState({ totalrecv: temptrecv });
+
+
+
+      //debit
+      let t = ownerCompleteInfo[nodeId].debit;
+      let tempdebitlist = [];
+      let temptu = 0;
+      for (const [key, value] of Object.entries(t)) {
+        tempdebitlist.push(`Purpose: ${key} Funds: ${value.value} To: ${value.to}`)
+        temptu = temptu + parseInt(value.value);
+      }
+      this.setState({ debitlist: tempdebitlist });
+      this.setState({ totalu: temptu });
+      this.setState({ totalr: temptrecv - temptu });
+    }
+
+
   };
+
+  onClickLink = (source, target) => {
+
+    if (source == 'Root') source = 'root';
+    this.setState({ 'drawerVisibleLink': true });
+    this.setState({ selectedLinkSource: source })
+    this.setState({ selectedLinkDestination: target })
+    let t = linkvalue[source + target].purposes
+    let templinklist = [];
+    for (const [key, value] of Object.entries(t)) {
+      templinklist.push(`Purpose: ${key} Funds: ${value}`)
+    }
+    this.setState({ linklist: templinklist });
+    this.setState({ totalrecv: linkvalue[source + target].totalvalue })
+  };
+
   handleSearchToken = (e) => {
     var name = e.target.name;
     if (e.target.value != "")
-      var data = tokenArray.filter((t) => {
+      var data = this.state.tokenArray.filter((t) => {
         return t.includes(e.target.value);
       });
-    else data = tokenArray;
+    else data = this.state.tokenArray;
     this.setState({ [name]: e.target.value, tokenArray: data });
   };
   render() {
-    function NodeLabel(props) {
-      const { className, nodeData } = props;
-      return (
-        <div className={className}>
-          <h4>{nodeData.name}</h4>
-          <div
-            style={{ color: "#1890ff", cursor: "pointer" }}
-            onClick={() => props.handleClick(nodeData.name)}
-          >
-            {nodeData.value}
-          </div>
-        </div>
-      );
-    }
+
 
     return (
       <div className="tree">
         <div id="treeWrapper" style={{ width: "100%", height: "80vh" }}>
+
+
+          {/* Normal drawer */}
+
           <Drawer
             className="token-drawer-wrapper"
             title={this.state.selectedNode}
@@ -278,40 +408,118 @@ class RTree extends React.Component {
             onClose={() => this.handleToggleDrawer(false)}
             visible={this.state.drawerVisible}
           >
-            <Text mark>Total Funds Received: </Text>
-            <Text mark>Remaining Funds: </Text>
-            <Text>Tokens At this Address</Text>
-            <div className="token-drawer">
-              <Input
-                value={this.state.searchTokenTxt}
-                onChange={this.handleSearchToken}
-                name="searchTokenTxt"
-                className="search-tree-token"
-                placeholder="Enter token key"
-                prefix={<SearchOutlined />}
+            <Space direction="vertical">
+
+              {/* <Title level={3}></Title> */}
+              <Divider orientation="left">Credit</Divider>
+              <List
+                size="small"
+                // header={<div>Header</div>}
+                footer={<div><Text mark>Total Funds Received: {this.state.totalrecv} </Text></div>}
+                bordered
+                dataSource={this.state.creditlist}
+                renderItem={item => <List.Item>{item}</List.Item>}
               />
-              {this.state.tokenArray &&
-                this.state.tokenArray.map((token) => {
-                  return <div className="token-array">{token}</div>;
-                })}
-            </div>
+
+
+              <Divider orientation="left">Debit</Divider>
+              <List
+                size="small"
+                // header={<div>Debit</div>}
+                footer={<Text mark>Utilized Funds: {this.state.totalu}</Text>}
+                bordered
+                dataSource={this.state.debitlist}
+                renderItem={item => <List.Item>{item}</List.Item>}
+              />
+
+              {/* <Text mark>Remaining Funds: {this.state.totalr}</Text> */}
+
+
+            </Space>
+
           </Drawer>
 
+
+          {/* Root drawer */}
+
+          <Drawer
+            className="token-drawer-wrapper"
+            title={this.state.selectedNode}
+            placement="right"
+            closable={true}
+            onClose={() => this.handleToggleDrawerRoot(false)}
+            visible={this.state.drawerVisibleRoot}
+          >
+            <Space direction="vertical">
+
+              {/* <Title level={3}></Title> */}
+              <Divider orientation="left">Credit</Divider>
+
+              <Text mark>Total Funds Received: {this.state.totalrecv} </Text>
+              <div className="token-drawer">
+                <Input
+                  value={this.state.searchTokenTxt}
+                  onChange={this.handleSearchToken}
+                  name="searchTokenTxt"
+                  className="search-tree-token"
+                  placeholder="Enter token key"
+                  prefix={<SearchOutlined />}
+                />
+                {/* {this.state.tokenArray &&
+                  this.state.tokenArray.map((token) => {
+                    return <div className="token-array">{token}</div>;
+                  })} */}
+              </div>
+              <Divider orientation="left">Debit</Divider>
+              <List
+                size="small"
+                // header={<div>Debit</div>}
+                footer={<Text mark>Utilized Funds: {this.state.totalu}</Text>}
+                bordered
+                dataSource={this.state.debitlist}
+                renderItem={item => <List.Item>{item}</List.Item>}
+              />
+
+              {/* <Text mark>Remaining Funds: {this.state.totalr}</Text> */}
+
+
+            </Space>
+
+          </Drawer>
+
+
+          {/* Link drawer */}
+
+          <Drawer
+            className="token-drawer-wrapper"
+            title={"Source:" + this.state.selectedLinkSource + "Target:" + this.state.selectedLinkDestination}
+            placement="right"
+            closable={true}
+            onClose={() => this.handleToggleDrawerLink(false)}
+            visible={this.state.drawerVisibleLink}
+          >
+            <Space direction="vertical">
+              <Text mark>Total Funds Transfered: {this.state.totalrecv} </Text>
+              <List
+                size="small"
+                // header={<div>Debit</div>}
+                bordered
+                dataSource={this.state.linklist}
+                renderItem={item => <List.Item>{item}</List.Item>}
+              />
+
+
+
+
+            </Space>
+
+          </Drawer>
           <Graph
             id="graph-id" // id is mandatory, if no id is defined rd3g will throw an error
             data={this.state.data}
             config={myConfig}
             onClickNode={this.onClickNode}
-            // onDoubleClickNode={onDoubleClickNode}
-            // onRightClickNode={onRightClickNode}
-            // onClickGraph={onClickGraph}
-            onClickLink={onClickLink}
-          // onRightClickLink={onRightClickLink}
-          // onMouseOverNode={onMouseOverNode}
-          // onMouseOutNode={onMouseOutNode}
-          //onMouseOverLink={onMouseOverLink}
-          // onMouseOutLink={onMouseOutLink}
-          // onNodePositionChange={onNodePositionChange}
+            onClickLink={this.onClickLink}
           />
         </div>
       </div>
