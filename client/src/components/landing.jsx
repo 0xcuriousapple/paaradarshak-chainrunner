@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Button } from 'antd';
 import HeroImg from './hero.svg';
 import Problem from '../containers/problem/probelm';
 import Features from '../containers/features/features';
@@ -16,7 +16,9 @@ class Landing extends React.Component {
 						<div className="hero-details">
 							A Blockchain based Donation system for <br />
 							enhanced transparency
-						</div>
+						</div><br/>
+						<Button size="large" type="default">Live Campaigns</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+						<Button size="large" type="primary">Create Campaign</Button>
 					</Col>
 					<Col style={{ textAlign: 'center' }} sm={24} md={12}>
 						{' '}
