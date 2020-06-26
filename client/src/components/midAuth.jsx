@@ -43,7 +43,7 @@ class MidAuth extends React.Component {
 
         console.log(accounts[0]);
         try {
-            let promises = [];
+
 
             let l = [];
             let map = {};
@@ -66,65 +66,65 @@ class MidAuth extends React.Component {
             this.setState({ labels: l })
             this.setState({ mapAuthNametoAddress: map })
 
-            promises.push(contract.methods.getAllTokenKeys().call({ from: accounts[0], gas: 3000000 })
+            contract.methods.getAllTokenKeys().call({ from: accounts[0], gas: 3000000 })
                 .then((result) => {
                     tokenkeys = result
                 })
                 .then(() => {
+                    let i = 0;
+                    let promises = [];
+                    for (i = 0; i < tokenkeys.length; i++) {
+                        let value = tokenkeys[i];
+                        promises.push(
+                            contract.methods.getSingleTokenDetails(value).call({ from: accounts[0], gas: 3000000 })
+                                .then((result) => {
 
-                    tokenkeys.reduce((p, value) => {
-                        return p.then(() => {
-                            promises.push(
-                                contract.methods.getSingleTokenDetails(value).call({ from: accounts[0], gas: 3000000 })
-                                    .then((result) => {
+                                    console.log(result);
+                                    let temp
+                                    temp = result.CompleteHistoryOfToken;
+                                    //console.log(result.CompleteHistoryOfToken);
+                                    if (accounts[0] == temp[temp.length - 1]._owner) {
 
-                                        console.log(result);
-                                        let temp
-                                        temp = result.CompleteHistoryOfToken;
-                                        //console.log(result.CompleteHistoryOfToken);
-                                        if (accounts[0] == temp[temp.length - 1]._owner) {
-
-                                            console.log(temp)
-                                            let t = this.state.tokensAtThisAddress;
-                                            if (!t.hasOwnProperty(temp[temp.length - 1].purpose)) {
-                                                t[temp[temp.length - 1].purpose] = [];
-                                            }
-                                            t[temp[temp.length - 1].purpose].push({ "key": value, "value": temp[temp.length - 1].value });
-                                            this.setState({ tokensAtThisAddress: t });
+                                        console.log(temp)
+                                        let t = this.state.tokensAtThisAddress;
+                                        if (!t.hasOwnProperty(temp[temp.length - 1].purpose)) {
+                                            t[temp[temp.length - 1].purpose] = [];
                                         }
+                                        t[temp[temp.length - 1].purpose].push({ "key": value, "value": temp[temp.length - 1].value });
+                                        this.setState({ tokensAtThisAddress: t });
+                                    }
 
-                                    }));
-                        });
-
-                    }, Promise.resolve());
-
-                })
+                                }));
 
 
-            );
-            Promise.all(promises)
-                .then(() => {
-                    console.log(this.state.tokensAtThisAddress);
-                    // i AGREE THIS VERY VERY WORST WAY 
-                    // bUT ITS 3 AM AND I AM EXASUTED
-                    // { key: 1, purpose: 'dskjhd 1', value: 3445, authority: 'sdfvs', result: '', address: '',  },
-                    setTimeout(() => {
-                        for (var key in this.state.tokensAtThisAddress) {
-                            if (this.state.tokensAtThisAddress.hasOwnProperty(key)) {
-                                let total = 0;
-                                let i = 0;
-                                let perpurposeT = this.state.tokensAtThisAddress[key];
-                                for (i = 0; i < perpurposeT.length; i++) {
-                                    total = total + parseInt(perpurposeT[i].value);
+                    }
+                    Promise.all(promises)
+                        .then(() => {
+                            console.log(this.state.tokensAtThisAddress);
+
+
+                            for (var key in this.state.tokensAtThisAddress) {
+                                if (this.state.tokensAtThisAddress.hasOwnProperty(key)) {
+                                    let total = 0;
+                                    let i = 0;
+                                    let perpurposeT = this.state.tokensAtThisAddress[key];
+                                    for (i = 0; i < perpurposeT.length; i++) {
+                                        total = total + parseInt(perpurposeT[i].value);
+                                    }
+
+                                    let d = this.state.data;
+                                    d.push({ 'key': 1, 'purpose': key, 'value': total })
+                                    this.setState({ 'data': [...d] })
                                 }
-
-                                let d = this.state.data;
-                                d.push({ 'key': 1, 'purpose': key, 'value': total })
-                                this.setState({ 'data': [...d] })
                             }
-                        }
-                    }, 3000);
+
+                        })
+
                 })
+
+
+
+
 
         } catch (error) {
             // Catch any errors for any of the above operations.

@@ -14,8 +14,9 @@ class RootAuth extends React.Component {
         super(props);
         this.state = {
             utilizeVisible: false, purpose: '', value: '', authority: '', authName: '', authAddr: '', funds: '', labels: [],
-            mapAuthNametoAddress: {}, tokensAtThisAddress: []
+            mapAuthNametoAddress: {}, tokensAtThisAddress: [], refresh: 'false'
         }
+
     }
     componentDidMount = async () => {
 
@@ -41,17 +42,19 @@ class RootAuth extends React.Component {
                 })
             this.setState({ labels: l })
             this.setState({ mapAuthNametoAddress: map })
-            let promises = [];
-            promises.push(contract.methods.getAllTokenKeys().call({ from: accounts[0], gas: 3000000 })
+
+            contract.methods.getAllTokenKeys().call({ from: accounts[0], gas: 3000000 })
                 .then((result) => {
                     console.log(result);
                     tokenkeys = result
                 })
                 .then(() => {
-
-                    tokenkeys.reduce((p, value) => {
-                        return p.then(() => {
-                            promises.push(
+                    let promises = [];
+                    let i = 0;
+                    for (i = 0; i < tokenkeys.length; i++) {
+                        let value = tokenkeys[i];
+                        promises.push(
+                            new Promise((resolve, reject) => {
                                 contract.methods.getSingleTokenDetails(value).call({ from: accounts[0], gas: 3000000 })
                                     .then((result) => {
 
@@ -63,34 +66,38 @@ class RootAuth extends React.Component {
                                             this.setState({ tokensAtThisAddress: t });
                                         }
 
-                                    }));
-                        });
+                                    }).then(() => {
+                                        console.log('resolve')
+                                        resolve()
+                                    })
+                            }));
 
-                    }, Promise.resolve());
+
+                    }
+                    Promise.all(promises)
+                        .then(() => {
+
+                            console.log('resolve All')
+
+                            let total = 0;
+                            let i = 0;
+                            for (i = 0; i < this.state.tokensAtThisAddress.length; i++) {
+                                total = total + parseInt(this.state.tokensAtThisAddress[i].value);
+                            }
+                            this.setState({ funds: total })
+                            let temp = this.state.tokensAtThisAddress;
+                            temp.sort(function (a, b) {
+                                return a.value.localeCompare(b.value);
+                            });
+                            this.setState(temp);
+                            console.log(this.state.tokensAtThisAddress)
+
+
+                        })
 
                 })
-            );
-            Promise.all(promises)
-                .then(() => {
-                    // i AGREE THIS VERY VERY WORST WAY 
-                    // bUT ITS 3 AM AND I AM EXASUTED
 
-                    setTimeout(() => {
-                        let total = 0;
-                        let i = 0;
-                        for (i = 0; i < this.state.tokensAtThisAddress.length; i++) {
-                            total = total + parseInt(this.state.tokensAtThisAddress[i].value);
-                        }
-                        this.setState({ funds: total })
-                        let temp = this.state.tokensAtThisAddress;
-                        temp.sort(function (a, b) {
-                            return a.value.localeCompare(b.value);
-                        });
-                        this.setState(temp);
-                        console.log(this.state.tokensAtThisAddress)
 
-                    }, 2000);
-                })
 
         } catch (error) {
             // Catch any errors for any of the above operations.
@@ -126,12 +133,16 @@ class RootAuth extends React.Component {
 
                 if (temp == aim) {
                     let k;
+                    let before = this.state.funds;
+
                     for (k = 0; k <= breakp; k++) {
                         contract.methods.transferToken(this.state.tokensAtThisAddress[k].key, '1', this.state.authority, this.state.purpose, this.state.mapAuthNametoAddress[this.state.authority]).send({ from: accounts[0], gas: 3000000 })
                             .then((receipt) => {
 
-                                if (k == 0) {
+                                if (this.state.funds === before) {
                                     let newbal = this.state.funds - parseInt(aim);
+                                    console.log("hello");
+                                    console.log(newbal);
                                     this.setState({ funds: newbal });
                                 }
 
@@ -151,17 +162,21 @@ class RootAuth extends React.Component {
                     contract.methods.breakToken(this.state.tokensAtThisAddress[breakp].key, requiredvaluedtoken, "0x" + uhash).send({ from: accounts[0], gas: 3000000 })
                         .then(() => {
                             let k;
+                            let before = this.state.funds;
                             for (k = 0; k <= breakp; k++) {
                                 contract.methods.transferToken(this.state.tokensAtThisAddress[k].key, '1', this.state.authority, this.state.purpose, this.state.mapAuthNametoAddress[this.state.authority]).send({ from: accounts[0], gas: 3000000 })
                                     .then((receipt) => {
-                                        if (k == 0) {
+
+                                        if (this.state.funds === before) {
                                             let newbal = this.state.funds - parseInt(aim);
+                                            console.log("hello");
+                                            console.log(newbal);
                                             this.setState({ funds: newbal });
                                         }
-
                                     })
                             }
                             this.setState({ transferVisible: false });
+
                         })
                 }
                 console.log(this.state.purpose, parseInt(this.state.value), this.state.authority);

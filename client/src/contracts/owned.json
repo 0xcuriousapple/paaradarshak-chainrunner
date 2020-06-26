@@ -8,15 +8,15 @@
       "type": "constructor"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/C/Users/ASUS/Desktop/paaradarshak/contracts/owned.sol\":\"owned\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/ASUS/Desktop/paaradarshak/contracts/owned.sol\":{\"keccak256\":\"0x34dbaa41e9c4ea8f078ea6757ab7f81f70ef1dd0bf4d4c8c9b3fa79e20e6d3ab\",\"urls\":[\"bzz-raw://8594e24e009868d141f819640a676e7df4cf91cb717b17bdbb6cee76007f1616\",\"dweb:/ipfs/QmULvT8VtTsCqHfQYjZRtLJtTCoGnWexoZgQWffsbGrhYv\"]}},\"version\":1}",
-  "bytecode": "0x6080604052348015600f57600080fd5b50336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550603e80605d6000396000f3fe6080604052600080fdfea265627a7a72315820c2b065fbaad8c0b5809fdbf3c90686620c8862fe5883a22ff6548ae6fe95e45e64736f6c634300050c0032",
-  "deployedBytecode": "0x6080604052600080fdfea265627a7a72315820c2b065fbaad8c0b5809fdbf3c90686620c8862fe5883a22ff6548ae6fe95e45e64736f6c634300050c0032",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/C/Users/ASUS/Desktop/paaradarshak-chainrunner/contracts/owned.sol\":\"owned\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/ASUS/Desktop/paaradarshak-chainrunner/contracts/owned.sol\":{\"keccak256\":\"0x34dbaa41e9c4ea8f078ea6757ab7f81f70ef1dd0bf4d4c8c9b3fa79e20e6d3ab\",\"urls\":[\"bzz-raw://8594e24e009868d141f819640a676e7df4cf91cb717b17bdbb6cee76007f1616\",\"dweb:/ipfs/QmULvT8VtTsCqHfQYjZRtLJtTCoGnWexoZgQWffsbGrhYv\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550603e80605d6000396000f3fe6080604052600080fdfea265627a7a723158202327cb6a44e8bd2ad24b9d2f8e542b01042f53e11655126f2aa727fbd3d2ece964736f6c634300050c0032",
+  "deployedBytecode": "0x6080604052600080fdfea265627a7a723158202327cb6a44e8bd2ad24b9d2f8e542b01042f53e11655126f2aa727fbd3d2ece964736f6c634300050c0032",
   "sourceMap": "25:216:2:-;;;68:56;8:9:-1;5:2;;;30:1;27;20:12;5:2;68:56:2;106:10;98:5;;:18;;;;;;;;;;;;;;;;;;25:216;;;;;;",
   "deployedSourceMap": "25:216:2:-;;;;;",
   "source": "pragma solidity ^0.5.0;\r\ncontract owned\r\n{\r\n    address owner;\r\n    constructor()public{\r\n        owner = msg.sender;\r\n    }\r\n     modifier onlyowner\r\n     {\r\n         require(msg.sender==owner,\"You are not allowed\");\r\n         _;\r\n     }\r\n}",
-  "sourcePath": "C:\\Users\\ASUS\\Desktop\\paaradarshak\\contracts\\owned.sol",
+  "sourcePath": "C:\\Users\\ASUS\\Desktop\\paaradarshak-chainrunner\\contracts\\owned.sol",
   "ast": {
-    "absolutePath": "/C/Users/ASUS/Desktop/paaradarshak/contracts/owned.sol",
+    "absolutePath": "/C/Users/ASUS/Desktop/paaradarshak-chainrunner/contracts/owned.sol",
     "exportedSymbols": {
       "owned": [
         249
@@ -332,7 +332,7 @@
     "src": "0:241:2"
   },
   "legacyAST": {
-    "absolutePath": "/C/Users/ASUS/Desktop/paaradarshak/contracts/owned.sol",
+    "absolutePath": "/C/Users/ASUS/Desktop/paaradarshak-chainrunner/contracts/owned.sol",
     "exportedSymbols": {
       "owned": [
         249
@@ -656,11 +656,17 @@
       "events": {},
       "links": {},
       "address": "0xd241B8f562365B0fe3D77472A35415eA6971C7d9",
-      "transactionHash": "0x9941d026e87654e0df38330b5d57044f07c54736388662bb41caa5ac268d4a04"
+      "transactionHash": "0xfbd798d2a82cfd57320d6d9ba4acca671c3975bd2d4456bc21a407409313e384"
+    },
+    "15001": {
+      "events": {},
+      "links": {},
+      "address": "0x4c68FfE1bA987BD5d3A1a405c2D1422E1f8c620f",
+      "transactionHash": "0x664c7d1174f417dc95d328bef00e46debf4dbf0e130b851e7574363186d54a13"
     }
   },
   "schemaVersion": "3.0.20",
-  "updatedAt": "2020-06-22T13:41:03.385Z",
+  "updatedAt": "2020-06-24T22:10:56.622Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

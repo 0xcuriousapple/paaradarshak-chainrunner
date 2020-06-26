@@ -1,12 +1,7 @@
 const path = require("path");
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const fs = require('fs');
-
-let secrets;
-
-if (fs.existsSync('secrets.json')) {
-  secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'));
-}
+const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
@@ -16,9 +11,13 @@ module.exports = {
     develop: {
       port: 8545
     },
-    rinkeby: {
-      provider: new HDWalletProvider(secrets.mnemonic, "https://rinkeby.infura.io/v3/" + secrets.infuraApiKey),
-      network_id: '4'
-    }
+    matic: {
+      provider: () => new HDWalletProvider(mnemonic, `https://testnetv3.matic.network`),
+      network_id: 15001,
+      gasPrice: '0x0',
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    },
   }
 };
