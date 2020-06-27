@@ -339,6 +339,15 @@
 			border-radius: 10px;
 		}
 	}
+	.trackdata {
+		margin: 40px 20px;
+		display: block;
+		.data-title{
+			font-size: 18px;
+			color: blue($color: #000000);
+			
+		}
+	}
 }
 .token-drawer-wrapper {
 	.ant-drawer-body {
