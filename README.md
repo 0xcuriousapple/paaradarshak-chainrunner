@@ -3,19 +3,20 @@
 Image will come here 
 
 
-## Description
+## Description 📝
+
 Transparentizing and decentralizing donations to increase trust and the donor’s accountability.
+Add some more lines here
 
+## Demo 🔥 
 
-## Demo
-
-## Technologies Used
+## Technologies Used ⚡️
 -  Front End Frameworks: **HTML, CSS, React, Javascript**
 -  Compiling and Deploying Smart Contracts: **Truffle**
 -  Blockchain used: **Matic**
 -  Interacting with Smart Contracts: **Web3 JS**
 
-## Libraries Used 
+## Libraries Used ⚡️
 
 - **Truffle** 
 
@@ -23,8 +24,9 @@ Transparentizing and decentralizing donations to increase trust and the donor’
 
 - **React**
 
+React also known as React.js or ReactJS is an open-source JavaScript library for building user interfaces. It is maintained by Facebook and a community of individual developers and companies. React can be used as a base in the development of single-page or mobile applications.
 
-## The Problem It Solves
+## The Problem It Solves 🌈
 
 - Several donation campaigns are initiated to raise funds for those in need. 
 - The donor is not aware of the way these funds are being utilized. 
@@ -35,16 +37,16 @@ Transparentizing and decentralizing donations to increase trust and the donor’
 
 
 
-## Technical Description (Installation, Setup)
+## 📝 Technical Description (Installation, Setup)
 
 
-## Limitations
+## Limitations 🛠
 
 
-## Future Aspects
+## Future Aspects 🚀
 
 
-## Team Members 
+## Team Members 🏁
 
 1. [**Abhishek Vispute**](https://github.com/abhishekvispute/)
 2. [**Jatin Varlyani**](https://github.com/Jatin-8898/)
