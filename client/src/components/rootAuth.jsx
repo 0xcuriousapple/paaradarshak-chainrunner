@@ -62,7 +62,9 @@ class RootAuth extends React.Component {
                                         temp = result.CompleteHistoryOfToken;
                                         if (accounts[0] == temp[temp.length - 1]._owner) {
                                             let t = this.state.tokensAtThisAddress;
+
                                             t.push({ "key": value, "value": temp[temp.length - 1].value })
+
                                             this.setState({ tokensAtThisAddress: t });
                                         }
 
@@ -85,11 +87,11 @@ class RootAuth extends React.Component {
                                 total = total + parseInt(this.state.tokensAtThisAddress[i].value);
                             }
                             this.setState({ funds: total })
-                            let temp = this.state.tokensAtThisAddress;
-                            temp.sort(function (a, b) {
-                                return a.value.localeCompare(b.value);
-                            });
-                            this.setState(temp);
+                            // let temp = this.state.tokensAtThisAddress;
+                            // temp.sort(function (a, b) {
+                            //     return a.value.localeCompare(b.value);
+                            // });
+                            // this.setState(temp);
                             console.log(this.state.tokensAtThisAddress)
 
 
@@ -135,10 +137,11 @@ class RootAuth extends React.Component {
                     let k;
                     let before = this.state.funds;
 
+
                     for (k = 0; k <= breakp; k++) {
+
                         contract.methods.transferToken(this.state.tokensAtThisAddress[k].key, '1', this.state.authority, this.state.purpose, this.state.mapAuthNametoAddress[this.state.authority]).send({ from: accounts[0], gas: 3000000 })
                             .then((receipt) => {
-
                                 if (this.state.funds === before) {
                                     let newbal = this.state.funds - parseInt(aim);
                                     console.log("hello");
@@ -148,8 +151,11 @@ class RootAuth extends React.Component {
 
                             }).catch((error) => { console.log(error) })
                     }
-                    this.setState({ utilizeVisible: false });
 
+                    if (this.state.funds != before) {
+                        let x = this.state.tokensAtThisAddress.slice(breakp + 1, this.state.tokensAtThisAddress.length);
+                        this.setState({ utilizeVisible: false }, { tokensAtThisAddress: x });
+                    }
                 }
                 else if (temp > aim) {
                     message.success('There will be 2 TXs as we have to break the token in this case');
@@ -175,8 +181,11 @@ class RootAuth extends React.Component {
                                         }
                                     })
                             }
-                            this.setState({ transferVisible: false });
-
+                            if (this.state.funds != before) {
+                                let x = this.state.tokensAtThisAddress.slice(breakp + 1, this.state.tokensAtThisAddress.length);
+                                x.push(this.state.tokensAtThisAddress[breakp].childtoken);
+                                this.setState({ utilizeVisible: false }, { tokensAtThisAddress: x });
+                            }
                         })
                 }
                 console.log(this.state.purpose, parseInt(this.state.value), this.state.authority);

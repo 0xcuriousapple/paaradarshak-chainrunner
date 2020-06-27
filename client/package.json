@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.10.2",
+    "@maticnetwork/eth-dagger": "0.0.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -21,6 +22,7 @@
     "govuk-colours": "^1.1.0",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
+    "maticjs": "^1.0.1",
     "memoize-one": "^5.1.1",
     "node-sass": "^4.14.1",
     "q": "^1.5.1",
