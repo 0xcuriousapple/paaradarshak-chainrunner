@@ -75,13 +75,16 @@ class App extends Component {
   render() {
     if (!this.state.web3) {
       return (
-        <Spin tip="Loading...">
-          <Alert
-            message="Loading"
-            description="Web3, accounts, and contract..."
-            type="info"
-          />
-        </Spin>)
+        <div className="loading">
+          <Spin tip="">
+            <Alert
+              message={<div style={{ textAlign: 'center', color: '#000', fontSize: '22px', fontFamily: '"Open Sans", sans-serif' }}>Loading<br />Web3, accounts, and contract...</div>}
+              description=""
+              type="info"
+            />
+          </Spin>
+        </div>
+      )
     }
     return (
       <div className="App">

@@ -136,16 +136,16 @@
 				margin: 60px 0 0px 0;
 				padding: 30px 10px 0;
 				.campaign-desc-title {
-					font-family: 'Raleway', sans-serif;
+					font-family: "Raleway", sans-serif;
 					font-size: 24px;
 					font-weight: 600;
 					margin-bottom: 10px;
 				}
 				.campaign-desc {
-					font-family: 'Open Sans', sans-serif;
+					font-family: "Open Sans", sans-serif;
 					font-size: 16px;
 					margin-bottom: 30px;
-				} 
+				}
 			}
 			.donate-form {
 				padding: 0 20px 40px;
@@ -342,10 +342,9 @@
 	.trackdata {
 		margin: 40px 20px;
 		display: block;
-		.data-title{
+		.data-title {
 			font-size: 18px;
 			color: blue($color: #000000);
-			
 		}
 	}
 }
@@ -363,5 +362,17 @@
 		.token-array {
 			margin: 10px;
 		}
+	}
+}
+.loading {
+	.ant-alert {
+		height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.ant-alert-info {
+		background-color: #fff !important;
+		border: none !important;
 	}
 }

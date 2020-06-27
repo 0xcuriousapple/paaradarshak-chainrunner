@@ -30,6 +30,8 @@ class Landing extends React.Component {
 	}
 	liveCampClicked = (name, owner) => {
 		console.log(name, owner);
+		this.props.liveCampClicked(name, owner);
+
 	}
 	handleChange = e => {
 		var name = e.target.name;

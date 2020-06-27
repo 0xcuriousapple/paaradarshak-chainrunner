@@ -396,7 +396,7 @@ class MidAuth extends React.Component {
                 <Row justify="space-around" align="middle">
                     <Col xs={23} sm={22} md={20}>
 
-                        <Table style={{ overflowX: 'auto' }} columns={columns} dataSource={this.state.data} /><br /><br />
+                        <Table title={() => <div style={{textAlign: 'left', fontSize: '20px', fontFamily:'"Open Sans", sans-serif'}}>{this.props.midAuthName}</div>} bordered style={{ overflowX: 'auto' }} columns={columns} dataSource={this.state.data} /><br /><br />
                         <Button type="primary" onClick={() => this.toggleModalVisible(true, 'authVisible')}>Add Authority</Button>
                     </Col>
                 </Row>
