@@ -1,8 +1,30 @@
-# Paardarshak
+<h1 align="center">Paardarshak</h1>
 
+Image will come here 
+
+
+## Description
 Transparentizing and decentralizing donations to increase trust and the donor’s accountability.
 
-## The problem it solves
+
+## Demo
+
+## Technologies Used
+-  Front End Frameworks: **HTML, CSS, React, Javascript**
+-  Compiling and Deploying Smart Contracts: **Truffle**
+-  Blockchain used: **Matic**
+-  Interacting with Smart Contracts: **Web3 JS**
+
+## Libraries Used 
+
+- **Truffle** 
+
+  Truffle is framework used for compiling, deploying and interacting with smart contracts on the Ethereum blockchain. We chose Truffle beacuse we were familiar with it as we had used it in a previous hackathon.
+
+- **React**
+
+
+## The Problem It Solves
 
 - Several donation campaigns are initiated to raise funds for those in need. 
 - The donor is not aware of the way these funds are being utilized. 
@@ -11,20 +33,9 @@ Transparentizing and decentralizing donations to increase trust and the donor’
 - It also prevents fraudulent intermediaries from pocketing part of the money that was meant for the recipient. 
 - The system is decentralized and can be managed by the people eliminating the need of a central authority for collecting the donations.
 
-## Technologies used
--  Front End Frameworks: **HTML, CSS, React, Javascript**
--  Compiling and Deploying Smart Contracts: **Truffle**
--  Blockchain used: **Matic**
--  Interacting with Smart Contracts: **Web3 JS**
 
-## Libraries used 
 
-- **Truffle** 
-
-  Truffle is framework used for compiling, deploying and interacting with smart contracts on the Ethereum blockchain. We chose Truffle beacuse we were familiar with it as we had used it in a previous hackathon.
-
-- **React**
-
+## Technical Description (Installation, Setup)
 
 
 ## Limitations
