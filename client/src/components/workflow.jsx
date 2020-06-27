@@ -5,7 +5,7 @@ class Workflow extends React.Component {
     render() {
         return (
             <div className='workflow'>
-                <div className='workflow-title'>Resilent Workflow</div>
+                <div className='workflow-title'>Intelligible Workflow</div>
                 <div className='workflow-subtitle'>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum — semper quis lectus nulla at volutpat diam ut venenatis.</div>
                 {window.innerWidth > 768 ? <div>
                     <Row className='workflow-row' justify="space-around" align="middle" >

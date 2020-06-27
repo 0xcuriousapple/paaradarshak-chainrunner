@@ -1,13 +1,13 @@
 import React from 'react';
 import { Drawer, Menu, Layout } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
-import { UserOutlined, ForkOutlined, FileSearchOutlined, DollarOutlined, HomeOutlined } from '@ant-design/icons';
+import { UserOutlined, SoundOutlined, ForkOutlined, FileSearchOutlined, DollarOutlined, HomeOutlined } from '@ant-design/icons';
 import Authority from './authority';
 import Register from './register';
 import Landing from './landing';
 import Tree from './tree';
 import Track from './track';
-import Donate from './donate';
+import Campaign from './campaign';
 import RootAuth from './rootAuth';
 import MidAuth from './midAuth';
 import { GithubOutlined } from '@ant-design/icons';
@@ -17,7 +17,7 @@ const { Header, Content, Footer } = Layout;
 const MenuMapper = [
     { key: '0', value: 'Home', icon: <HomeOutlined />, component: <Landing /> },
     // { key: '1', value: 'Authority', icon: <UserOutlined />, component: <Authority /> },
-    { key: '2', value: 'Donate', icon: <DollarOutlined />, component: <Donate /> },
+    { key: '2', value: 'Campaign', icon: <SoundOutlined /> },
     { key: '3', value: 'Explore', icon: <ForkOutlined /> },
     { key: '4', value: 'Track', icon: <FileSearchOutlined /> },
     { key: '1', value: 'Authority', icon: <UserOutlined />, component: <Authority /> },
@@ -61,8 +61,7 @@ class Home extends React.Component {
                         <Menu.Item><a href="https://github.com" target="_blank"><GithubOutlined style={{ fontSize: '24px' }} /></a></Menu.Item>
                     </Menu>
                 </Header>
-                <Drawer
-                    title="Welcome, User"
+                <Drawer title="Welcome, User"
                     placement="left"
                     closable={true}
                     onClose={() => this.handleToggleDrawer(false)}
@@ -83,13 +82,12 @@ class Home extends React.Component {
                                 Github
                             </a>
                         </Menu.Item>
-                        {/* <Menu.Item><a href="https://github.com" target="_blank"><GithubOutlined style={{ fontSize: '24px' }} /></a></Menu.Item> */}
                     </Menu>
                 </Drawer>
                 {this.state.selectedMenuItem == '0' ? <Landing /> :
                     this.state.selectedMenuItem == '1' ? <Authority handleChangeMenu={this.handleChangeMenu} web3={this.props.web3} /> :
                         this.state.selectedMenuItem == '3' ? <Tree web3={this.props.web3} /> :
-                            this.state.selectedMenuItem == '2' ? <Donate web3={this.props.web3} /> :
+                            this.state.selectedMenuItem == '2' ? <Campaign web3={this.props.web3} /> :
                                 this.state.selectedMenuItem == '4' ? <Track web3={this.props.web3} /> :
                                     this.state.selectedMenuItem == '5' ? <RootAuth web3={this.props.web3} labels={this.state.labels} /> :
                                         this.state.selectedMenuItem == '6' ? <MidAuth web3={this.props.web3} labels={this.state.labels} /> :
