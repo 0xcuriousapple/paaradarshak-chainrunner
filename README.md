@@ -1,22 +1,26 @@
 <h1 align="center">Paardarshak</h1>
 
-Image will come here 
 
+<p align="center">
+  <img width="200" height="200" src="https://i.ibb.co/85JrF8R/logo.png">
+</p>
 
 ## Description 📝
 
-Transparentizing and decentralizing donations to increase trust and the donor’s accountability.
-Add some more lines here
+Blockchain based Donation system for enhanced transparency. Decentralizing donations to increase trust and the donor’s accountability.
+
+- Add some more lines here
+- 2 more lines
 
 ## Demo 🔥 
 
 [![Paardarshak Demo](https://j.gifs.com/QnlRQ0.gif)](https://www.youtube.com/watch?v=0uxsD9Enb9Q)
 
 ## Technologies Used ⚡️
--  Front End Frameworks: **HTML, CSS, React, Javascript**
--  Compiling and Deploying Smart Contracts: **Truffle**
--  Blockchain used: **Matic**
--  Interacting with Smart Contracts: **Web3 JS**
+-  Front End Frameworks:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**HTML, CSS, React, Javascript**
+-  Compiling and Deploying Smart Contracts:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Truffle**
+-  Blockchain used:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Matic**
+-  Interacting with Smart Contracts:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Web3 JS**
 
 ## Libraries Used ⚡️
 
@@ -39,10 +43,34 @@ Add some more lines here
 
 
 
-## 📝 Technical Description (Installation, Setup)
+## Technical Description 📝 
+
+### Installation
+
+Get started quickly by cloning this repository.
+Install the dependencies
+
+```sh
+$ cd client && npm install
+```
+
+### Run
+
+This will compile the files and run your dev server at http://localhost:3000
+
+```sh
+$ npm start
+```
+
+### Truffle
+
+```sh
+$ truffle compile
+$ truffle migrate --reset --network matic
+```
 
 
-## Use Case Diagram
+## Use Case Diagram ✏️
 
 ![Use Case Diagram (Small)](https://user-images.githubusercontent.com/34777376/85917978-71a02e80-b87c-11ea-92d0-8fdbc6af0ff5.png)
 
