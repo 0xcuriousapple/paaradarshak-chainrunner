@@ -1,7 +1,9 @@
 <h1 align="center">Paardarshak</h1>
 
-Image will come here 
 
+<p align="center">
+  <img width="480" height="400" src="https://i.ibb.co/85JrF8R/logo.png">
+</p>
 
 ## Description 📝
 
@@ -41,7 +43,31 @@ A Blockchain based Donation system for enhanced transparency. Decentralizing don
 
 
 
-## Technical Description 📝 (Installation, Setup)
+## Technical Description 📝 
+
+### Installation
+
+Get started quickly by cloning this repository.
+Install the dependencies
+
+```sh
+$ cd client && npm install
+```
+
+### Run
+
+This will compile the files and run your dev server at http://localhost:3000
+
+```sh
+$ npm start
+```
+
+### Truffle
+
+```sh
+$ truffle compile
+$ truffle migrate --reset --network matic
+```
 
 
 ## Use Case Diagram ✏️
