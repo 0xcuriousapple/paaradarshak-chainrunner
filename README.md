@@ -5,8 +5,10 @@ Image will come here
 
 ## Description 📝
 
-Transparentizing and decentralizing donations to increase trust and the donor’s accountability.
-Add some more lines here
+A Blockchain based Donation system for enhanced transparency. Decentralizing donations to increase trust and the donor’s accountability.
+
+- Add some more lines here
+- 2 more lines
 
 ## Demo 🔥 
 
@@ -39,10 +41,10 @@ Add some more lines here
 
 
 
-## 📝 Technical Description (Installation, Setup)
+## Technical Description 📝 (Installation, Setup)
 
 
-## Use Case Diagram
+## Use Case Diagram ✏️
 
 ![Use Case Diagram (Small)](https://user-images.githubusercontent.com/34777376/85917978-71a02e80-b87c-11ea-92d0-8fdbc6af0ff5.png)
 
