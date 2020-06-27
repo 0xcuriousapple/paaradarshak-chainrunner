@@ -2,12 +2,12 @@
 
 
 <p align="center">
-  <img width="480" height="400" src="https://i.ibb.co/85JrF8R/logo.png">
+  <img width="200" height="200" src="https://i.ibb.co/85JrF8R/logo.png">
 </p>
 
 ## Description 📝
 
-A Blockchain based Donation system for enhanced transparency. Decentralizing donations to increase trust and the donor’s accountability.
+Blockchain based Donation system for enhanced transparency. Decentralizing donations to increase trust and the donor’s accountability.
 
 - Add some more lines here
 - 2 more lines
@@ -17,10 +17,10 @@ A Blockchain based Donation system for enhanced transparency. Decentralizing don
 [![Paardarshak Demo](https://j.gifs.com/QnlRQ0.gif)](https://www.youtube.com/watch?v=0uxsD9Enb9Q)
 
 ## Technologies Used ⚡️
--  Front End Frameworks: **HTML, CSS, React, Javascript**
--  Compiling and Deploying Smart Contracts: **Truffle**
--  Blockchain used: **Matic**
--  Interacting with Smart Contracts: **Web3 JS**
+-  Front End Frameworks:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**HTML, CSS, React, Javascript**
+-  Compiling and Deploying Smart Contracts:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Truffle**
+-  Blockchain used:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Matic**
+-  Interacting with Smart Contracts:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Web3 JS**
 
 ## Libraries Used ⚡️
 
