@@ -10,6 +10,8 @@ Add some more lines here
 
 ## Demo 🔥 
 
+[![Paardarshak Demo](https://j.gifs.com/QnlRQ0.gif)](https://www.youtube.com/watch?v=0uxsD9Enb9Q)
+
 ## Technologies Used ⚡️
 -  Front End Frameworks: **HTML, CSS, React, Javascript**
 -  Compiling and Deploying Smart Contracts: **Truffle**
@@ -38,6 +40,11 @@ Add some more lines here
 
 
 ## 📝 Technical Description (Installation, Setup)
+
+
+## Use Case Diagram
+
+![Use Case Diagram (Small)](https://user-images.githubusercontent.com/34777376/85917978-71a02e80-b87c-11ea-92d0-8fdbc6af0ff5.png)
 
 
 ## Limitations 🛠
