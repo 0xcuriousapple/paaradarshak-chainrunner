@@ -8,8 +8,7 @@ import CryptoJS from "crypto-js";
 import { Result } from 'antd';
 import Logo from './maticlogo.png';
 import emailjs from "emailjs-com"
-import { Typography } from 'antd';
-import { SettingOutlined } from '@ant-design/icons';
+
 
 const { Paragraph } = Typography;
 class Campaign extends React.Component {
