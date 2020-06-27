@@ -6,8 +6,10 @@ import './home.scss';
 import sha256 from "crypto-js/sha256";
 import CryptoJS from "crypto-js";
 import { Result } from 'antd';
+import Logo from './maticlogo.png';
 import emailjs from "emailjs-com"
 import { Typography } from 'antd';
+import { SettingOutlined } from '@ant-design/icons';
 const { Paragraph } = Typography;
 class Donate extends React.Component {
 	constructor(props) {
@@ -42,18 +44,26 @@ class Donate extends React.Component {
 		let uhash = sha256(this.state.name + this.state.value + Date.now());
 		uhash = uhash.toString(CryptoJS.enc.Hex);
 
-
+		// contract.methods.donate().send({ from: accounts[0], gas: 3000000, value: this.state.value })
+		// .then(() => {
+		// 	contract.methods.createToken("0x" + uhash, this.state.value, this.state.name).send({ from: accounts[0] })
+		// 		.then((receipt) => {
+		// 			message.success('Donation successful');
+		// 			console.log(receipt)
+		// 			this.setState({ success: true, donationkey: "0x" + uhash })
+		// 		})
+		// 		.catch((err) => message.error('Sorry your donation was not successful Please try again'))
+		// })
 		const { accounts, contract } = this.props.web3;
-		contract.methods.donate().send({ from: accounts[0], gas: 3000000, value: this.state.value })
-			.then(() => {
-				contract.methods.createToken("0x" + uhash, this.state.value, this.state.name).send({ from: accounts[0] })
-					.then((receipt) => {
-						message.success('Donation successful');
-						console.log(receipt)
-						this.setState({ success: true, donationkey: "0x" + uhash })
-					})
-					.catch((err) => message.error('Sorry your donation was not successful Please try again'))
+		contract.methods.donate("0x" + uhash, this.state.value, this.state.name).send({ from: accounts[0], gas: 3000000, value: this.state.value })
+			.then((receipt) => {
+
+				message.success('Donation successful');
+				console.log(receipt)
+				this.setState({ success: true, donationkey: "0x" + uhash })
 			})
+			.catch((err) => message.error('Sorry your donation was not successful Please try again'))
+
 	};
 	render() {
 		return (
@@ -78,6 +88,7 @@ class Donate extends React.Component {
 							<Input
 								name="name"
 								label={<span>Name</span>}
+
 								placeholder="Enter your name"
 								rules={[
 									{
@@ -94,7 +105,8 @@ class Donate extends React.Component {
 
 							<Input
 								name="value"
-								placeholder="Enter Amount in Wei"
+								addonAfter={<img src={Logo} style={{ height: '20px', width: 'auto' }} />}
+								placeholder="Enter Amount in Matic Tokens"
 								onChange={(e) => this.handleChangeNumber(e)}
 								value={this.state.value}
 							/>
