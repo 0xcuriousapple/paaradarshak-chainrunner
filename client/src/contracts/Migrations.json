@@ -176,7 +176,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 745,
+                        "referencedDeclaration": 876,
                         "src": "162:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -280,7 +280,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 745,
+                        "referencedDeclaration": 876,
                         "src": "232:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -587,7 +587,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 745,
+                        "referencedDeclaration": 876,
                         "src": "162:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -691,7 +691,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 745,
+                        "referencedDeclaration": 876,
                         "src": "232:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -890,18 +890,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x2609285FEC2aaf3eb376c3E58EA95dE2678afd82",
-      "transactionHash": "0x3b30e3465c2265f0114a9ccd2fc64a4a9ab10c9c6f9047d89ef64aad17118d10"
-    },
-    "15001": {
-      "events": {},
-      "links": {},
-      "address": "0xAF303D83cC0A77573d9a17A40076cBD722579909",
-      "transactionHash": "0xd63da2c8eea72703d1f475252f66a64902b3f1f452ed7225c107d7815466d5de"
+      "address": "0xE74c74b2E3dee9C3395b2aC53F2B83442dc53063",
+      "transactionHash": "0x93c4339ead808bdd1a1981da016aeca377fa6dc090376beb1d0915b47195c49b"
     }
   },
   "schemaVersion": "3.0.20",
-  "updatedAt": "2020-06-24T22:10:57.355Z",
+  "updatedAt": "2020-06-27T11:53:32.842Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

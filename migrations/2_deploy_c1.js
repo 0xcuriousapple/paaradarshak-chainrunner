@@ -1,5 +1,5 @@
-var Paardarshak = artifacts.require("./SafeMath.sol");
+var factoryPaardarshak = artifacts.require("./factorypaardarshak.sol");
 
 module.exports = function (deployer) {
-  deployer.deploy(Paardarshak);
+    deployer.deploy(factoryPaardarshak);
 };

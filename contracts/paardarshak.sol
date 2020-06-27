@@ -1,16 +1,29 @@
 pragma solidity ^0.5.0;
 pragma experimental ABIEncoderV2;
 import "./SafeMath.sol";
-import "./owned.sol";
+
 /**
 * @title paardarshak
 * @author Abhishek Vispute
 */
-contract paardarshak is owned{
+contract paardarshak {
    using SafeMath for uint256;
+    address owner;
+  
+     modifier onlyowner
+     {
+         require(msg.sender==owner,"You are not allowed");
+         _;
+     }
    
    bytes32 d;
    
+     struct fundinfo {
+       string name;
+       string description;
+   }
+
+   fundinfo f;
    struct SingleInstanceOfHistory {
        uint256 value;
        uint32 typeOfOwner;
@@ -36,10 +49,14 @@ contract paardarshak is owned{
    mapping (address => authority) AuthoritiesNames;
    address [] listedAuthorities;
 
-    constructor()public{
+    constructor(string memory _fname, string memory _fdesc, address _owner)public{
+        owner = _owner;
         AuthoritiesNames[owner].name = 'Root';
         AuthoritiesNames[owner].status = true;
         listedAuthorities.push(owner);
+        f.name = _fname;
+        f.description = _fdesc;
+        
     }
    
 
@@ -97,19 +114,19 @@ contract paardarshak is owned{
        //emit TokensSent(msg.sender, _to, _amount);
    }
    
-//    function donate(bytes32 _key, uint256 _value, string calldata _name) external payable{
-//          donations[_key].CompleteHistoryOfToken.push(SingleInstanceOfHistory(
-//             _value,0,_name,'root',owner,d
-//         ));
+    function donate(bytes32 _key, uint256 _value, string calldata _name) external payable{
+         donations[_key].CompleteHistoryOfToken.push(SingleInstanceOfHistory(
+            _value,0,_name,'root',owner,d
+        ));
   
-//        tokenkeys.push(_key);
+        tokenkeys.push(_key);
        
-//    }
+    }
 
-     function donate() external payable{
+//      function donate() external payable{
         
        
-   }
+//   }
    
    function paymentToLeaf(bytes32 _key, address payable _add, string memory _name, string memory _purpose) public payable{
         require(donations[_key].CompleteHistoryOfToken[donations[_key].CompleteHistoryOfToken.length-1]._owner==msg.sender, "You are not owner of this token");
@@ -151,11 +168,13 @@ contract paardarshak is owned{
        return listedAuthorities;
    }
    
- 
+   
+   function getFundInfo() public view returns (fundinfo memory)
+   {
+       return f;
+   }
 
     function destroySmartContract(address payable _to) public onlyowner {
-    
-    selfdestruct(_to);
+        selfdestruct(_to);
     }
- 
 }
