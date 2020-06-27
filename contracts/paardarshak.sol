@@ -175,8 +175,6 @@ contract paardarshak {
    }
 
     function destroySmartContract(address payable _to) public onlyowner {
-    
-    selfdestruct(_to);
+        selfdestruct(_to);
     }
- 
 }

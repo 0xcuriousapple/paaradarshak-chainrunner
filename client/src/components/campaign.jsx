@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button, AutoComplete, message } from 'antd';
+import { Input, Button, AutoComplete, message, Typography, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { InputNumber } from 'antd';
 import './home.scss';
@@ -10,8 +10,9 @@ import Logo from './maticlogo.png';
 import emailjs from "emailjs-com"
 import { Typography } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
+
 const { Paragraph } = Typography;
-class Donate extends React.Component {
+class Campaign extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { name: '', value: '', success: false, donationkey: null };
@@ -67,8 +68,7 @@ class Donate extends React.Component {
 	};
 	render() {
 		return (
-			<div className="donation-wrapper">
-
+			<div className="campaign-wrapper">
 				{this.state.success ? (<Result
 					status="success"
 					title={`We have received your donation with Token key `}
@@ -77,50 +77,54 @@ class Donate extends React.Component {
 					extra={<Button type="primary" onClick={this.toggleSuccess}>Go Back</Button>}
 				>
 					<Paragraph copyable>{this.state.donationkey}</Paragraph>
-
 				</Result>) :
-
 					(
-						<div className="donation">
-							<div className="donation-title">Donate</div>
-							<br />
-							<br />
-							<Input
-								name="name"
-								label={<span>Name</span>}
+						<Row className="campaign" justify="space-around" align="middle">
+							<Col className="campaign-desc-wrapper" md={8} sm={18} xs={22}>
+								<p className="campaign-desc-title">Description</p>
+								<p className="campaign-desc">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum — semper quis lectus nulla at volutpat diam ut venenatis.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum — semper quis lectus nulla at volutpat diam ut venenatis.</p>
+								<p className="campaign-desc-title">Root Owner</p>
+								<p className="campaign-desc">0m3u3b84tv3ij4c3h44</p>
+							</Col>
+							<Col className="donate-form" md={6} sm={18} xs={22}>
 
-								placeholder="Enter your name"
-								rules={[
-									{
-										required: true,
-										message: 'Please input your Name!',
-										whitespace: true,
-									},
-								]}
-								onChange={(e) => this.handleChange(e, 'name')}
-								value={this.state.name}
-							/>
-							<br />
-							<br />
+								<div className="donation-title">Donate</div>
+								<br />
+								<Input
+									name="name"
+									label={<span>Name</span>}
+									placeholder="Enter your name"
+									rules={[
+										{
+											required: true,
+											message: 'Please input your Name!',
+											whitespace: true,
+										},
+									]}
+									onChange={(e) => this.handleChange(e, 'name')}
+									value={this.state.name}
+								/>
+								<br />
+								<br />
 
-							<Input
-								name="value"
-								addonAfter={<img src={Logo} style={{ height: '20px', width: 'auto' }} />}
-								placeholder="Enter Amount in Matic Tokens"
-								onChange={(e) => this.handleChangeNumber(e)}
-								value={this.state.value}
-							/>
-							<br />
-							<br />
-							<Button
-								type="primary"
-								size="large"
-								onClick={this.handleSubmit}
-								block
-							>
-								Proceed
-					</Button>
-						</div>
+								<Input
+									name="value"
+									addonAfter={<img src={Logo} style={{ height: '20px', width: 'auto' }} />}
+									placeholder="Enter Amount in Matic Tokens"
+									onChange={(e) => this.handleChangeNumber(e)}
+									value={this.state.value}
+								/>
+								<br />
+								<br />
+								<Button
+									type="primary"
+									onClick={this.handleSubmit}
+									block
+								>
+									Proceed
+								</Button>
+							</Col>
+						</Row>
 
 					)
 
@@ -132,4 +136,4 @@ class Donate extends React.Component {
 	}
 }
 
-export default Donate;
+export default Campaign;
