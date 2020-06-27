@@ -24,7 +24,7 @@ Add some more lines here
 
 - **React**
 
-React also known as React.js or ReactJS is an open-source JavaScript library for building user interfaces. It is maintained by Facebook and a community of individual developers and companies. React can be used as a base in the development of single-page or mobile applications.
+  React also known as React.js or ReactJS is an open-source JavaScript library for building user interfaces. It is maintained by Facebook. We used React so that we can quickly build a PWA version of our projecct.
 
 ## The Problem It Solves 🌈
 
