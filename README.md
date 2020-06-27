@@ -33,12 +33,9 @@ Transparentizing and decentralizing donations to increase trust and the donor’
 ## Future Aspects
 
 
-## [Github Link](https://github.com/abhishekvispute/paaradarshak-chainrunner)
-
-
 ## Team Members 
 
-1. Abhishek Vispute: @gmail.com                       Github: https://github.com/abhishekvispute/
-2. Jatin Varlyani: varlyanijatin88@gmail.com          Github: https://github.com/Jatin-8898/
-3. Viraj Gawde: @gmail.com                   Github: https://gihub.com/VirajRG/
-4. Anuj Arora: @gmail.com                 Github: https://github.com/
+1. [**Abhishek Vispute**](https://github.com/abhishekvispute/)
+2. [**Jatin Varlyani**](https://github.com/Jatin-8898/)
+3. [**Viraj Gawde**](https://gihub.com/VirajRG/)
+4. [**Anuj Arora**](https://github.com/Arora-Anuj)
