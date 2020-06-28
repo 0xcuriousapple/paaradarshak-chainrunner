@@ -296,6 +296,21 @@ class RTree extends React.Component {
       console.log(error);
     }
   };
+  data = {
+    nodes:
+      [
+        { id: "Root", label: "value", renderLabel: true, x: 750, y: 325 },
+        { id: "Auth 1" },
+        { id: "acc 7" },
+        { id: "Auth 2" },
+      ],
+    links:
+      [
+        { source: "Root", target: "Auth 1", label: 5 },
+        { source: "Auth 1", target: "acc 7", label: 5 },
+        { source: "Root", target: "Auth 2", label: 5 },
+      ]
+  }
 
   handleClick = (name) => {
     console.log("Token name:", name);

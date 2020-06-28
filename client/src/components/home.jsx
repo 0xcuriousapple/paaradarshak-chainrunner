@@ -25,7 +25,7 @@ const AppMenuMapper = [
 ]
 
 const LandingMenuMapper = [
-    { key: '7', value: 'Docs', link: 'https://github.com/abhishekvispute/paaradarshak-chainrunner' },
+    { key: '7', value: 'Docs', link: 'https://www.canva.com/design/DAEAXmeL4A8/Pi9R-fenNHZpV5ns7kStGA/view?utm_content=DAEAXmeL4A8&utm_campaign=designshare&utm_medium=link&utm_source=sharebutton#1' },
     { key: '8', value: 'View on Github', link: 'https://github.com/abhishekvispute/paaradarshak-chainrunner' },
 ]
 let labels = [

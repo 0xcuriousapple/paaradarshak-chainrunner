@@ -10,11 +10,12 @@ import { Spin, Alert } from 'antd';
 import FactoryPaardarshak from "./contracts/factorypaardarshak.json";
 import Paardarshak from "./contracts/paardarshak.json";
 import getWeb3 from "./getWeb3";
-import { Typography } from 'antd';
-
+import { Typography, Space } from 'antd';
+import { Modal } from 'antd';
 const { Paragraph } = Typography;
+const { Text, Link } = Typography;
 class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, parentContract: null, contract: null };
+  state = { storageValue: 0, web3: null, accounts: null, parentContract: null, contract: null, showmodal: false };
 
   componentDidMount = async () => {
     try {
@@ -27,12 +28,19 @@ class App extends Component {
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = FactoryPaardarshak.networks[networkId];
+
+      if (typeof deployedNetwork === 'undefined') {
+        this.setState({ showmodal: true });
+      }
+
       const instance = new web3.eth.Contract(
         FactoryPaardarshak.abi,
         deployedNetwork && deployedNetwork.address,
       );
       console.log(instance)
       this.setState({ web3, accounts, parentContract: instance });
+
+
       // instance.methods.createFunds("check", "checkdesc").send({ from: accounts[0], gas: 3000000 })
       //   .then((receipt) => {
       //     console.log(receipt);
@@ -82,8 +90,6 @@ class App extends Component {
             <Alert
               message={<div style={{ textAlign: 'center', color: '#000', fontSize: '22px', fontFamily: '"Open Sans", sans-serif' }}>
                 Loading<br />Web3, Accounts, and Contract... <br />
-                Please Make sure you have added Matic Testnet V3 as your natwork in wallet provider.<br />
-                If not add this rpc <Paragraph copyable>https://testnetv3.matic.network </Paragraph> as custom rpc in ypur wallet provider.<br />
               </div>
               }
               description=""
@@ -93,18 +99,44 @@ class App extends Component {
         </div>
       )
     }
-    return (
-      <div className="App">
-        <Router history={history}>
-          <div>
-            <Home web3={this.state} />
-            {/* <Route exact path="/" component={LoginContainer} />
+    if (!this.state.showmodal) {
+      return (
+        <div className="App">
+          <Router history={history}>
+            <div>
+              <Home web3={this.state} />
+              {/* <Route exact path="/" component={LoginContainer} />
           <Route exact path="/home" component={HomeContainer} />
           <Route exact path="/snippets" component={SnippetsContainer} /> */}
-          </div>
-        </Router>
-      </div>
-    );
+            </div>
+
+          </Router>
+        </div>
+      );
+    }
+    return (
+      <Modal
+        title="Incorrect Network"
+        style={{ top: 20 }}
+        visible={this.state.showmodal}
+      // onOk={() => this.setModal1Visible(false)}
+      // onCancel={() => this.setModal1Visible(false)}
+      >
+        <Space direction="vertical">
+          <Text>Please Select Matic TestnetV3 as your network in wallet provider</Text>
+        </Space>
+        <Text>If you dont have Matic TestnetV3 configured, add following rpc as custom rpc</Text>
+
+        <Paragraph copyable>https://testnetv3.matic.network</Paragraph>
+
+        <Text>You can request Matic Tokens from  </Text>
+        {/* <Link href="https://faucet.matic.network/" target="_blank">
+            Matic Faucet
+    </Link> */}
+        <a href="https://www.w3schools.com">Faucet</a>
+
+      </Modal>
+    )
   }
 }
 
