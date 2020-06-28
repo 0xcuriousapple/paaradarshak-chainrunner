@@ -466,20 +466,20 @@ class MidAuth extends React.Component {
                                 let value = y[k];
                                 if (k == breakp) value = t;
                                 console.log(t);
-                                // promises.push(
-                                //     new Promise((resolve, reject) => {
-                                //         contract.methods.paymentToLeaf(y[k].key, this.state.payeeaddress, this.state.payeename, this.state.reason).send({ from: accounts[0], gas: 3000000, value: value })
-                                //             .then(() => {
+                                promises.push(
+                                    new Promise((resolve, reject) => {
+                                        contract.methods.paymentToLeaf(y[k].key, this.state.payeeaddress, this.state.payeename, this.state.reason).send({ from: accounts[0], gas: 3000000, value: value })
+                                            .then(() => {
 
-                                //                 if (k == 0) {
-                                //                     let newbal = this.state.funds - parseInt(aim);
-                                //                     let d = this.state.data;
-                                //                     d[parseInt(this.state.rowkey) - 1].value = newbal
-                                //                     this.setState({ data: [d] });
+                                                if (k == 0) {
+                                                    let newbal = this.state.funds - parseInt(aim);
+                                                    let d = this.state.data;
+                                                    d[parseInt(this.state.rowkey) - 1].value = newbal
+                                                    this.setState({ data: [d] });
 
-                                //                 }
-                                //             }).then(() => { resolve(); })
-                                //     }));
+                                                }
+                                            }).then(() => { resolve(); })
+                                    }));
                             }
 
                             Promise.all(promises).then(() => { this.call(); this.setState({ paymentVisible: false }); })
