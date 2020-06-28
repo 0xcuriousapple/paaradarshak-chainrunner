@@ -16,6 +16,7 @@ contract paardarshak {
          _;
      }
    
+   uint256 q;
    bytes32 d;
    
      struct fundinfo {
@@ -151,7 +152,7 @@ contract paardarshak {
    
    function addAuthority(string memory _childname, address _add) public
    {
-       require(AuthoritiesNames[msg.sender].status == true, "You are not a authority");
+       require(AuthoritiesNames[msg.sender].status == true, "You are not registered authority");
        AuthoritiesNames[_add].name = _childname;
        AuthoritiesNames[_add].status = true;
        listedAuthorities.push(_add);
@@ -178,4 +179,5 @@ contract paardarshak {
     function destroySmartContract(address payable _to) public onlyowner {
         selfdestruct(_to);
     }
+
 }

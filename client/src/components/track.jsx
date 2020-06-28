@@ -41,7 +41,7 @@ const columns = [
         title: 'From',
         dataIndex: 'from',
         key: 'from',
-        render: text => <a>{text}</a>,
+
     },
     {
         title: 'To',
@@ -67,7 +67,7 @@ const columns2 = [
         title: 'Donor, Payer, Tax Payer',
         dataIndex: 'donor',
         key: 'donor',
-        render: text => <a>{text}</a>,
+
     },
     {
         title: 'Total Payment',
@@ -244,7 +244,9 @@ class Track extends React.Component {
                     label = JSON.stringify(value.purposes);
                     let purp = value.purposes
                     let totalforonelink = 0;
+                    console.log(value.source);
                     for (const [k, v] of Object.entries(purp)) {
+                        console.log(value.source);
                         tempdatatable.push({
                             key: `${i}`,
                             from: value.source,
@@ -278,7 +280,7 @@ class Track extends React.Component {
                 this.setState({ tabledata: tempdatatable });
                 console.log(graph);
                 console.log(fundsatnode)
-            }, 2000);
+            }, 3000);
             console.log(this.state.trackArray);
 
 

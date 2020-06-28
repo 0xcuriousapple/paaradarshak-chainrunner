@@ -10,7 +10,6 @@ import "./paardarshak.sol";
 contract factorypaardarshak {
     
    address [] funds;
-   
    struct fundinfo {
        string name;
        string description;
@@ -32,5 +31,10 @@ contract factorypaardarshak {
    function getDetailsOfFund(address  _fundaddress) public view returns (fundinfo memory)
    {
        return fundstore[_fundaddress];
+   }
+
+  function aFund(address  _fundad) public view returns (fundinfo memory)
+   {
+       return fundstore[_fundad];
    }
 }

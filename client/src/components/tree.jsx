@@ -142,6 +142,7 @@ class RTree extends React.Component {
                         let name = temp[j].nameOfOwner;
                         if (temp[j]._owner != parentadd) {
 
+                          console.log(name);
                           let t = ownerCompleteInfo[name];
                           let credit = t['credit'];
                           //let credit = ownerCompleteInfo[temp[j].nameOfOwner]['credit'];
