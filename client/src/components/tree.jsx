@@ -398,12 +398,7 @@ class RTree extends React.Component {
 
   handleSearchToken = (e) => {
     var name = e.target.name;
-    if (e.target.value != "")
-      var data = this.state.tokenArray.filter((t) => {
-        return t.includes(e.target.value);
-      });
-    else data = this.state.tokenArray;
-    this.setState({ [name]: e.target.value, tokenArray: data });
+    this.setState({ [name]: e.target.value });
   };
   render() {
 
@@ -416,6 +411,7 @@ class RTree extends React.Component {
           {/* Normal drawer */}
 
           <Drawer
+            width={310}
             className="token-drawer-wrapper"
             title={this.state.selectedNode}
             placement="right"
@@ -426,26 +422,26 @@ class RTree extends React.Component {
             <Space direction="vertical">
 
               {/* <Title level={3}></Title> */}
-              <Divider orientation="left">Credit</Divider>
-              <List
-                size="small"
-                // header={<div>Header</div>}
-                footer={<div><Text mark>Total Funds Received: {this.state.totalrecv} </Text></div>}
-                bordered
-                dataSource={this.state.creditlist}
-                renderItem={item => <List.Item>{item}</List.Item>}
-              />
+              <Divider orientation="left" style={{ fontSize: '20px' }}>Credit</Divider>
+              <Text style={{ fontSize: '18px' }}>Total Funds Received: {this.state.totalrecv} </Text>
+              {this.state.crebitlist && this.state.crebitlist.map((obj) => {
+                return <div className="token-card">
+                  <b>Purpose: </b>{obj.purpose}<br />
+                  <b>Funds: </b>{obj.funds}<br />
+                  <b>To: </b>{obj.to}<br />
+                </div>
+              })}
 
 
               <Divider orientation="left">Debit</Divider>
-              <List
-                size="small"
-                // header={<div>Debit</div>}
-                footer={<Text mark>Utilized Funds: {this.state.totalu}</Text>}
-                bordered
-                dataSource={this.state.debitlist}
-                renderItem={item => <List.Item>{item}</List.Item>}
-              />
+              <Text style={{ fontSize: '18px' }}>Utilized Funds: {this.state.totalu} </Text>
+              {this.state.debitlist && this.state.debitlist.map((obj) => {
+                return <div className="token-card">
+                  <b>Purpose: </b>{obj.purpose}<br />
+                  <b>Funds: </b>{obj.funds}<br />
+                  <b>To: </b>{obj.to}<br />
+                </div>
+              })}
 
               {/* <Text mark>Remaining Funds: {this.state.totalr}</Text> */}
 
@@ -458,6 +454,7 @@ class RTree extends React.Component {
           {/* Root drawer */}
 
           <Drawer
+            width={310}
             className="token-drawer-wrapper"
             title={this.state.selectedNode}
             placement="right"
@@ -468,9 +465,9 @@ class RTree extends React.Component {
             <Space direction="vertical">
 
               {/* <Title level={3}></Title> */}
-              <Divider orientation="left">Credit</Divider>
+              <Divider orientation="left" style={{ fontSize: '20px' }}>Credit</Divider>
 
-              <Text mark>Total Funds Received: {this.state.totalrecv} </Text>
+              <Text style={{ fontSize: '18px' }}>Total Funds Received: {this.state.totalrecv} </Text>
               <div className="token-drawer">
                 <Input
                   value={this.state.searchTokenTxt}
@@ -480,20 +477,26 @@ class RTree extends React.Component {
                   placeholder="Enter token key"
                   prefix={<SearchOutlined />}
                 />
-                {/* {this.state.tokenArray &&
+
+                {this.state.tokenArray &&
                   this.state.tokenArray.map((token) => {
-                    return <div className="token-array">{token}</div>;
-                  })} */}
+                    if (this.state.searchTokenTxt != "") {
+                      if (token.toLowerCase().includes(this.state.searchTokenTxt))
+                        return <div className="token-array">{token}</div>
+                    }
+                    else
+                      return <div className="token-array">{token}</div>
+                  })}
               </div>
-              <Divider orientation="left">Debit</Divider>
-              <List
-                size="small"
-                // header={<div>Debit</div>}
-                footer={<Text mark>Utilized Funds: {this.state.totalu}</Text>}
-                bordered
-                dataSource={this.state.debitlist}
-                renderItem={item => <List.Item>{item}</List.Item>}
-              />
+              <Divider orientation="left" style={{ fontSize: '20px' }}>Dedit</Divider>
+              <Text style={{ fontSize: '18px' }}>Utilized Funds: {this.state.totalu} </Text>
+              {this.state.debitlist && this.state.debitlist.map((obj) => {
+                return <div className="token-card">
+                  <b>Purpose: </b>{obj.purpose}<br />
+                  <b>Funds: </b>{obj.funds}<br />
+                  <b>To: </b>{obj.to}<br />
+                </div>
+              })}
 
               {/* <Text mark>Remaining Funds: {this.state.totalr}</Text> */}
 
@@ -506,6 +509,7 @@ class RTree extends React.Component {
           {/* Link drawer */}
 
           <Drawer
+            width={310}
             className="token-drawer-wrapper"
             title={"Source:" + this.state.selectedLinkSource + "Target:" + this.state.selectedLinkDestination}
             placement="right"
@@ -514,18 +518,14 @@ class RTree extends React.Component {
             visible={this.state.drawerVisibleLink}
           >
             <Space direction="vertical">
-              <Text mark>Total Funds Transfered: {this.state.totalrecv} </Text>
-              <List
-                size="small"
-                // header={<div>Debit</div>}
-                bordered
-                dataSource={this.state.linklist}
-                renderItem={item => <List.Item>{item}</List.Item>}
-              />
-
-
-
-
+              <Text style={{ fontSize: '18px' }}>Total Transfered: {this.state.totalrecv} </Text>
+              {this.state.linklist && this.state.linklist.map((obj) => {
+                return <div className="token-card">
+                  <b>Purpose: </b>{obj.purpose}<br />
+                  <b>Funds: </b>{obj.funds}<br />
+                  <b>To: </b>{obj.to}<br />
+                </div>
+              })}
             </Space>
 
           </Drawer>
