@@ -10,7 +10,9 @@ import { Spin, Alert } from 'antd';
 import FactoryPaardarshak from "./contracts/factorypaardarshak.json";
 import Paardarshak from "./contracts/paardarshak.json";
 import getWeb3 from "./getWeb3";
+import { Typography } from 'antd';
 
+const { Paragraph } = Typography;
 class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, parentContract: null, contract: null };
 
@@ -78,7 +80,12 @@ class App extends Component {
         <div className="loading">
           <Spin tip="">
             <Alert
-              message={<div style={{ textAlign: 'center', color: '#000', fontSize: '22px', fontFamily: '"Open Sans", sans-serif' }}>Loading<br />Web3, Accounts, and Contract...</div>}
+              message={<div style={{ textAlign: 'center', color: '#000', fontSize: '22px', fontFamily: '"Open Sans", sans-serif' }}>
+                Loading<br />Web3, Accounts, and Contract... <br />
+                Please Make sure you have added Matic Testnet V3 as your natwork in wallet provider.<br />
+                If not add this rpc <Paragraph copyable>https://testnetv3.matic.network </Paragraph> as custom rpc in ypur wallet provider.<br />
+              </div>
+              }
               description=""
               type="info"
             />

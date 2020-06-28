@@ -14,7 +14,7 @@ import Paaradarshak from "../contracts/paardarshak.json";
 
 import { GithubOutlined } from '@ant-design/icons';
 import './home.scss';
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 const AppMenuMapper = [
     { key: '0', value: 'Home', icon: <HomeOutlined /> },
@@ -116,7 +116,7 @@ class Home extends React.Component {
     handleChangeMenu = (key) => {
         this.handleToggleDrawer(false);
         this.setState({ selectedMenuItem: key });
-        if(key=='0') this.setState({campaignName: ''});
+        if (key == '0') this.setState({ campaignName: '' });
     }
     liveCampClicked = (name, owner) => {
         this.setState({ selectedMenuItem: '2', campaignName: name, drawerVisible: false });
