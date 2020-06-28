@@ -69,12 +69,12 @@ you will get 10 account addresses , import some of them in metamask by import ac
 ```sh
 $ truffle compile
 ```
-- Truffle Migration
-Local Network
+- Truffle Migration Local Network
+
 ```sh
 $ truffle migrate
 ```
-Matic Network
+- Truffle Migration Matic Network
 ```sh
 $ truffle migrate --network matic
 ```
