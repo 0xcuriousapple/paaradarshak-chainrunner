@@ -44,11 +44,25 @@ Get started quickly by cloning this repository. Install the dependencies
 $ cd client && npm install
 ```
 
-### Initilizing Local Truffle Blockchain
+### Testing on Local Truffle Blockchain
+
+Creating .secret file for your mnemonic
+1) In root directoy create .secret file
+2) open metamask
+3) click on circle blue one
+4) settings
+5) security and policy
+6) reveal seed words
+7) enter password
+8) next
+9) copy the mnemonic (never push it to public repo)
+10) paste in .secret
 
 ```sh
 $ truffle develop
 ```
+this will open truffle developer console
+you will get 10 account address , import some of them in metamask by import account option.
 ```sh
 $ compile
 ```
@@ -71,6 +85,8 @@ Currently users pay in Matic Tokens,UPI can be integrated as a mode of payment. 
 
 Currently the last stakeholder of authority chains, just enters the result as text without giving any proof for it. We plan to add a feature where they can upload result receipt or photo through MoBit.
 
+## Any Query ?
+ - Join us on [**discord**](https://discord.gg/sK2X6eY)
 ## Team Members 🏁
 
 1. [**Abhishek Vispute**](https://github.com/abhishekvispute/)
