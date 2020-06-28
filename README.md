@@ -21,7 +21,7 @@
 
 ![Use Case Diagram (Small)](https://user-images.githubusercontent.com/34777376/85917978-71a02e80-b87c-11ea-92d0-8fdbc6af0ff5.png)
 
-## Flow of Funds Diagram ✏️
+## Token Creation, Allot, Transfer, Payment ✏️
 
 ![Block Diagram - Page 1 (Small)](https://user-images.githubusercontent.com/34777376/85943407-84366880-b94d-11ea-9fa1-157a899d623e.png)
 
