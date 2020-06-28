@@ -123,17 +123,17 @@ class App extends Component {
       // onCancel={() => this.setModal1Visible(false)}
       >
         <Space direction="vertical">
-          <Text>Please Select Matic TestnetV3 as your network in wallet provider</Text>
+          <Text>Please Select Matic TestnetV3 as your network in wallet provider. </Text>
         </Space>
-        <Text>If you dont have Matic TestnetV3 configured, add following rpc as custom rpc</Text>
+        <Text> If you dont have Matic TestnetV3 configured, add following rpc as custom rpc</Text>
 
-        <Paragraph copyable>https://testnetv3.matic.network</Paragraph>
+        <Paragraph copyable> <a href="https://testnetv3.matic.network" style={{ color: "#1890ff" }}>https://testnetv3.matic.network</a></Paragraph>
 
-        <Text>You can request Matic Tokens from  </Text>
+        <Text>You can request Matic Tokens from </Text>
         {/* <Link href="https://faucet.matic.network/" target="_blank">
             Matic Faucet
     </Link> */}
-        <a href="https://www.w3schools.com">Faucet</a>
+        <a href="https://faucet.matic.network/" style={{ color: "#1890ff" }}>Faucet</a>
 
       </Modal>
     )

@@ -100,7 +100,7 @@ class RTree extends React.Component {
 
           for (i = 0; i < tokenkeys.length; i++) {
             let value = tokenkeys[i];
-            console.log(ownerCompleteInfo);
+            //console.log(ownerCompleteInfo);
             promises.push(
               new Promise(function (resolve, reject) {
                 contract.methods
@@ -142,7 +142,7 @@ class RTree extends React.Component {
                         let name = temp[j].nameOfOwner;
                         if (temp[j]._owner != parentadd) {
 
-                          console.log(name);
+                          //console.log(name);
                           let t = ownerCompleteInfo[name];
                           let credit = t['credit'];
                           //let credit = ownerCompleteInfo[temp[j].nameOfOwner]['credit'];
@@ -276,7 +276,7 @@ class RTree extends React.Component {
                     // this.setState({ 'data': { ...data } })
                   })
                   .then(() => {
-                    console.log("resolved");
+                    //console.log("resolved");
                     resolve();
                   })
               })

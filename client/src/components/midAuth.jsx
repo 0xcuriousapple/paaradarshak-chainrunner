@@ -355,7 +355,7 @@ class MidAuth extends React.Component {
                             for (k = 0; k <= breakp; k++) {
                                 promises.push(
                                     new Promise((resolve, reject) => {
-                                        contract.methods.transferToken(y[breakp].key, '1', this.state.nextAuth, this.state.nextpurpose, this.state.mapAuthNametoAddress[this.state.nextAuth]).send({ from: accounts[0], gas: 3000000 })
+                                        contract.methods.transferToken(y[k].key, '1', this.state.nextAuth, this.state.nextpurpose, this.state.mapAuthNametoAddress[this.state.nextAuth]).send({ from: accounts[0], gas: 3000000 })
                                             .then((receipt) => {
 
                                                 if (k == 0) {
@@ -451,6 +451,7 @@ class MidAuth extends React.Component {
                     message.success('There will be 2 TXs as we have to break the token in this case');
                     let t = temp - aim;
                     let requiredvaluedtoken = y[breakp].value - t;
+                    console.log(requiredvaluedtoken);
                     let uhash = sha256(accounts[0] + requiredvaluedtoken + Date.now());
                     uhash = uhash.toString(CryptoJS.enc.Hex);
 
@@ -462,20 +463,23 @@ class MidAuth extends React.Component {
                             let k;
                             let promises = [];
                             for (k = 0; k <= breakp; k++) {
-                                promises.push(
-                                    new Promise((resolve, reject) => {
-                                        contract.methods.paymentToLeaf(y[k].key, this.state.payeeaddress, this.state.payeename, this.state.reason).send({ from: accounts[0], gas: 3000000, value: y[k].value })
-                                            .then(() => {
+                                let value = y[k];
+                                if (k == breakp) value = t;
+                                console.log(t);
+                                // promises.push(
+                                //     new Promise((resolve, reject) => {
+                                //         contract.methods.paymentToLeaf(y[k].key, this.state.payeeaddress, this.state.payeename, this.state.reason).send({ from: accounts[0], gas: 3000000, value: value })
+                                //             .then(() => {
 
-                                                if (k == 0) {
-                                                    let newbal = this.state.funds - parseInt(aim);
-                                                    let d = this.state.data;
-                                                    d[parseInt(this.state.rowkey) - 1].value = newbal
-                                                    this.setState({ data: [d] });
+                                //                 if (k == 0) {
+                                //                     let newbal = this.state.funds - parseInt(aim);
+                                //                     let d = this.state.data;
+                                //                     d[parseInt(this.state.rowkey) - 1].value = newbal
+                                //                     this.setState({ data: [d] });
 
-                                                }
-                                            }).then(() => { resolve(); })
-                                    }));
+                                //                 }
+                                //             }).then(() => { resolve(); })
+                                //     }));
                             }
 
                             Promise.all(promises).then(() => { this.call(); this.setState({ paymentVisible: false }); })
