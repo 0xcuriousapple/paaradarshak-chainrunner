@@ -27,9 +27,10 @@
 ![Block Diagram - Page 1 (Small)](https://user-images.githubusercontent.com/34777376/85947796-780cd400-b96a-11ea-8915-4003d27fe7f5.png)
 
 
-## Working Demo 🔥 
+## Working Demo 🔥  paaradarshak.herokuapp.com
 
-[![Paardarshak Demo](https://j.gifs.com/QnlRQ0.gif)](https://www.youtube.com/watch?v=0uxsD9Enb9Q)
+- Live on [Paardarshak](paaradarshak.herokuapp.com)
+- [Demo Video](https://youtu.be/Zh_QQSMK-cY)
 
 ## Technologies Used ⚡️
 -  Front End Frameworks: **HTML, CSS, React, Javascript**
