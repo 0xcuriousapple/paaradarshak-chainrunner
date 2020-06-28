@@ -13,6 +13,13 @@
 
 
 
+## Use Case Diagram ✏️
+
+![Use Case Diagram (Small)](https://user-images.githubusercontent.com/34777376/85917978-71a02e80-b87c-11ea-92d0-8fdbc6af0ff5.png)
+
+## Flow of funds ✏️
+
+add second diagram
 
 ## Demo 🔥 
 
@@ -23,11 +30,6 @@
 -  Compiling and Deploying Smart Contracts:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Truffle**
 -  Blockchain used:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Matic**
 -  Interacting with Smart Contracts:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Web3 JS**
-## Use Case Diagram ✏️
-
-![Use Case Diagram (Small)](https://user-images.githubusercontent.com/34777376/85917978-71a02e80-b87c-11ea-92d0-8fdbc6af0ff5.png)
-
-## Future Aspects 🚀
 
 ## Instructions 📝 
 
@@ -58,7 +60,7 @@ $ migrate
 $ cd client && npm start
 ```
 
-
+## Future Aspects 🚀
 
 
 ## Team Members 🏁
