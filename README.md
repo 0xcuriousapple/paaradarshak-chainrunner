@@ -46,7 +46,6 @@ Get started quickly by cloning this repository. Install the dependencies
 ```sh
 $ cd client && npm install
 ```
-
 ### Testing on Local Truffle Blockchain
 
 - Create .secret file with your Mnemonic
@@ -80,6 +79,37 @@ $ truffle migrate --network matic
 ```sh
 $ cd client && npm start
 ```
+
+## Miscellaneous
+### We are not Aduitorium 
+
+Hi, This is Abhishek, team leader of **Paaradarshak** (Project listed above)
+
+When I sent this submission to community for review 
+They pointed out that we are similar to Previous ETH India winner **Aduitorium** https://devfolio.co/submissions/aduitorium
+We knew auditorium from start, it didn't bother us, as we are different from them, I think we were not able to tell difference clearly. 
+
+### Difference 
+**About Aduitorium** 
+Aduitorium is a fundraising platform like fund me, 
+where donors donate to the campaign and they can see 
+how the whole campaign money is spent by the fund owner
+Note that there is a single authority, which does payments.
+
+**Coming to Paaradarshak**
+- **We track particularly who is corrupt in the chain.**
+The prime focus of paardarshak is in funds where there are multiple authorities. Once the fund owner allots some funds to the child, the child can transfer it to other children.
+Imagine the government spending passed down from central gov to ministries to MPs to MLAs. The audience for Paaradarshak is different, however, it can act as a fundraising platform as well.
+
+*Consider Paardarshak as a superset of fundraising.*
+*Paardarshak covers a wide range of usecases from Government Budgets, Taxes Utilizations to Corporate funds.*
+
+-  **Individual contribution tracking** 
+In Aduitorium they track utilization of complete fund not the utilization of your contribution. we do both, if you donate 100 rs you will directly know where it is being used. this thing can be extended to real-time governance, where payers can vote if they want their money used for proposed cause or not.
+
+
+*Therefore we are different and target different audiences.*
+*But we can learn from them though, like their DAI integration.*
 
 ## Future Aspects 🚀
 
