@@ -10,6 +10,7 @@ import { Spin, Alert } from 'antd';
 import FactoryPaardarshak from "./contracts/factorypaardarshak.json";
 import Paardarshak from "./contracts/paardarshak.json";
 import getWeb3 from "./getWeb3";
+import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Typography, Space } from 'antd';
 import { Modal } from 'antd';
 const { Paragraph } = Typography;
@@ -81,8 +82,8 @@ class App extends Component {
 
   };
 
-
   render() {
+
     if (!this.state.web3) {
       return (
         <div className="loading">
@@ -115,27 +116,41 @@ class App extends Component {
       );
     }
     return (
-      <Modal
-        title="Incorrect Network"
-        style={{ top: 20 }}
-        visible={this.state.showmodal}
-      // onOk={() => this.setModal1Visible(false)}
-      // onCancel={() => this.setModal1Visible(false)}
-      >
-        <Space direction="vertical">
-          <Text>Please Select Matic TestnetV3 as your network in wallet provider. </Text>
-        </Space>
-        <Text> If you dont have Matic TestnetV3 configured, add following rpc as custom rpc</Text>
+      <div>
+        {this.error}
+        <Modal
+          title={<Text style={{ color: "red" }} >Incorrect Network</Text>}
+          style={{ top: 20 }
+          }
+          visible={this.state.showmodal}
 
-        <Paragraph copyable> <a href="https://testnetv3.matic.network" style={{ color: "#1890ff" }}>https://testnetv3.matic.network</a></Paragraph>
+          footer={[
+            // <Button key="Go to Faucet" onClick={this.handleCancel}>
+            //   Return
+            // </Button>,
+            // <Button key="GettinMatic" type="primary" loading={loading} onClick={this.handleOk}>
+            //   Submit
+            // </Button>,
+          ]}
+        >
 
-        <Text>You can request Matic Tokens from </Text>
-        {/* <Link href="https://faucet.matic.network/" target="_blank">
+          <Space direction="vertical">
+
+            <Text>Please Select Matic TestnetV3 as your network in wallet provider. </Text>
+          </Space>
+          <Text> If you dont have Matic TestnetV3 configured, add following rpc as custom rpc</Text>
+
+          <Paragraph copyable> <a href="https://testnetv3.matic.network" style={{ color: "#1890ff" }}>https://testnetv3.matic.network</a></Paragraph>
+
+          <Text>You can request Matic Tokens from </Text>
+          {/* <Link href="https://faucet.matic.network/" target="_blank">
             Matic Faucet
     </Link> */}
-        <a href="https://faucet.matic.network/" style={{ color: "#1890ff" }}>Faucet</a>
+          <a href="https://faucet.matic.network/" style={{ color: "#1890ff" }}>Faucet</a>
 
-      </Modal>
+        </Modal >
+      </div >
+
     )
   }
 }

@@ -13,97 +13,44 @@ import './waterflow.css';
 
 
 const { Text, Link } = Typography;
-
-const myConfig = {
-	nodeHighlightBehavior: true,
-	linkHighlightBehavior: true,
-	directed: true,
-	height: "650",
-	width: "1500",
-	d3: {
-		gravity: -500,
-		// linkLength: 600,
-	},
-
-	node: {
-		color: "lightgreen",
-		size: 400,
-		highlightStrokeColor: "green",
-		fontSize: 14,
-
-	},
-	link: {
-		color: "#001529",
-		highlightColor: "lightgreen",
-		fontSize: 16,
-		renderLabel: true,
-		labelProperty: "label",
-	},
-};
-const data = {
-	nodes: [
-		{
-			id: "Root",
-			label: "value",
-			renderLabel: true,
-			x: 750,
-			y: 325,
-			size: 500, // only this node will have size 300
-			symbolType: "diamond",
-		},
-		{
-			id: "Ministry of Health and Family Welfare"
-		},
-		{
-			id: "Ministry of Agriculture"
-		},
-		{
-			id: "MLA..."
-		}, {
-			id: "Ministry..."
-		}
-	],
-	links: [
-		{
-			source: "Root",
-			target: "Ministry of Health and Family Welfare",
-			label: 30,
-		},
-		{
-			source: "Root",
-			target: "Ministry of Agriculture",
-			label: 20,
-		},
-		{
-			source: "Ministry of Health and Family Welfare",
-			target: "Ministry...",
-			label: 5,
-		},
-		{
-			source: "Ministry of Agriculture",
-			target: "MLA...",
-			label: 7,
-		}
-	],
-}
 class Landing extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { liveCampVisible: false, createCampVisible: false, liveCamp: [], name: '', desc: '', funds: [], mapNametoAddress: {} };
+		this.state = { liveCampVisible: false, createCampVisible: false, liveCamp: [], name: '', desc: '', funds: [], mapNametoAddress: {}, checkifcampexists: {} };
 	}
 	getDetails(add, parentContract, accounts) {
 
-		parentContract.methods.getDetailsOfFund(add).call({ from: accounts[0], gas: 3000000 })
-			.then((fundinfo) => {
-				// let t = this.state.mapNametoAddress;
-				// t[fundinfo.name] = add;
-				// this.setState({ mapNametoAddress: t });
-				if (fundinfo.name != 'Federal Taxes' && fundinfo.name != 'Federal Tax' && fundinfo.name != 'pmcares') {
-					let t = this.state.liveCamp;
-					t.push({ 'name': fundinfo.name, 'owner': add });
-					this.setState({ liveCamp: t });
-				}
-			})
+		let flag = true;
+		this.props.web3.web3.eth.net.getId().then((result) => {
+			if (result == 15001) {
+				flag = false;
+			}
+		}).then(() => {
+
+			parentContract.methods.getDetailsOfFund(add).call({ from: accounts[0], gas: 3000000 })
+				.then((fundinfo) => {
+					// I you are wondering why did I add this weird conditions here
+					// Thats due to immutabilty of blockchain, let me explain
+					// Follwing are the funds in which the names of authorities were duplicaated beause of bug in frontend
+					// Due to which its functions are unstable
+					// If you are migratiing on new contart address on matic, remove this conditions
+					if (flag | (fundinfo.name != 'Federal Taxes' && fundinfo.name != 'Federal Tax' && fundinfo.name != 'pmcares')) {
+						let t = this.state.liveCamp;
+						t.push({ 'name': fundinfo.name, 'owner': add });
+						this.setState({ liveCamp: t });
+
+						let x = this.state.checkifcampexists;
+						x[fundinfo.name] = true;
+						this.setState({ checkifcampexists: x });
+					}
+					else {
+						let x = this.state.checkifcampexists;
+						x[fundinfo.name] = true;
+						this.setState({ checkifcampexists: x });
+
+					}
+				})
+		})
 	}
 	componentDidMount = async () => {
 
@@ -130,30 +77,47 @@ class Landing extends React.Component {
 		var name = e.target.name;
 		this.setState({ [name]: e.target.value });
 	}
+
 	createCampClicked = () => {
-		console.log(this.state.name, this.state.desc);
-		const { parentContract, accounts } = this.props.web3;
-		parentContract.methods.createFunds(this.state.name, this.state.desc).send({ from: accounts[0], gas: 3000000 })
-			.then(() => {
 
-				message.success('New Fund Created Succesfully');
-				let contractadd;
-				parentContract.methods.getAllDeployedFunds().call({ from: accounts[0], gas: 3000000 }).
-					then((result) => {
+		if (!this.state.checkifcampexists.hasOwnProperty(this.state.name)) {
+			console.log(this.state.name, this.state.desc);
+			const { parentContract, accounts } = this.props.web3;
+			parentContract.methods.createFunds(this.state.name, this.state.desc).send({ from: accounts[0], gas: 3000000 })
+				.then(() => {
 
-						contractadd = result[result.length - 1];
-						let t = this.state.liveCamp
-						t.push({ name: this.state.name, owner: contractadd });
-						this.setState({ liveCamp: t });
-						this.setState({ createCampVisible: false, name: '', desc: '' });
-					})
-			})
+					message.success('New Fund Created Succesfully');
+					let contractadd;
+					parentContract.methods.getAllDeployedFunds().call({ from: accounts[0], gas: 3000000 }).
+						then((result) => {
 
-			.catch(() => {
-				message.error('Sorry your TX was not successful Please try again');
-			})
+							contractadd = result[result.length - 1];
+							let t = this.state.liveCamp
+							t.push({ name: this.state.name, owner: contractadd });
+							this.setState({ liveCamp: t });
+							this.setState({ createCampVisible: false, name: '', desc: '' });
 
 
+							let x = this.state.checkifcampexists;
+							x[this.state.name] = true;
+							this.setState({ checkifcampexists: x });
+						})
+				})
+
+				.catch(() => {
+					message.error('Sorry your TX was not successful Please try again');
+				})
+
+		}
+		else {
+			if (this.state.name == 'Federal Taxes' | this.state.name == 'Federal Tax' | this.state.name == 'pmcares') {
+				message.error(`We have disabld ${this.state.name} as fund name to avoid ambiguity with existing funds`);
+			}
+			else {
+				message.error('Fund with given name already exist');
+			}
+
+		}
 	}
 	render() {
 		return (

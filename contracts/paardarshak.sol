@@ -16,7 +16,7 @@ contract paardarshak {
          _;
      }
    
-   uint256 q;
+  
    bytes32 d;
    
      struct fundinfo {

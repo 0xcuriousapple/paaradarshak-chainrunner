@@ -33,8 +33,5 @@ contract factorypaardarshak {
        return fundstore[_fundaddress];
    }
 
-  function aFund(address  _fundad) public view returns (fundinfo memory)
-   {
-       return fundstore[_fundad];
-   }
+  
 }

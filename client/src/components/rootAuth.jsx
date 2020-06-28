@@ -238,37 +238,57 @@ class RootAuth extends React.Component {
         //     message.error('The Operation was unsuccessful');
         // }
     }
+
+    ifexists(add, name) {
+        let i = 0;
+
+        if (this.state.mapAuthNametoAddress.hasOwnProperty(name)) {
+            message.error("Given Authority Name is Already Registered");
+            return false;
+        }
+
+        for (const [key, value] of Object.entries(this.state.mapAuthNametoAddress)) {
+            if (add == value) {
+                message.error("Given Authority Address is Already Registered");
+                return false;
+            }
+        }
+
+    }
     handleAddAuth = () => {
 
         // console.log(this.state.authName, this.state.authAddr);
-        try {
-            const { contract } = this.props.web3;
-            const accounts = this.props.acc;
 
-            contract.methods.addAuthority(this.state.authName, this.state.authAddr).send({ from: accounts[0], gas: 3000000 })
-                .then((receipt) => {
+        if (this.ifexists(this.state.authAddr, this.state.authName)) {
+            try {
+                const { contract } = this.props.web3;
+                const accounts = this.props.acc;
 
-                    message.success('New Authority Added Succesfully');
-                    console.log(receipt)
-                    let t = this.state.labels
-                    t.push({ 'value': this.state.authName })
-                    this.setState({ labels: t })
+                contract.methods.addAuthority(this.state.authName, this.state.authAddr).send({ from: accounts[0], gas: 3000000 })
+                    .then((receipt) => {
 
-                    let t2 = this.state.mapAuthNametoAddress
-                    t2[this.state.authName] = this.state.authAddr
-                    this.setState({ mapAuthNametoAddress: t2 })
+                        message.success('New Authority Added Succesfully');
+                        console.log(receipt)
+                        let t = this.state.labels
+                        t.push({ 'value': this.state.authName })
+                        this.setState({ labels: t })
 
-                    this.setState({ authName: '', authAddr: '' });
+                        let t2 = this.state.mapAuthNametoAddress
+                        t2[this.state.authName] = this.state.authAddr
+                        this.setState({ mapAuthNametoAddress: t2 })
 
-                })
+                        this.setState({ authName: '', authAddr: '' });
 
-        } catch (error) {
-            // Catch any errors for any of the above operations.
-            message.error('Sorry TX was not successful Please refer console')
-            console.log('sad');
-            console.error(error);
+                    })
+
+            } catch (error) {
+                // Catch any errors for any of the above operations.
+                message.error('Sorry TX was not successful Please refer console')
+                console.log('sad');
+                console.error(error);
+            }
+            this.toggleVisibleAuth(false);
         }
-        this.toggleVisibleAuth(false);
 
 
     }

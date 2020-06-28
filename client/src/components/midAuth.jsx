@@ -42,9 +42,6 @@ class MidAuth extends React.Component {
 
         let initialState = {
             data: [], purpose: '', fund: '', rowkey: '',
-            nextpurpose: ' ', transfervalue: '', nextAuth: '',
-            reason: ' ', payeeaddress: '', paymentValue: '', payeename: '',
-            authName: '', authAddr: '',
             transferVisible: false,
             paymentVisible: false,
             labels: [],
@@ -249,34 +246,54 @@ class MidAuth extends React.Component {
             console.error(error);
         }
     };
-    handleAddAuth = () => {
-        console.log(this.state.authName, this.state.authAddr);
-        try {
-            const { accounts, contract } = this.props.web3;
-            contract.methods.addAuthority(this.state.authName, this.state.authAddr).send({ from: accounts[0], gas: 3000000 })
-                .then((receipt) => {
 
-                    message.success('New Authority Added Succesfully');
-                    console.log(receipt)
-                    let t = this.state.labels
-                    t.push({ 'value': this.state.authName })
-                    this.setState({ labels: t })
+    ifexists(add, name) {
+        let i = 0;
 
-                    let t2 = this.state.mapAuthNametoAddress
-                    t2[this.state.authName] = this.state.authAddr
-                    this.setState({ mapAuthNametoAddress: t2 })
-
-                    this.setState({ authName: '', authAddr: '' });
-
-                })
-
-        } catch (error) {
-            // Catch any errors for any of the above operations.
-            message.error('Sorry TX was not successful Please refer console')
-            console.log('sad');
-            console.error(error);
+        if (this.state.mapAuthNametoAddress.hasOwnProperty(name)) {
+            message.error("Given Authority Name is Already Registered");
+            return false;
         }
-        this.toggleModalVisible(false, 'authVisible')
+
+        for (const [key, value] of Object.entries(this.state.mapAuthNametoAddress)) {
+            if (add == value) {
+                message.error("Given Authority Address is Already Registered");
+                return false;
+            }
+        }
+
+    }
+    handleAddAuth = () => {
+
+        if (this.ifexists(this.state.authAddr, this.state.authName)) {
+            console.log(this.state.authName, this.state.authAddr);
+            try {
+                const { accounts, contract } = this.props.web3;
+                contract.methods.addAuthority(this.state.authName, this.state.authAddr).send({ from: accounts[0], gas: 3000000 })
+                    .then((receipt) => {
+
+                        message.success('New Authority Added Succesfully');
+                        console.log(receipt)
+                        let t = this.state.labels
+                        t.push({ 'value': this.state.authName })
+                        this.setState({ labels: t })
+
+                        let t2 = this.state.mapAuthNametoAddress
+                        t2[this.state.authName] = this.state.authAddr
+                        this.setState({ mapAuthNametoAddress: t2 })
+
+                        this.setState({ authName: '', authAddr: '' });
+
+                    })
+
+            } catch (error) {
+                // Catch any errors for any of the above operations.
+                message.error('Sorry TX was not successful Please refer console')
+                console.log('sad');
+                console.error(error);
+            }
+            this.toggleModalVisible(false, 'authVisible')
+        }
     }
     handleTransfer = (record) => {
         console.log(record);
