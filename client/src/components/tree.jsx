@@ -296,21 +296,21 @@ class RTree extends React.Component {
       console.log(error);
     }
   };
-  data = {
-    nodes:
-      [
-        { id: "Root", label: "value", renderLabel: true, x: 750, y: 325 },
-        { id: "Auth 1" },
-        { id: "acc 7" },
-        { id: "Auth 2" },
-      ],
-    links:
-      [
-        { source: "Root", target: "Auth 1", label: 5 },
-        { source: "Auth 1", target: "acc 7", label: 5 },
-        { source: "Root", target: "Auth 2", label: 5 },
-      ]
-  }
+  // data = {
+  //   nodes:
+  //     [
+  //       { id: "Root", label: "value", renderLabel: true, x: 750, y: 325 },
+  //       { id: "Auth 1" },
+  //       { id: "acc 7" },
+  //       { id: "Auth 2" },
+  //     ],
+  //   links:
+  //     [
+  //       { source: "Root", target: "Auth 1", label: 5 },
+  //       { source: "Auth 1", target: "acc 7", label: 5 },
+  //       { source: "Root", target: "Auth 2", label: 5 },
+  //     ]
+  // }
 
   handleClick = (name) => {
     console.log("Token name:", name);
@@ -340,7 +340,7 @@ class RTree extends React.Component {
       let tempdebitlist = [];
       let temptu = 0;
       for (const [key, value] of Object.entries(t)) {
-        tempdebitlist.push(`Purpose: ${key} Funds: ${value.value} To: ${value.to}`)
+        tempdebitlist.push({ Purpose: key, Funds: value.value, To: value.to });
         temptu = temptu + parseInt(value.value);
       }
       this.setState({ debitlist: tempdebitlist });
@@ -357,7 +357,7 @@ class RTree extends React.Component {
       let tempcreditlist = [];
       let temptrecv = 0;
       for (const [key, value] of Object.entries(t1)) {
-        tempcreditlist.push(`Purpose: ${key} Funds: ${value.value} From : ${value.from}`)
+        tempcreditlist.push({ Purpose: key, Funds: value.value, From: value.from });
         temptrecv = temptrecv + parseInt(value.value);
       }
       this.setState({ creditlist: tempcreditlist });
@@ -370,7 +370,7 @@ class RTree extends React.Component {
       let tempdebitlist = [];
       let temptu = 0;
       for (const [key, value] of Object.entries(t)) {
-        tempdebitlist.push(`Purpose: ${key} Funds: ${value.value} To: ${value.to}`)
+        tempdebitlist.push({ Purpose: key, Funds: value.value, To: value.to });
         temptu = temptu + parseInt(value.value);
       }
       this.setState({ debitlist: tempdebitlist });
@@ -390,7 +390,7 @@ class RTree extends React.Component {
     let t = linkvalue[source + target].purposes
     let templinklist = [];
     for (const [key, value] of Object.entries(t)) {
-      templinklist.push(`Purpose: ${key} Funds: ${value}`)
+      templinklist.push({ Purpose: key, Funds: value })
     }
     this.setState({ linklist: templinklist });
     this.setState({ totalrecv: linkvalue[source + target].totalvalue })
@@ -424,22 +424,22 @@ class RTree extends React.Component {
               {/* <Title level={3}></Title> */}
               <Divider orientation="left" style={{ fontSize: '20px' }}>Credit</Divider>
               <Text style={{ fontSize: '18px' }}>Total Funds Received: {this.state.totalrecv} </Text>
-              {this.state.crebitlist && this.state.crebitlist.map((obj) => {
+              {this.state.creditlist && this.state.creditlist.map((obj) => {
                 return <div className="token-card">
-                  <b>Purpose: </b>{obj.purpose}<br />
-                  <b>Funds: </b>{obj.funds}<br />
-                  <b>To: </b>{obj.to}<br />
+                  <b>Purpose: </b>{obj.Purpose}<br />
+                  <b>Funds: </b>{obj.Funds}<br />
+                  <b>From: </b>{obj.From}<br />
                 </div>
               })}
 
 
-              <Divider orientation="left">Debit</Divider>
+              <Divider orientation="left" style={{ fontSize: '20px' }}>Debit</Divider>
               <Text style={{ fontSize: '18px' }}>Utilized Funds: {this.state.totalu} </Text>
               {this.state.debitlist && this.state.debitlist.map((obj) => {
                 return <div className="token-card">
-                  <b>Purpose: </b>{obj.purpose}<br />
-                  <b>Funds: </b>{obj.funds}<br />
-                  <b>To: </b>{obj.to}<br />
+                  <b>Purpose: </b>{obj.Purpose}<br />
+                  <b>Funds: </b>{obj.Funds}<br />
+                  <b>To: </b>{obj.To}<br />
                 </div>
               })}
 
@@ -488,13 +488,13 @@ class RTree extends React.Component {
                       return <div className="token-array">{token}</div>
                   })}
               </div>
-              <Divider orientation="left" style={{ fontSize: '20px' }}>Dedit</Divider>
+              <Divider orientation="left" style={{ fontSize: '20px' }}>Debit</Divider>
               <Text style={{ fontSize: '18px' }}>Utilized Funds: {this.state.totalu} </Text>
               {this.state.debitlist && this.state.debitlist.map((obj) => {
                 return <div className="token-card">
-                  <b>Purpose: </b>{obj.purpose}<br />
-                  <b>Funds: </b>{obj.funds}<br />
-                  <b>To: </b>{obj.to}<br />
+                  <b>Purpose: </b>{obj.Purpose}<br />
+                  <b>Funds: </b>{obj.Funds}<br />
+                  <b>To: </b>{obj.To}<br />
                 </div>
               })}
 
@@ -521,9 +521,8 @@ class RTree extends React.Component {
               <Text style={{ fontSize: '18px' }}>Total Transfered: {this.state.totalrecv} </Text>
               {this.state.linklist && this.state.linklist.map((obj) => {
                 return <div className="token-card">
-                  <b>Purpose: </b>{obj.purpose}<br />
-                  <b>Funds: </b>{obj.funds}<br />
-                  <b>To: </b>{obj.to}<br />
+                  <b>Purpose: </b>{obj.Purpose}<br />
+                  <b>Funds: </b>{obj.Funds}<br />
                 </div>
               })}
             </Space>
