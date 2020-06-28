@@ -21,6 +21,7 @@ contract paardarshak {
      struct fundinfo {
        string name;
        string description;
+       address owner;
    }
 
    fundinfo f;
@@ -56,7 +57,7 @@ contract paardarshak {
         listedAuthorities.push(owner);
         f.name = _fname;
         f.description = _fdesc;
-        
+        f.owner = _owner;
     }
    
 

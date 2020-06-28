@@ -231,6 +231,10 @@
 			display: flex;
 			justify-content: space-evenly;
 			align-items: center;
+			.tagline{
+				font-family: 'Sacramento', cursive;
+				font-size: 45px;
+			}
 			.hero-txt {
 				text-align: center;
 				.hero-title {
@@ -298,6 +302,9 @@
 	.root-auth {
 		margin-top: 40px;
 		text-align: center;
+		.buttons{
+			margin: 1px 5px;
+		}
 		.fund-card {
 			// margin-bottom: 30px;
 			box-shadow: 0px 0px 16px -5px rgba(17, 17, 17, 1);
@@ -376,3 +383,14 @@
 		border: none !important;
 	}
 }
+.ant-carousel .slick-slide {
+	text-align: center;
+	height: 160px;
+	line-height: 160px;
+	// background:#36d0ff60;
+	overflow: hidden;
+  }
+  
+  .ant-carousel .slick-slide h3 {
+	color:#00040a;
+  }

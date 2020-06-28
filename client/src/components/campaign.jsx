@@ -14,13 +14,21 @@ const { Paragraph } = Typography;
 class Campaign extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { name: '', value: '', success: false, donationkey: null };
+		this.state = { name: '', value: '', success: false, donationkey: null, owner: "", desc: "" };
 		this.handleChange = this.handleChange.bind(this);
 	}
 	handleChange = (e, id) => {
 		this.setState({ [id]: e.target.value });
 	};
+	componentDidMount = async () => {
 
+		const { contract, accounts } = this.props.web3;
+		contract.methods.getFundInfo().call({ from: accounts[0], gas: 3000000 })
+			.then((result) => {
+				this.setState({ owner: result.owner, desc: result.description })
+			})
+
+	};
 	handleChangeNumber = e => {
 		let value = e.target.value;
 
@@ -58,11 +66,11 @@ class Campaign extends React.Component {
 		contract.methods.donate("0x" + uhash, this.state.value, this.state.name).send({ from: accounts[0], gas: 3000000, value: this.state.value })
 			.then((receipt) => {
 
-				message.success('Donation successful');
+				message.success('Payment successful');
 				console.log(receipt)
 				this.setState({ success: true, donationkey: "0x" + uhash })
 			})
-			.catch((err) => message.error('Sorry your donation was not successful Please try again'))
+			.catch((err) => message.error('Sorry your payment was not successful Please try again'))
 
 	};
 	render() {
@@ -70,7 +78,7 @@ class Campaign extends React.Component {
 			<div className="campaign-wrapper">
 				{this.state.success ? (<Result
 					status="success"
-					title={`We have received your donation with Token key `}
+					title={`We have received your payment with Token key `}
 					visible={this.state.success}
 					// subTitle={"Use this token key to track your donation, Thank you "}
 					extra={<Button type="primary" onClick={this.toggleSuccess}>Go Back</Button>}
@@ -78,16 +86,16 @@ class Campaign extends React.Component {
 					<Paragraph copyable>{this.state.donationkey}</Paragraph>
 				</Result>) :
 					(
-						<Row className="campaign" justify="space-around" align="middle">
+						<Row className="campaign" justify="space-around">
 							<Col className="campaign-desc-wrapper" md={8} sm={18} xs={22}>
 								<p className="campaign-desc-title">Description</p>
-								<p className="campaign-desc">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum — semper quis lectus nulla at volutpat diam ut venenatis.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum — semper quis lectus nulla at volutpat diam ut venenatis.</p>
+								<p className="campaign-desc">{this.state.desc}</p>
 								<p className="campaign-desc-title">Root Owner</p>
-								<p className="campaign-desc">0m3u3b84tv3ij4c3h44</p>
+								<p className="campaign-desc">{this.state.owner}</p>
 							</Col>
 							<Col className="donate-form" md={6} sm={18} xs={22}>
 
-								<div className="donation-title">Donate</div>
+								<div className="donation-title">Payment</div>
 								<br />
 								<Input
 									name="name"

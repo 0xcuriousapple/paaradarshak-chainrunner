@@ -26,7 +26,7 @@ class MidAuth extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: data, purpose: '', fund: '', rowkey: '',
+            data: [], purpose: '', fund: '', rowkey: '',
             nextpurpose: ' ', transfervalue: '', nextAuth: '',
             reason: ' ', payeeaddress: '', paymentValue: '', payeename: '',
             authName: '', authAddr: '',
@@ -37,10 +37,20 @@ class MidAuth extends React.Component {
         }
     }
 
-
-    componentDidMount = async () => {
+    call = () => {
         const { accounts, contract } = this.props.web3;
 
+        let initialState = {
+            data: [], purpose: '', fund: '', rowkey: '',
+            nextpurpose: ' ', transfervalue: '', nextAuth: '',
+            reason: ' ', payeeaddress: '', paymentValue: '', payeename: '',
+            authName: '', authAddr: '',
+            transferVisible: false,
+            paymentVisible: false,
+            labels: [],
+            mapAuthNametoAddress: {}, tokensAtThisAddress: {}
+        };
+        this.setState(initialState);
         console.log(accounts[0]);
         try {
 
@@ -83,7 +93,113 @@ class MidAuth extends React.Component {
                                     let temp
                                     temp = result.CompleteHistoryOfToken;
                                     //console.log(result.CompleteHistoryOfToken);
-                                    if (accounts[0] == temp[temp.length - 1]._owner) {
+                                    if (accounts[0].toLowerCase() == (temp[temp.length - 1]._owner).toLowerCase()) {
+
+                                        console.log(temp)
+                                        let t = this.state.tokensAtThisAddress;
+                                        if (!t.hasOwnProperty(temp[temp.length - 1].purpose)) {
+                                            t[temp[temp.length - 1].purpose] = [];
+                                        }
+                                        t[temp[temp.length - 1].purpose].push({ "key": value, "value": temp[temp.length - 1].value });
+                                        this.setState({ tokensAtThisAddress: t });
+                                    }
+
+                                }));
+
+
+                    }
+                    Promise.all(promises)
+                        .then(() => {
+                            console.log(this.state.tokensAtThisAddress);
+
+
+                            for (var key in this.state.tokensAtThisAddress) {
+                                if (this.state.tokensAtThisAddress.hasOwnProperty(key)) {
+                                    let total = 0;
+                                    let i = 0;
+                                    let perpurposeT = this.state.tokensAtThisAddress[key];
+                                    for (i = 0; i < perpurposeT.length; i++) {
+                                        total = total + parseInt(perpurposeT[i].value);
+                                    }
+
+                                    let d = this.state.data;
+                                    d.push({ 'key': 1, 'purpose': key, 'value': total })
+                                    this.setState({ 'data': [...d] })
+                                }
+                            }
+
+                        })
+
+                })
+
+
+
+
+
+        } catch (error) {
+            // Catch any errors for any of the above operations.
+            message.error('Sorry TX was not successful Please refer console')
+            console.log('sad');
+            console.error(error);
+        }
+    }
+    componentDidMount = async () => {
+        const { accounts, contract } = this.props.web3;
+
+        let initialState = {
+            data: [], purpose: '', fund: '', rowkey: '',
+            nextpurpose: ' ', transfervalue: '', nextAuth: '',
+            reason: ' ', payeeaddress: '', paymentValue: '', payeename: '',
+            authName: '', authAddr: '',
+            transferVisible: false,
+            paymentVisible: false,
+            labels: [],
+            mapAuthNametoAddress: {}, tokensAtThisAddress: {}
+        };
+        this.setState(initialState);
+        console.log(accounts[0]);
+        try {
+
+
+            let l = [];
+            let map = {};
+            contract.methods.getAllListedAuthAddress().call({ from: accounts[0], gas: 3000000 })
+                .then((result) => {
+
+                    let i;
+                    console.log(result);
+                    for (i = 0; i < result.length; i++) {
+                        let temp = result[i];
+                        contract.methods.getSingleAuthDetails(temp).call({ from: accounts[0], gas: 3000000 })
+                            .then((result) => {
+                                l.push({ 'value': result['name'] })
+                                map[result['name']] = temp;
+                            })
+
+                    }
+
+                })
+            this.setState({ labels: l })
+            this.setState({ mapAuthNametoAddress: map })
+
+            contract.methods.getAllTokenKeys().call({ from: accounts[0], gas: 3000000 })
+                .then((result) => {
+                    tokenkeys = result
+                })
+                .then(() => {
+                    let i = 0;
+                    let promises = [];
+                    for (i = 0; i < tokenkeys.length; i++) {
+                        let value = tokenkeys[i];
+                        promises.push(
+                            contract.methods.getSingleTokenDetails(value).call({ from: accounts[0], gas: 3000000 })
+                                .then((result) => {
+
+                                    console.log(result);
+                                    let temp
+                                    temp = result.CompleteHistoryOfToken;
+                                    //console.log(result.CompleteHistoryOfToken);
+                                    if (accounts[0].toLowerCase() == (temp[temp.length - 1]._owner).toLowerCase()) {
 
                                         console.log(temp)
                                         let t = this.state.tokensAtThisAddress;
@@ -200,20 +316,27 @@ class MidAuth extends React.Component {
                 if (temp == aim) {
 
                     let k;
+                    let promises = [];
                     for (k = 0; k <= breakp; k++) {
-                        contract.methods.transferToken(y[k].key, '1', this.state.nextAuth, this.state.nextpurpose, this.state.mapAuthNametoAddress[this.state.nextAuth]).send({ from: accounts[0], gas: 3000000 })
-                            .then((receipt) => {
-                                if (k == 0) {
-                                    let newbal = this.state.funds - parseInt(aim);
-                                    let d = this.state.data;
-                                    d[parseInt(this.state.rowkey) - 1].value = newbal
-                                    this.setState({ data: [d] });
-                                    console.log(receipt)
+                        promises.push(
+                            new Promise((resolve, reject) => {
+                                contract.methods.transferToken(y[k].key, '1', this.state.nextAuth, this.state.nextpurpose, this.state.mapAuthNametoAddress[this.state.nextAuth]).send({ from: accounts[0], gas: 3000000 })
+                                    .then((receipt) => {
+                                        if (k == 0) {
+                                            let newbal = this.state.funds - parseInt(aim);
+                                            let d = this.state.data;
+                                            d[parseInt(this.state.rowkey) - 1].value = newbal
+                                            this.setState({ data: [d] });
+                                            console.log(receipt)
 
-                                }
-                            }).catch((error) => { console.log(error) })
+                                        }
+                                    }).then(() => { resolve(); })
+                            }))
                     }
-                    this.setState({ transferVisible: false });
+
+                    Promise.all(promises).then(() => { this.call(); this.setState({ transferVisible: false }); })
+
+
                 }
                 else if (temp > aim) {
                     message.success('There will be 2 TXs as we have to break the token in this case');
@@ -228,21 +351,27 @@ class MidAuth extends React.Component {
                             let newbal = this.state.funds - parseInt(aim);
 
                             let k;
+                            let promises = [];
                             for (k = 0; k <= breakp; k++) {
-                                contract.methods.transferToken(y[breakp].key, '1', this.state.nextAuth, this.state.nextpurpose, this.state.mapAuthNametoAddress[this.state.nextAuth]).send({ from: accounts[0], gas: 3000000 })
-                                    .then((receipt) => {
+                                promises.push(
+                                    new Promise((resolve, reject) => {
+                                        contract.methods.transferToken(y[breakp].key, '1', this.state.nextAuth, this.state.nextpurpose, this.state.mapAuthNametoAddress[this.state.nextAuth]).send({ from: accounts[0], gas: 3000000 })
+                                            .then((receipt) => {
 
-                                        if (k == 0) {
-                                            let d = this.state.data;
-                                            d[parseInt(this.state.rowkey) - 1].value = newbal
-                                            this.setState({ data: [d] });
-                                            console.log(receipt)
-                                        }
+                                                if (k == 0) {
+                                                    let d = this.state.data;
+                                                    d[parseInt(this.state.rowkey) - 1].value = newbal
+                                                    this.setState({ data: [d] });
+                                                    console.log(receipt)
+                                                }
 
-                                    })
+                                            }).then(() => {
+                                                resolve();
+                                            })
+                                    }))
                             }
-                            this.setState({ transferVisible: false });
 
+                            Promise.all(promises).then(() => { this.call(); this.setState({ transferVisible: false }); })
                         })
 
                 }
@@ -296,20 +425,25 @@ class MidAuth extends React.Component {
 
                     let k;
                     console.log(y);
+                    let promises = [];
                     for (k = 0; k <= breakp; k++) {
-                        contract.methods.paymentToLeaf(y[k].key, this.state.payeeaddress, this.state.payeename, this.state.reason).send({ from: accounts[0], gas: 3000000, value: y[k].value })
-                            .then(() => {
+                        promises.push(
+                            new Promise((resolve, reject) => {
+                                contract.methods.paymentToLeaf(y[k].key, this.state.payeeaddress, this.state.payeename, this.state.reason).send({ from: accounts[0], gas: 3000000, value: y[k].value })
+                                    .then(() => {
 
-                                if (k == 0) {
-                                    let newbal = this.state.funds - parseInt(aim);
-                                    let d = this.state.data;
-                                    d[parseInt(this.state.rowkey) - 1].value = newbal
-                                    this.setState({ data: [d] });
+                                        if (k == 0) {
+                                            let newbal = this.state.funds - parseInt(aim);
+                                            let d = this.state.data;
+                                            d[parseInt(this.state.rowkey) - 1].value = newbal
+                                            this.setState({ data: [d] });
 
-                                }
-                            })
+                                        }
+                                    }).then(() => { resolve(); })
+                            }));
                     }
-                    this.setState({ paymentVisible: false });
+                    Promise.all(promises).then(() => { this.call(); this.setState({ paymentVisible: false }); })
+
 
 
                 }
@@ -326,20 +460,25 @@ class MidAuth extends React.Component {
                             let newbal = this.state.funds - parseInt(aim);
 
                             let k;
+                            let promises = [];
                             for (k = 0; k <= breakp; k++) {
-                                contract.methods.paymentToLeaf(y[k].key, this.state.payeeaddress, this.state.payeename, this.state.reason).send({ from: accounts[0], gas: 3000000, value: y[k].value })
-                                    .then(() => {
+                                promises.push(
+                                    new Promise((resolve, reject) => {
+                                        contract.methods.paymentToLeaf(y[k].key, this.state.payeeaddress, this.state.payeename, this.state.reason).send({ from: accounts[0], gas: 3000000, value: y[k].value })
+                                            .then(() => {
 
-                                        if (k == 0) {
-                                            let newbal = this.state.funds - parseInt(aim);
-                                            let d = this.state.data;
-                                            d[parseInt(this.state.rowkey) - 1].value = newbal
-                                            this.setState({ data: [d] });
+                                                if (k == 0) {
+                                                    let newbal = this.state.funds - parseInt(aim);
+                                                    let d = this.state.data;
+                                                    d[parseInt(this.state.rowkey) - 1].value = newbal
+                                                    this.setState({ data: [d] });
 
-                                        }
-                                    })
+                                                }
+                                            }).then(() => { resolve(); })
+                                    }));
                             }
-                            this.setState({ paymentVisible: false });
+
+                            Promise.all(promises).then(() => { this.call(); this.setState({ paymentVisible: false }); })
 
                         })
 
@@ -384,9 +523,9 @@ class MidAuth extends React.Component {
                 title: 'Actions',
                 key: 'Actions',
                 render: (text, record) => {
-                    return <div>
-                        <Button size="small" type="primary" onClick={() => this.handleTransfer(record)}>Transfer</Button>
-                        <Button size="small" type="primary" onClick={() => this.handlePayment(record)}>Payment</Button>
+                    return <div >
+                        <Button size="small" className="buttons" type="primary" onClick={() => this.handleTransfer(record)}>Transfer</Button>
+                        <Button size="small" className="buttons" type="primary" onClick={() => this.handlePayment(record)}>Payment</Button>
                     </div>
                 }
             },
@@ -396,7 +535,7 @@ class MidAuth extends React.Component {
                 <Row justify="space-around" align="middle">
                     <Col xs={23} sm={22} md={20}>
 
-                        <Table title={() => <div style={{textAlign: 'left', fontSize: '20px', fontFamily:'"Open Sans", sans-serif'}}>{this.props.midAuthName}</div>} bordered style={{ overflowX: 'auto' }} columns={columns} dataSource={this.state.data} /><br /><br />
+                        <Table title={() => <div style={{ textAlign: 'left', fontSize: '20px', fontFamily: '"Open Sans", sans-serif' }}>{this.props.midAuthName}</div>} bordered style={{ overflowX: 'auto' }} columns={columns} dataSource={this.state.data} /><br /><br />
                         <Button type="primary" onClick={() => this.toggleModalVisible(true, 'authVisible')}>Add Authority</Button>
                     </Col>
                 </Row>

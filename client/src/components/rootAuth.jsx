@@ -20,7 +20,10 @@ class RootAuth extends React.Component {
     }
     componentDidMount = async () => {
 
-        const { accounts, contract } = this.props.web3;
+
+        const { contract } = this.props.web3;
+        const accounts = this.props.acc;
+        console.log(accounts[0]);
         try {
             let l = [];
             let map = {};
@@ -51,6 +54,7 @@ class RootAuth extends React.Component {
                 .then(() => {
                     let promises = [];
                     let i = 0;
+
                     for (i = 0; i < tokenkeys.length; i++) {
                         let value = tokenkeys[i];
                         promises.push(
@@ -60,7 +64,7 @@ class RootAuth extends React.Component {
 
                                         let temp
                                         temp = result.CompleteHistoryOfToken;
-                                        if (accounts[0] == temp[temp.length - 1]._owner) {
+                                        if (accounts[0].toLowerCase() == (temp[temp.length - 1]._owner).toLowerCase()) {
                                             let t = this.state.tokensAtThisAddress;
 
                                             t.push({ "key": value, "value": temp[temp.length - 1].value })
@@ -112,7 +116,8 @@ class RootAuth extends React.Component {
     handleUtilize = () => {
 
         try {
-            const { accounts, contract } = this.props.web3;
+            const { contract } = this.props.web3;
+            const accounts = this.props.acc;
             if (this.state.value > this.state.funds) { message.error('Insufficient Balance'); }
             else {
                 let i = 0
@@ -138,24 +143,31 @@ class RootAuth extends React.Component {
                     let before = this.state.funds;
 
 
+                    let promises = [];
                     for (k = 0; k <= breakp; k++) {
+                        promises.push(
+                            new Promise((resolve, reject) => {
+                                contract.methods.transferToken(this.state.tokensAtThisAddress[k].key, '1', this.state.authority, this.state.purpose, this.state.mapAuthNametoAddress[this.state.authority]).send({ from: accounts[0], gas: 3000000 })
+                                    .then((receipt) => {
+                                        if (this.state.funds === before) {
+                                            let newbal = this.state.funds - parseInt(aim);
+                                            console.log("hello");
+                                            console.log(newbal);
+                                            this.setState({ funds: newbal });
+                                        }
 
-                        contract.methods.transferToken(this.state.tokensAtThisAddress[k].key, '1', this.state.authority, this.state.purpose, this.state.mapAuthNametoAddress[this.state.authority]).send({ from: accounts[0], gas: 3000000 })
-                            .then((receipt) => {
-                                if (this.state.funds === before) {
-                                    let newbal = this.state.funds - parseInt(aim);
-                                    console.log("hello");
-                                    console.log(newbal);
-                                    this.setState({ funds: newbal });
-                                }
-
-                            }).catch((error) => { console.log(error) })
+                                    }).then(() => { resolve(); })
+                            }));
                     }
 
-                    if (this.state.funds != before) {
-                        let x = this.state.tokensAtThisAddress.slice(breakp + 1, this.state.tokensAtThisAddress.length);
-                        this.setState({ utilizeVisible: false }, { tokensAtThisAddress: x });
-                    }
+                    Promise.all(promises).then(() => {
+                        if (this.state.funds != before) {
+                            let x = this.state.tokensAtThisAddress.slice(breakp + 1, this.state.tokensAtThisAddress.length);
+                            this.setState({ utilizeVisible: false });
+                            this.setState({ tokensAtThisAddress: x });
+                        }
+                    })
+
                 }
                 else if (temp > aim) {
                     message.success('There will be 2 TXs as we have to break the token in this case');
@@ -169,23 +181,39 @@ class RootAuth extends React.Component {
                         .then(() => {
                             let k;
                             let before = this.state.funds;
+                            let promises = [];
                             for (k = 0; k <= breakp; k++) {
-                                contract.methods.transferToken(this.state.tokensAtThisAddress[k].key, '1', this.state.authority, this.state.purpose, this.state.mapAuthNametoAddress[this.state.authority]).send({ from: accounts[0], gas: 3000000 })
-                                    .then((receipt) => {
+                                promises.push(
+                                    new Promise((resolve, reject) => {
+                                        contract.methods.transferToken(this.state.tokensAtThisAddress[k].key, '1', this.state.authority, this.state.purpose, this.state.mapAuthNametoAddress[this.state.authority]).send({ from: accounts[0], gas: 3000000 })
+                                            .then((receipt) => {
 
-                                        if (this.state.funds === before) {
-                                            let newbal = this.state.funds - parseInt(aim);
-                                            console.log("hello");
-                                            console.log(newbal);
-                                            this.setState({ funds: newbal });
-                                        }
-                                    })
+                                                if (this.state.funds === before) {
+                                                    let newbal = this.state.funds - parseInt(aim);
+                                                    console.log("hello");
+                                                    console.log(newbal);
+                                                    this.setState({ funds: newbal });
+                                                }
+                                            }).then(() => { resolve(); })
+                                    }))
                             }
-                            if (this.state.funds != before) {
-                                let x = this.state.tokensAtThisAddress.slice(breakp + 1, this.state.tokensAtThisAddress.length);
-                                x.push(this.state.tokensAtThisAddress[breakp].childtoken);
-                                this.setState({ utilizeVisible: false }, { tokensAtThisAddress: x });
-                            }
+                            Promise.all(promises).then(() => {
+                                if (this.state.funds != before) {
+                                    contract.methods.getSingleTokenDetails(this.state.tokensAtThisAddress[breakp].key).call({ from: accounts[0], gas: 3000000 })
+                                        .then((result) => {
+
+                                            let temp = result.CompleteHistoryOfToken;
+                                            let add = temp[temp.length - 1].childtoken;
+                                            let x = this.state.tokensAtThisAddress.slice(breakp + 1, this.state.tokensAtThisAddress.length);
+                                            x.push({ "key": add, "value": t });
+                                            this.setState({ utilizeVisible: false });
+                                            this.setState({ tokensAtThisAddress: x });
+
+                                        })
+
+                                }
+                            })
+
                         })
                 }
                 console.log(this.state.purpose, parseInt(this.state.value), this.state.authority);
@@ -214,7 +242,9 @@ class RootAuth extends React.Component {
 
         // console.log(this.state.authName, this.state.authAddr);
         try {
-            const { accounts, contract } = this.props.web3;
+            const { contract } = this.props.web3;
+            const accounts = this.props.acc;
+
             contract.methods.addAuthority(this.state.authName, this.state.authAddr).send({ from: accounts[0], gas: 3000000 })
                 .then((receipt) => {
 
@@ -262,7 +292,7 @@ class RootAuth extends React.Component {
 
                         <Title level={2}>Root Authority</Title>
                         <Paragraph>
-                            Root Authority is the one who owns the donated funds initially
+                            Root Authority is the one who owns the tokens initially
                         </Paragraph>
                         <Paragraph>
                             <ul>

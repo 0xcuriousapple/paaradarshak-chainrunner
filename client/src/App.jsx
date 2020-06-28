@@ -12,7 +12,7 @@ import Paardarshak from "./contracts/paardarshak.json";
 import getWeb3 from "./getWeb3";
 
 class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, parentcontract: null, contract: null };
+  state = { storageValue: 0, web3: null, accounts: null, parentContract: null, contract: null };
 
   componentDidMount = async () => {
     try {
@@ -30,27 +30,27 @@ class App extends Component {
         deployedNetwork && deployedNetwork.address,
       );
       console.log(instance)
-      // this.setState({ web3, accounts, contract: instance });
-      instance.methods.createFunds("check", "checkdesc").send({ from: accounts[0], gas: 3000000 })
-        .then((receipt) => {
-          console.log(receipt);
-          this.setState({ web3, accounts, contract: instance });
-          let all;
-          instance.methods.getAllDeployedFunds().call({ from: accounts[0], gas: 3000000 }).
-            then((result) => {
-              all = result;
-              let add = all[all.length - 1];
-              const instance2 = new web3.eth.Contract(Paardarshak.abi, add);
-              instance2.methods.getAllTokenKeys().call({ from: accounts[0], gas: 30000000 })
-                .then((result) => {
-                  console.log(result);
-                })
+      this.setState({ web3, accounts, parentContract: instance });
+      // instance.methods.createFunds("check", "checkdesc").send({ from: accounts[0], gas: 3000000 })
+      //   .then((receipt) => {
+      //     console.log(receipt);
+      //     this.setState({ web3, accounts, contract: instance });
+      //     let all;
+      //     instance.methods.getAllDeployedFunds().call({ from: accounts[0], gas: 3000000 }).
+      //       then((result) => {
+      //         all = result;
+      //         let add = all[all.length - 1];
+      //         const instance2 = new web3.eth.Contract(Paardarshak.abi, add);
+      //         instance2.methods.getAllTokenKeys().call({ from: accounts[0], gas: 30000000 })
+      //           .then((result) => {
+      //             console.log(result);
+      //           })
 
-              this.setState({ web3, accounts, contract: instance2 });
+      //         this.setState({ web3, accounts, contract: instance2 });
 
-            })
+      //       })
 
-        })
+      //   })
 
 
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -78,7 +78,7 @@ class App extends Component {
         <div className="loading">
           <Spin tip="">
             <Alert
-              message={<div style={{ textAlign: 'center', color: '#000', fontSize: '22px', fontFamily: '"Open Sans", sans-serif' }}>Loading<br />Web3, accounts, and contract...</div>}
+              message={<div style={{ textAlign: 'center', color: '#000', fontSize: '22px', fontFamily: '"Open Sans", sans-serif' }}>Loading<br />Web3, Accounts, and Contract...</div>}
               description=""
               type="info"
             />
