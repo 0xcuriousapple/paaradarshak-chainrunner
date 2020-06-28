@@ -116,6 +116,7 @@ class Home extends React.Component {
     handleChangeMenu = (key) => {
         this.handleToggleDrawer(false);
         this.setState({ selectedMenuItem: key });
+        if(key=='0') this.setState({campaignName: ''});
     }
     liveCampClicked = (name, owner) => {
         this.setState({ selectedMenuItem: '2', campaignName: name, drawerVisible: false });
