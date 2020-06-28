@@ -98,7 +98,7 @@ class Landing extends React.Component {
 				// let t = this.state.mapNametoAddress;
 				// t[fundinfo.name] = add;
 				// this.setState({ mapNametoAddress: t });
-				if (fundinfo.name != 'Federal Taxes' && fundinfo.name != 'Federal Tax') {
+				if (fundinfo.name != 'Federal Taxes' && fundinfo.name != 'Federal Tax' && fundinfo.name != 'pmcares') {
 					let t = this.state.liveCamp;
 					t.push({ 'name': fundinfo.name, 'owner': add });
 					this.setState({ liveCamp: t });
