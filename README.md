@@ -1,68 +1,100 @@
-<h1 align="center"> <img width="70" height="70" src="https://i.ibb.co/85JrF8R/logo.png"> Paardarshak</h1>
+<h1 align="center"> Paardarshak</h1>
 
+<p align="center">
+  <img width="100" height="100" src="https://i.ibb.co/85JrF8R/logo.png">
+</p>
 
 ## The Problem It Solves 🌈
 
-- Several donation campaigns are initiated to raise funds for those in need. 
-- The donor is not aware of the way these funds are being utilized. 
-- With Pardarshak the donor can not only visualize how the total funds raised are being utilized but will also be able to know how his individual contribution is being used.
-- Pardarshak redefines trust by enabling highly visible and traceable transactions, allowing donors to track all their transactions from the beginning to the end and verify where their funds were used. 
-- It also prevents fraudulent intermediaries from pocketing part of the money that was meant for the recipient. 
-- The system is decentralized and can be managed by the people eliminating the need of a central authority for collecting the donations.
+- Payers are unaware of how their money is utilized
+- Fraudulent authorities indulge in corruption
+- These problems restrict payers from paying proper tax or donate in a campaign as they are not sure about the legitimacy of authorities in the chain
+
 ## Solution
 
+- **Track** : Payer can track how his individual contribution is being used.
+- **Audit** : Anyone can audit how the total funds are being utilized
+- **Corruptionless** : The exchange of funds between authorities is publicly available and is immutable.
 
 
 ## Use Case Diagram ✏️
 
 ![Use Case Diagram (Small)](https://user-images.githubusercontent.com/34777376/85917978-71a02e80-b87c-11ea-92d0-8fdbc6af0ff5.png)
 
-## Flow of funds ✏️
+## Token Creation, Allot, Transfer, Payment ✏️
 
-add second diagram
+![Block Diagram - Page 1 (Small)](https://user-images.githubusercontent.com/34777376/85943407-84366880-b94d-11ea-9fa1-157a899d623e.png)
 
 ## Demo 🔥 
 
 [![Paardarshak Demo](https://j.gifs.com/QnlRQ0.gif)](https://www.youtube.com/watch?v=0uxsD9Enb9Q)
 
 ## Technologies Used ⚡️
--  Front End Frameworks:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**HTML, CSS, React, Javascript**
--  Compiling and Deploying Smart Contracts:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Truffle**
--  Blockchain used:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Matic**
--  Interacting with Smart Contracts:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Web3 JS**
+-  Front End Frameworks: **HTML, CSS, React, Javascript**
+-  Compiling and Deploying Smart Contracts:  **Truffle**
+-  Blockchain used:  **Matic**
+-  Interacting with Smart Contracts:  **Web3 JS**
 
 ## Instructions 📝 
 
 ### Installation
 
-Get started quickly by cloning this repository.
-Install the dependencies
-```sh
-$ npm install
-```
+Get started quickly by cloning this repository. Install the dependencies
 ```sh
 $ cd client && npm install
 ```
 
-### Initilizing Local Truffle Blockchain
+### Testing on Local Truffle Blockchain
 
+- Creating .secret file for your mnemonic
+1) In root directoy create .secret file
+2) open metamask
+3) click on circle blue one
+4) settings
+5) security and policy
+6) reveal seed words
+7) enter password
+8) next
+9) copy the mnemonic (never push it to public repo)
+10) paste in .secret
+
+- Truffle Development Console
 ```sh
 $ truffle develop
 ```
+this will open truffle developer console
+you will get 10 account addresses , import some of them in metamask by import account option.
+
+- Truffle Compile
 ```sh
-$ compile
+$ truffle compile
 ```
+- Truffle Migration Local Network
+
 ```sh
-$ migrate
+$ truffle migrate
 ```
-### Client Server
+- Truffle Migration Matic Network
+```sh
+$ truffle migrate --network matic
+```
+### Starting the Server
 ```sh
 $ cd client && npm start
 ```
 
 ## Future Aspects 🚀
 
+- **Payment via UPI | Onboarding more people**
 
+Currently users pay in Matic Tokens,UPI can be integrated as a mode of payment. But it was not possible to get a GSTIN number to connect with payment APIs like (Razor or Google pay) in such a short time.
+
+- **Uploading Result Proof | Adding more Legitimacy**
+
+Currently the last stakeholder of authority chains, just enters the result as text without giving any proof for it. We plan to add a feature where they can upload result receipt or photo through MoBit.
+
+## Any Query ?
+ - Join us on [**discord**](https://discord.gg/sK2X6eY)
 ## Team Members 🏁
 
 1. [**Abhishek Vispute**](https://github.com/abhishekvispute/)
