@@ -46,7 +46,7 @@ $ cd client && npm install
 
 ### Testing on Local Truffle Blockchain
 
-Creating .secret file for your mnemonic
+- Creating .secret file for your mnemonic
 1) In root directoy create .secret file
 2) open metamask
 3) click on circle blue one
@@ -58,18 +58,26 @@ Creating .secret file for your mnemonic
 9) copy the mnemonic (never push it to public repo)
 10) paste in .secret
 
+- Truffle Development Console
 ```sh
 $ truffle develop
 ```
 this will open truffle developer console
-you will get 10 account address , import some of them in metamask by import account option.
-```sh
-$ compile
-```
-```sh
-$ migrate
-```
+you will get 10 account addresses , import some of them in metamask by import account option.
 
+- Truffle Compile
+```sh
+$ truffle compile
+```
+- Truffle Migration
+Local Network
+```sh
+$ truffle migrate
+```
+Matic Network
+```sh
+$ truffle migrate --network matic
+```
 ### Starting the Server
 ```sh
 $ cd client && npm start
