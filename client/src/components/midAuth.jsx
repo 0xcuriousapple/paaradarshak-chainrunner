@@ -261,7 +261,7 @@ class MidAuth extends React.Component {
                 return false;
             }
         }
-
+        return true;
     }
     handleAddAuth = () => {
 

@@ -253,6 +253,7 @@ class RootAuth extends React.Component {
                 return false;
             }
         }
+        return true;
 
     }
     handleAddAuth = () => {
