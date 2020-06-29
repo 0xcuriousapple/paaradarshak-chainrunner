@@ -28,7 +28,7 @@
 
 
 ## Working Demo 🔥  paaradarshak.herokuapp.com
--Live on [Paardarshak](http://paaradarshak.herokuapp.com)
+- Live on [Paardarshak](http://paaradarshak.herokuapp.com)
 
 [![Paardarshak Demo](https://j.gifs.com/q7qWBk.gif)](https://www.youtube.com/watch?v=Zh_QQSMK-cY)
 
