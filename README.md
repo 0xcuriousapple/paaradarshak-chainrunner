@@ -99,14 +99,13 @@ Note that there is a single authority, which does payments.
 #### Coming to Paaradarshak
 - **We track particularly who is corrupt in the chain.**
 The prime focus of paardarshak is in funds where there are multiple authorities. Once the fund owner allots some funds to the child, the child can transfer it to other children.
-Imagine the government spending passed down from central gov to ministries to MPs to MLAs. The audience for Paaradarshak is different, however, it can act as a fundraising platform as well.
+Imagine the government spending passed down from central gov to ministries to MPs to MLAs. The audience for Paaradarshak is different, however, It also acts as a fundraising platform as well.
 
 *Consider Paardarshak as a superset of fundraising.*
 *Paardarshak covers a wide range of usecases from Government Budgets, Taxes Utilizations to Corporate funds.*
 
 -  **Individual contribution tracking** 
-In Aduitorium they track utilization of complete funds, not the utilization of individual contributions. We do both, if you donate 100 rs, you can not only check how the total funds raised by all the contributors were used but you can also track how your individual contribution is being utilized. This thing can be extended to real-time governance, where payers can vote if they want their money used for proposed cause or not.
-
+In Aduitorium, they track the utilization of complete funds, not the utilization of individual contributions. We do both, if you donate 100 rs, you can not only check how the total funds raised by all the contributors were used but you can also track how your individual contribution is being utilized. This thing can be extended to real-time governance, where payers get real-time notification of how their contribution is being utilized.
 
 *Therefore we are different and target different audiences.*
 
