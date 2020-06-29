@@ -85,8 +85,8 @@ $ cd client && npm start
 
 Hi, This is Abhishek, team member of **Paaradarshak** (Project listed above).
 When we sent this submission to community for review.
-Many pointed out that we are similar to Previous ETH India winner [**Aduitorium**](https://devfolio.co/submissions/aduitorium).
-We knew auditorium from start, it didn't bother us, as we think we are different from them, let's see the difference.
+Some members thought that we are similar to Previous ETH India winner [**Aduitorium**](https://devfolio.co/submissions/aduitorium).
+But we are different from each other, let's see the difference.
 
 ### Difference 
 
