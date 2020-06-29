@@ -136,7 +136,7 @@ contract paardarshak {
        _add.transfer(msg.value);
         uint256 temp = donations[_key].CompleteHistoryOfToken.length-1;
         donations[_key].CompleteHistoryOfToken.push(SingleInstanceOfHistory(
-            msg.value,2,_name,_purpose,_add, donations[_key].CompleteHistoryOfToken[temp].childtoken
+            donations[_key].CompleteHistoryOfToken[temp].value,2,_name,_purpose,_add, donations[_key].CompleteHistoryOfToken[temp].childtoken
         ));
    } 
    

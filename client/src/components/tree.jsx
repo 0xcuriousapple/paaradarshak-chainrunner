@@ -92,205 +92,220 @@ class RTree extends React.Component {
         .then((result) => {
           console.log(result);
           tokenkeys = result;
+
         })
         .then(() => {
-          let i = 0;
-          let ifnodeexist = {};
-          let promises = [];
+          if (typeof tokenkeys[0] === 'undefined') {
 
-          for (i = 0; i < tokenkeys.length; i++) {
-            let value = tokenkeys[i];
-            //console.log(ownerCompleteInfo);
-            promises.push(
-              new Promise(function (resolve, reject) {
-                contract.methods
-                  .getSingleTokenDetails(value)
-                  .call({ from: accounts[0], gas: 3000000 })
-                  .then((result) => {
-                    let temp;
-                    temp = result.CompleteHistoryOfToken;
-                    let j;
-                    console.log(temp);
-                    parentadd = temp[0]._owner;
-                    for (j = 0; j < temp.length; j++) {
-                      if (
-                        !ifnodeexist.hasOwnProperty(temp[j]._owner) &&
-                        parentadd != temp[j]._owner
-                      ) {
-                        ifnodeexist[temp[j]._owner] = true;
-                        data.nodes.push({ id: temp[j].nameOfOwner });
-                        ownerCompleteInfo[temp[j].nameOfOwner] = {
-
-                          'credit': {},
-                          'debit': {}
-                        }
-                        if (j != temp.length - 1) ownerCompleteInfo[temp[j + 1].nameOfOwner] = {
-                          'credit': {},
-                          'debit': {}
-                        }
-                      }
-                      let flag = 1;
-                      if (j < temp.length - 1 && temp[j].nameOfOwner == temp[j + 1].nameOfOwner) {
-                        flag = 0;
-                      }
-                      if (temp[j]._owner == parentadd && flag == 1) {
-                        //root owner credit
-                        ownerCompleteInfo['root'].credit.value = parseInt(ownerCompleteInfo['root'].credit.value) + parseInt(temp[j].value);
-                      }
-                      if (j > 0 && flag == 1) {
-                        // j owner credit
-                        let name = temp[j].nameOfOwner;
-                        if (temp[j]._owner != parentadd) {
-
-                          //console.log(name);
-                          let t = ownerCompleteInfo[name];
-                          let credit = t['credit'];
-                          //let credit = ownerCompleteInfo[temp[j].nameOfOwner]['credit'];
-                          if (credit.hasOwnProperty(temp[j].purpose)) {
-                            credit[temp[j].purpose].value = credit[temp[j].purpose].value + parseInt(temp[j].value);
-                            credit[temp[j].purpose].tokens.push(tokenkeys[i]);
-                          }
-                          else {
-                            credit[temp[j].purpose] = { 'value': parseInt(temp[j].value), 'from': temp[j - 1].nameOfOwner, 'tokens': [tokenkeys[i]] }
-                          }
-                          ownerCompleteInfo[name]['credit'] = credit;
-                        }
-                      }
-
-                      if (j < temp.length - 1 && flag == 1) {
-                        //j owner debit
-                        let name = temp[j].nameOfOwner;
-                        if (temp[j]._owner === parentadd) name = 'root'
-
-                        let t = ownerCompleteInfo[name];
-                        let debit = t['debit'];
-                        if (debit.hasOwnProperty(temp[j + 1].purpose)) {
-                          debit[temp[j + 1].purpose].value = debit[temp[j + 1].purpose].value + parseInt(temp[j + 1].value);
-                          debit[temp[j + 1].purpose].tokens.push(tokenkeys[i]);
-                        }
-                        else {
-                          debit[temp[j + 1].purpose] = { 'value': parseInt(temp[j + 1].value), 'to': temp[j + 1].nameOfOwner, 'tokens': [tokenkeys[i]] }
-                        }
-                        ownerCompleteInfo[name]['debit'] = debit;
-                      }
-
-                      if (j < temp.length - 1) {
-                        if (temp[j].nameOfOwner != temp[j + 1].nameOfOwner) {
-
-
-                          if (temp[j]._owner == parentadd) {
-                            let link = 'root' + temp[j + 1].nameOfOwner;
-                            if (linkvalue.hasOwnProperty(link)) {
-                              let prop = linkvalue[link]
-                              linkvalue[link].totalvalue = parseInt(linkvalue[link].totalvalue) + parseInt(temp[j + 1].value);
-                              if (!linkvalue[link].purposes.hasOwnProperty(temp[j + 1].purpose)) linkvalue[link].purposes[temp[j + 1].purpose] = 0;
-                              linkvalue[link].purposes[temp[j + 1].purpose] = parseInt(linkvalue[link].purposes[temp[j + 1].purpose]) + parseInt(temp[j + 1].value);
-                              data.links[prop.index].label = parseInt(data.links[prop.index].label) + parseInt(temp[j + 1].value)
-
-                            }
-                            else {
-
-                              data.links.push({
-                                source: "Root",
-                                target: temp[j + 1].nameOfOwner,
-                                label: parseInt(temp[j + 1].value),
-                              });
-                              linkvalue[link] = {
-
-                                'index': data.links.length - 1,
-                                'totalvalue': parseInt(temp[j + 1].value),
-                                'purposes': {
-                                  [temp[j + 1].purpose]: parseInt(temp[j + 1].value)
-                                }
-
-                              }
-                            }
-
-                          } else if (temp[j + 1]._owner == parentadd) {
-                            let link = temp[j + 1].nameOfOwner + 'root';
-
-                            if (linkvalue.hasOwnProperty(link)) {
-
-                              let prop = linkvalue[link]
-                              linkvalue[link].totalvalue = parseInt(linkvalue[link].totalvalue) + parseInt(temp[j + 1].value);
-                              if (!linkvalue[link].purposes.hasOwnProperty(temp[j + 1].purpose)) linkvalue[link].purposes[temp[j + 1].purpose] = 0;
-                              linkvalue[link].purposes[temp[j + 1].purpose] = parseInt(linkvalue[link].purposes[temp[j + 1].purpose]) + parseInt(temp[j + 1].value);
-                              data.links[prop.index].label = parseInt(data.links[prop.index].label) + parseInt(temp[j + 1].value)
-                            }
-                            else {
-
-                              data.links.push({
-                                source: temp[j].nameOfOwner,
-                                target: "Root",
-                                label: parseInt(temp[j + 1].value),
-                              });
-                              linkvalue[link] = {
-
-                                'index': data.links.length - 1,
-                                'totalvalue': parseInt(temp[j + 1].value),
-                                'purposes': {
-                                  [temp[j + 1].purpose]: parseInt(temp[j + 1].value)
-                                }
-
-                              }
-                            }
-
-                          } else {
-                            let link = temp[j].nameOfOwner + temp[j + 1].nameOfOwner;
-                            if (linkvalue.hasOwnProperty(link)) {
-
-                              let prop = linkvalue[link]
-                              linkvalue[link].totalvalue = parseInt(linkvalue[link].totalvalue) + parseInt(temp[j + 1].value);
-                              if (!linkvalue[link].purposes.hasOwnProperty(temp[j + 1].purpose)) linkvalue[link].purposes[temp[j + 1].purpose] = 0;
-                              linkvalue[link].purposes[temp[j + 1].purpose] = parseInt(linkvalue[link].purposes[temp[j + 1].purpose]) + parseInt(temp[j + 1].value);
-                              data.links[prop.index].label = parseInt(data.links[prop.index].label) + parseInt(temp[j + 1].value);
-                            }
-                            else {
-
-                              data.links.push({
-                                source: temp[j].nameOfOwner,
-                                target: temp[j + 1].nameOfOwner,
-                                label: parseInt(temp[j + 1].value)
-                              });
-                              linkvalue[link] = {
-
-                                'index': data.links.length - 1,
-                                'totalvalue': parseInt(temp[j + 1].value),
-                                'purposes': {
-                                  [temp[j + 1].purpose]: parseInt(temp[j + 1].value)
-                                }
-                              }
-                            }
-
-                          }
-
-                          // this.setState({ data: t })
-                        }
-                        if (!tokensAtAddress.hasOwnProperty(temp[j]._owner)) {
-                          tokensAtAddress[temp[j]._owner] = [];
-                        }
-                        tokensAtAddress[temp[j]._owner].push(value);
-                      }
-                    }
-
-                    // this.setState({ 'data': { ...data } })
-                  })
-                  .then(() => {
-                    //console.log("resolved");
-                    resolve();
-                  })
-              })
-            );
           }
+          else {
+            let i = 0;
+            let ifnodeexist = {};
+            let promises = [];
 
-          Promise.all(promises).then(() => {
-            console.log("resolved all");
-            this.setState({ data: data });
-            console.log(this.state.data);
-            console.log(ownerCompleteInfo);
-            console.log(linkvalue);
-          });
-        });
+            contract.methods
+              .getSingleTokenDetails(tokenkeys[0])
+              .call({ from: accounts[0], gas: 3000000 })
+              .then((result) => {
+                parentadd = result.CompleteHistoryOfToken[0]._owner;
+              }).then(() => {
+                for (i = 0; i < tokenkeys.length; i++) {
+                  let value = tokenkeys[i];
+                  //console.log(ownerCompleteInfo);
+                  promises.push(
+                    new Promise(function (resolve, reject, i) {
+                      contract.methods
+                        .getSingleTokenDetails(value)
+                        .call({ from: accounts[0], gas: 3000000 })
+                        .then((result) => {
+                          let temp;
+                          temp = result.CompleteHistoryOfToken;
+                          let j;
+                          console.log(temp);
+
+                          for (j = 0; j < temp.length; j++) {
+                            if (
+                              !ifnodeexist.hasOwnProperty(temp[j]._owner) &&
+                              parentadd != temp[j]._owner
+                            ) {
+                              ifnodeexist[temp[j]._owner] = true;
+                              data.nodes.push({ id: temp[j].nameOfOwner });
+                              ownerCompleteInfo[temp[j].nameOfOwner] = {
+
+                                'credit': {},
+                                'debit': {}
+                              }
+                              if (j != temp.length - 1) ownerCompleteInfo[temp[j + 1].nameOfOwner] = {
+                                'credit': {},
+                                'debit': {}
+                              }
+                            }
+                            let flag = 1;
+                            if (j < temp.length - 1 && temp[j].nameOfOwner == temp[j + 1].nameOfOwner) {
+                              flag = 0;
+                            }
+                            if (temp[j]._owner == parentadd && flag == 1) {
+                              //root owner credit
+                              console.log('sdf');
+                              ownerCompleteInfo['root'].credit.value = parseInt(ownerCompleteInfo['root'].credit.value) + parseInt(temp[j].value);
+                            }
+                            if (flag == 1) {
+                              // j owner credit
+                              let name = temp[j].nameOfOwner;
+                              if (temp[j]._owner != parentadd) {
+
+                                //console.log(name);
+                                let t = ownerCompleteInfo[name];
+                                let credit = t['credit'];
+                                //let credit = ownerCompleteInfo[temp[j].nameOfOwner]['credit'];
+                                if (credit.hasOwnProperty(temp[j].purpose)) {
+                                  credit[temp[j].purpose].value = credit[temp[j].purpose].value + parseInt(temp[j].value);
+                                  credit[temp[j].purpose].tokens.push(tokenkeys[i]);
+                                }
+                                else {
+                                  credit[temp[j].purpose] = { 'value': parseInt(temp[j].value), 'from': temp[j - 1].nameOfOwner, 'tokens': [tokenkeys[i]] }
+                                }
+                                ownerCompleteInfo[name]['credit'] = credit;
+                              }
+                            }
+
+                            if (j < temp.length - 1 && flag == 1) {
+                              //j owner debit
+                              let name = temp[j].nameOfOwner;
+                              if (temp[j]._owner === parentadd) name = 'root'
+
+                              let t = ownerCompleteInfo[name];
+                              let debit = t['debit'];
+                              if (debit.hasOwnProperty(temp[j + 1].purpose)) {
+                                debit[temp[j + 1].purpose].value = debit[temp[j + 1].purpose].value + parseInt(temp[j + 1].value);
+                                debit[temp[j + 1].purpose].tokens.push(tokenkeys[i]);
+                              }
+                              else {
+                                debit[temp[j + 1].purpose] = { 'value': parseInt(temp[j + 1].value), 'to': temp[j + 1].nameOfOwner, 'tokens': [tokenkeys[i]] }
+                              }
+                              ownerCompleteInfo[name]['debit'] = debit;
+                            }
+
+                            if (j < temp.length - 1) {
+                              if (temp[j].nameOfOwner != temp[j + 1].nameOfOwner) {
+
+
+                                if (temp[j]._owner == parentadd) {
+                                  let link = 'root' + temp[j + 1].nameOfOwner;
+                                  if (linkvalue.hasOwnProperty(link)) {
+                                    let prop = linkvalue[link]
+                                    linkvalue[link].totalvalue = parseInt(linkvalue[link].totalvalue) + parseInt(temp[j + 1].value);
+                                    if (!linkvalue[link].purposes.hasOwnProperty(temp[j + 1].purpose)) linkvalue[link].purposes[temp[j + 1].purpose] = 0;
+                                    linkvalue[link].purposes[temp[j + 1].purpose] = parseInt(linkvalue[link].purposes[temp[j + 1].purpose]) + parseInt(temp[j + 1].value);
+                                    data.links[prop.index].label = parseInt(data.links[prop.index].label) + parseInt(temp[j + 1].value)
+
+                                  }
+                                  else {
+
+                                    data.links.push({
+                                      source: "Root",
+                                      target: temp[j + 1].nameOfOwner,
+                                      label: parseInt(temp[j + 1].value),
+                                    });
+                                    linkvalue[link] = {
+
+                                      'index': data.links.length - 1,
+                                      'totalvalue': parseInt(temp[j + 1].value),
+                                      'purposes': {
+                                        [temp[j + 1].purpose]: parseInt(temp[j + 1].value)
+                                      }
+
+                                    }
+                                  }
+
+                                } else if (temp[j + 1]._owner == parentadd) {
+                                  let link = temp[j + 1].nameOfOwner + 'root';
+
+                                  if (linkvalue.hasOwnProperty(link)) {
+
+                                    let prop = linkvalue[link]
+                                    linkvalue[link].totalvalue = parseInt(linkvalue[link].totalvalue) + parseInt(temp[j + 1].value);
+                                    if (!linkvalue[link].purposes.hasOwnProperty(temp[j + 1].purpose)) linkvalue[link].purposes[temp[j + 1].purpose] = 0;
+                                    linkvalue[link].purposes[temp[j + 1].purpose] = parseInt(linkvalue[link].purposes[temp[j + 1].purpose]) + parseInt(temp[j + 1].value);
+                                    data.links[prop.index].label = parseInt(data.links[prop.index].label) + parseInt(temp[j + 1].value)
+                                  }
+                                  else {
+
+                                    data.links.push({
+                                      source: temp[j].nameOfOwner,
+                                      target: "Root",
+                                      label: parseInt(temp[j + 1].value),
+                                    });
+                                    linkvalue[link] = {
+
+                                      'index': data.links.length - 1,
+                                      'totalvalue': parseInt(temp[j + 1].value),
+                                      'purposes': {
+                                        [temp[j + 1].purpose]: parseInt(temp[j + 1].value)
+                                      }
+
+                                    }
+                                  }
+
+                                } else {
+                                  let link = temp[j].nameOfOwner + temp[j + 1].nameOfOwner;
+                                  if (linkvalue.hasOwnProperty(link)) {
+
+                                    let prop = linkvalue[link]
+                                    linkvalue[link].totalvalue = parseInt(linkvalue[link].totalvalue) + parseInt(temp[j + 1].value);
+                                    if (!linkvalue[link].purposes.hasOwnProperty(temp[j + 1].purpose)) linkvalue[link].purposes[temp[j + 1].purpose] = 0;
+                                    linkvalue[link].purposes[temp[j + 1].purpose] = parseInt(linkvalue[link].purposes[temp[j + 1].purpose]) + parseInt(temp[j + 1].value);
+                                    data.links[prop.index].label = parseInt(data.links[prop.index].label) + parseInt(temp[j + 1].value);
+                                  }
+                                  else {
+
+                                    data.links.push({
+                                      source: temp[j].nameOfOwner,
+                                      target: temp[j + 1].nameOfOwner,
+                                      label: parseInt(temp[j + 1].value)
+                                    });
+                                    linkvalue[link] = {
+
+                                      'index': data.links.length - 1,
+                                      'totalvalue': parseInt(temp[j + 1].value),
+                                      'purposes': {
+                                        [temp[j + 1].purpose]: parseInt(temp[j + 1].value)
+                                      }
+                                    }
+                                  }
+
+                                }
+
+                                // this.setState({ data: t })
+                              }
+                              if (!tokensAtAddress.hasOwnProperty(temp[j]._owner)) {
+                                tokensAtAddress[temp[j]._owner] = [];
+                              }
+                              tokensAtAddress[temp[j]._owner].push(value);
+                            }
+                          }
+
+                          // this.setState({ 'data': { ...data } })
+                        })
+                        .then(() => {
+                          //console.log("resolved");
+                          resolve();
+                        })
+                    })
+                  );
+                }
+
+                Promise.all(promises).then(() => {
+                  console.log("resolved all");
+                  this.setState({ data: data });
+                  console.log(this.state.data);
+                  console.log(ownerCompleteInfo);
+                  console.log(linkvalue);
+                });
+              });
+          }
+        })
+
     } catch (error) {
       // Catch any errors for any of the above operations.
       message.error("Sorry TX was not successful Please refer console");

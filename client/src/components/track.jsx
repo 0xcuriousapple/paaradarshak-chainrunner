@@ -89,6 +89,7 @@ const columns2 = [
 
 ];
 
+let childmap = {};
 class Track extends React.Component {
     constructor(props) {
         super(props);
@@ -110,6 +111,7 @@ class Track extends React.Component {
         var name = e.target.name;
         this.setState({ [name]: e.target.value });
     }
+
 
     recursion = (contract, accounts, data, linkvalue, add, ifnodeexist, fundsatnode) => {
         // console.log('asda');
@@ -197,11 +199,19 @@ class Track extends React.Component {
                                     }
                                 }
                             }
+                            if (!childmap.hasOwnProperty(singleinstance.childtoken)) {
+                                childmap[singleinstance.childtoken] = true;
+                                console.log(singleinstance.childtoken, "----asd");
+                                this.recursion(contract, accounts, data, linkvalue, singleinstance.childtoken, ifnodeexist, fundsatnode);
+                            }
+
 
                         }
+
+
                     }
 
-                    this.recursion(contract, accounts, data, linkvalue, singleinstance[5], ifnodeexist, fundsatnode);
+
                 });
 
             // this.count--;
@@ -231,6 +241,7 @@ class Track extends React.Component {
                     }], links: []
                 }
             })
+            childmap = {};
             this.recursion(contract, accounts, graph, linkvalue, startadd, {}, fundsatnode);
 
 
@@ -280,7 +291,7 @@ class Track extends React.Component {
                 this.setState({ tabledata: tempdatatable });
                 console.log(graph);
                 console.log(fundsatnode)
-            }, 3000);
+            }, 4000);
             console.log(this.state.trackArray);
 
 
