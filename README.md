@@ -83,20 +83,20 @@ $ cd client && npm start
 ## Miscellaneous
 ### We are not Aduitorium 
 
-Hi, This is Abhishek, team leader of **Paaradarshak** (Project listed above)
-
-When I sent this submission to community for review 
-They pointed out that we are similar to Previous ETH India winner **Aduitorium** https://devfolio.co/submissions/aduitorium
-We knew auditorium from start, it didn't bother us, as we are different from them, I think we were not able to tell difference clearly. 
+Hi, This is Abhishek, team member of **Paaradarshak** (Project listed above).
+When we sent this submission to community for review.
+They pointed out that we are similar to Previous ETH India winner [**Aduitorium**](https://devfolio.co/submissions/aduitorium).
+We knew auditorium from start, it didn't bother us, as we think we are different from them, let's see the difference.
 
 ### Difference 
-**About Aduitorium** 
+
+#### About Aduitorium
 Aduitorium is a fundraising platform like fund me, 
 where donors donate to the campaign and they can see 
 how the whole campaign money is spent by the fund owner
 Note that there is a single authority, which does payments.
 
-**Coming to Paaradarshak**
+#### Coming to Paaradarshak
 - **We track particularly who is corrupt in the chain.**
 The prime focus of paardarshak is in funds where there are multiple authorities. Once the fund owner allots some funds to the child, the child can transfer it to other children.
 Imagine the government spending passed down from central gov to ministries to MPs to MLAs. The audience for Paaradarshak is different, however, it can act as a fundraising platform as well.
@@ -109,7 +109,7 @@ In Aduitorium they track utilization of complete fund not the utilization of you
 
 
 *Therefore we are different and target different audiences.*
-*But we can learn from them though, like their DAI integration.*
+*But we can learn from them though, particularly their DAI integration.*
 
 ## Future Aspects 🚀
 
