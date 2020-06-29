@@ -98,8 +98,7 @@ Note that there is a single authority, which does payments.
 
 #### Coming to Paaradarshak
 - **We track particularly who is corrupt in the chain.**
-The prime focus of paardarshak is in funds where there are multiple authorities. Once the fund owner allots some funds to the child, the child can transfer it to other children.
-Imagine the government spending passed down from central gov to ministries to MPs to MLAs. The audience for Paaradarshak is different, however, It also acts as a fundraising platform as well.
+The prime focus of paardarshak is in funds where there are multiple authorities. Once the fund owner allots some funds to a child, the child can then transfer it to other children. Imagine the government spending passed down from central gov to ministries to MPs to MLAs. The audience for Paaradarshak is different, however, it acts as a fundraising platform as well.
 
 *Consider Paardarshak as a superset of fundraising.*
 *Paardarshak covers a wide range of usecases from Government Budgets, Taxes Utilizations to Corporate funds.*
