@@ -84,7 +84,7 @@ $ cd client && npm start
 ### We are not Aduitorium 
 
 Hi, This is Abhishek, team member of **Paaradarshak** (Project listed above).
-When we sent this submission to community for review.
+When we sent this submission to the community for review.
 Some members thought that we are similar to Previous ETH India winner [**Aduitorium**](https://devfolio.co/submissions/aduitorium).
 But we are different from each other, let's see the difference.
 
@@ -105,11 +105,11 @@ Imagine the government spending passed down from central gov to ministries to MP
 *Paardarshak covers a wide range of usecases from Government Budgets, Taxes Utilizations to Corporate funds.*
 
 -  **Individual contribution tracking** 
-In Aduitorium they track utilization of complete fund not the utilization of your contribution. we do both, if you donate 100 rs you will directly know where it is being used. this thing can be extended to real-time governance, where payers can vote if they want their money used for proposed cause or not.
+In Aduitorium they track utilization of complete funds, not the utilization of individual contributions. We do both, if you donate 100 rs, you can not only check how the total funds raised by all the contributors were used but you can also track how your individual contribution is being utilized. This thing can be extended to real-time governance, where payers can vote if they want their money used for proposed cause or not.
 
 
 *Therefore we are different and target different audiences.*
-*But we can learn from them though, particularly their DAI integration.*
+
 
 ## Future Aspects 🚀
 
