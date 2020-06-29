@@ -29,8 +29,8 @@
 
 ## Working Demo 🔥  paaradarshak.herokuapp.com
 
-- Live on [Paardarshak](paaradarshak.herokuapp.com)
-- [Demo Video](https://youtu.be/Zh_QQSMK-cY)
+Live on [Paardarshak](http://paaradarshak.herokuapp.com)
+[![Paardarshak Demo](https://j.gifs.com/q7qWBk.gif)](https://www.youtube.com/watch?v=Zh_QQSMK-cY)
 
 ## Technologies Used ⚡️
 -  Front End Frameworks: **HTML, CSS, React, Javascript**
@@ -48,7 +48,7 @@ $ cd client && npm install
 ```
 ### Testing on Local Truffle Blockchain
 
-- Create .secret file with your Mnemonic
+* Create .secret file with your Mnemonic
 * In root directoy create .secret file
 * Open metamask and Go to Setting
 * Go to Security and policy
@@ -56,22 +56,21 @@ $ cd client && npm install
 * Copy the mnemonic (never push it to public repo)
 * Paste it in .secret file
 
-
-- Truffle Development Console
+Truffle Development Console
 ```sh
 $ truffle develop
 ```
 This will open truffle developer console and you will get 10 Account Addresses, import some of them in metamask by import account option.
 
-- Truffle Compile
+Truffle Compile
 ```sh
 $ truffle compile
 ```
-- Truffle Migration Local Network
+Truffle Migration Local Network
 ```sh
 $ truffle migrate
 ```
-- Truffle Migration Matic Network
+Truffle Migration Matic Network
 ```sh
 $ truffle migrate --network matic
 ```
