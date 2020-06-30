@@ -1,78 +1,76 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700");
 
-body {
-  font-family: Lato, sans-serif;
-  --col-deepblue: #4478e3;
-}
-a {
-  color:#fff;
-  text-decoration:none;
-}
-footer {
-  width:100vw;
-  height : 190px;
-  position:fixed;
-  bottom:0px
-}
-footer div {
-  background-color: var(--col-deepblue);
-  margin: -5px 0px 0px 0px;
-  padding:0px;
-  color: #fff;
-  text-align:center;
-}
-svg {
-  width:100%;
-  overflow:visible;
+@media (min-width: 1024px) {
+  a {
+    color:#fff;
+    text-decoration:none;
+  }
+  footer {
+    width:100vw;
+    position:fixed;
+    height : 200px;
+    bottom:0px;
+    pointer-events: none;
+   
+  }
+  
+  svg {
+    width:100%;
+    overflow:visible;
+    pointer-events: none;
+   
+  
+  }
+  
+  .wave {
+    animation: wave 3s linear;
+    animation-iteration-count:infinite;
+    fill:	#74ccf4;
+  }
+  .drop {
+    fill: var(--col-deepblue);
+    xfill: #99000055;
+    animation: drop 3.2s linear infinite normal;
+    stroke: var(--col-deepblue);
+    stroke-width:0.5;
+    transform: translateY(25px) ;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+  #wave2 {
+    animation-duration:5s;
+    animation-direction: reverse;
+    opacity: .6
+  }
+  #wave3 {
+    animation-duration: 7s;
+    opacity:.3;
+  }
+  #wave4 {
+    animation-duration: 9s;
+    opacity:.3;
+  }
+  @keyframes drop {
+    0% {
+      transform: translateY(25px); 
+    }
+    30% {
+      transform: translateY(-10px) scale(.1);
+    }
+    30.001% {
+      transform: translateY(25px) scale(1); 
+    }
+    70% {
+      transform: translateY(25px); 
+    }
+    100% { 
+      transform: translateY(-10px) scale(.1);  
+    }
+  }
+  @keyframes wave {
+    to {transform: translateX(-100%);}
+  }
 }
 
-.wave {
-  animation: wave 3s linear;
-  animation-iteration-count:infinite;
-  fill:	#74ccf4;
-}
-.drop {
-  fill: var(--col-deepblue);
-  xfill: #99000055;
-  animation: drop 3.2s linear infinite normal;
-  stroke: var(--col-deepblue);
-  stroke-width:0.5;
-  transform: translateY(25px) ;
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-}
-#wave2 {
-  animation-duration:5s;
-  animation-direction: reverse;
-  opacity: .6
-}
-#wave3 {
-  animation-duration: 7s;
-  opacity:.3;
-}
-#wave4 {
-  animation-duration: 9s;
-  opacity:.3;
-}
-@keyframes drop {
-  0% {
-    transform: translateY(25px); 
-  }
-  30% {
-    transform: translateY(-10px) scale(.1);
-  }
-  30.001% {
-    transform: translateY(25px) scale(1); 
-  }
-  70% {
-    transform: translateY(25px); 
-  }
-  100% { 
-    transform: translateY(-10px) scale(.1);  
-  }
-}
-@keyframes wave {
-  to {transform: translateX(-100%);}
-}
 
 

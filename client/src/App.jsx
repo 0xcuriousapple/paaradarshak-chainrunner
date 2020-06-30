@@ -42,27 +42,6 @@ class App extends Component {
       this.setState({ web3, accounts, parentContract: instance });
 
 
-      // instance.methods.createFunds("check", "checkdesc").send({ from: accounts[0], gas: 3000000 })
-      //   .then((receipt) => {
-      //     console.log(receipt);
-      //     this.setState({ web3, accounts, contract: instance });
-      //     let all;
-      //     instance.methods.getAllDeployedFunds().call({ from: accounts[0], gas: 3000000 }).
-      //       then((result) => {
-      //         all = result;
-      //         let add = all[all.length - 1];
-      //         const instance2 = new web3.eth.Contract(Paardarshak.abi, add);
-      //         instance2.methods.getAllTokenKeys().call({ from: accounts[0], gas: 30000000 })
-      //           .then((result) => {
-      //             console.log(result);
-      //           })
-
-      //         this.setState({ web3, accounts, contract: instance2 });
-
-      //       })
-
-      //   })
-
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
