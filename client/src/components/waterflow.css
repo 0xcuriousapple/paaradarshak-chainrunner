@@ -1,11 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700");
 
 @media (min-width: 1024px) {
-  a {
-    color:#fff;
-    text-decoration:none;
-  }
-  footer {
+
+  .classfooter {
     width:100vw;
     position:fixed;
     height : 200px;
