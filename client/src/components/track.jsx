@@ -291,7 +291,7 @@ class Track extends React.Component {
                 this.setState({ tabledata: tempdatatable });
                 console.log(graph);
                 console.log(fundsatnode)
-            }, 3000);
+            }, 3300);
             console.log(this.state.trackArray);
 
 

@@ -8,6 +8,7 @@ import { Graph } from "react-d3-graph";
 import CytoscapeComponent from "react-cytoscapejs";
 import { Typography, Space } from 'antd';
 import { List, Divider } from 'antd';
+import { Spin, Alert } from 'antd';
 const { Text, Title } = Typography;
 const myConfig = {
   nodeHighlightBehavior: true,
@@ -83,9 +84,11 @@ class RTree extends React.Component {
     // map owner to his tokens
     tokensAtAddress = {};
     const { accounts, contract } = this.props.web3;
+
+
+
     try {
       let data = this.state.data;
-
       contract.methods
         .getAllTokenKeys()
         .call({ from: accounts[0], gas: 3000000 })
@@ -114,6 +117,8 @@ class RTree extends React.Component {
                   //console.log(ownerCompleteInfo);
                   promises.push(
                     new Promise(function (resolve, reject, i) {
+
+
                       contract.methods
                         .getSingleTokenDetails(value)
                         .call({ from: accounts[0], gas: 3000000 })
@@ -161,9 +166,25 @@ class RTree extends React.Component {
                                 if (credit.hasOwnProperty(temp[j].purpose)) {
                                   credit[temp[j].purpose].value = credit[temp[j].purpose].value + parseInt(temp[j].value);
                                   credit[temp[j].purpose].tokens.push(tokenkeys[i]);
+                                  if (credit[temp[j].purpose].from == "") {
+                                    if (typeof temp[j - 1] === 'undefined') {
+                                      credit[temp[j].purpose].from = ""
+                                    }
+                                    else {
+                                      credit[temp[j].purpose].from = temp[j - 1].nameOfOwner;
+
+                                    }
+                                  }
                                 }
                                 else {
-                                  credit[temp[j].purpose] = { 'value': parseInt(temp[j].value), 'from': temp[j - 1].nameOfOwner, 'tokens': [tokenkeys[i]] }
+                                  if (typeof temp[j - 1] === 'undefined') {
+                                    credit[temp[j].purpose] = { 'value': parseInt(temp[j].value), 'from': "", 'tokens': [tokenkeys[i]] }
+                                  }
+                                  else {
+                                    credit[temp[j].purpose] = { 'value': parseInt(temp[j].value), 'from': temp[j - 1].nameOfOwner, 'tokens': [tokenkeys[i]] }
+
+                                  }
+
                                 }
                                 ownerCompleteInfo[name]['credit'] = credit;
                               }
@@ -311,6 +332,8 @@ class RTree extends React.Component {
       message.error("Sorry TX was not successful Please refer console");
       console.log(error);
     }
+
+
   };
   // data = {
   //   nodes:
@@ -418,142 +441,161 @@ class RTree extends React.Component {
   };
   render() {
 
-
-    return (
-      <div className="tree">
-        <div id="treeWrapper" style={{ width: "100%", height: "80vh" }}>
-
-
-          {/* Normal drawer */}
-
-          <Drawer
-            width={310}
-            className="token-drawer-wrapper"
-            title={this.state.selectedNode}
-            placement="right"
-            closable={true}
-            onClose={() => this.handleToggleDrawer(false)}
-            visible={this.state.drawerVisible}
-          >
-            <Space direction="vertical">
-
-              {/* <Title level={3}></Title> */}
-              <Divider orientation="left" style={{ fontSize: '20px' }}>Credit</Divider>
-              <Text style={{ fontSize: '18px' }}>Total Funds Received: {this.state.totalrecv} </Text>
-              {this.state.creditlist && this.state.creditlist.map((obj) => {
-                return <div className="token-card">
-                  <b>Purpose: </b>{obj.Purpose}<br />
-                  <b>Funds: </b>{obj.Funds}<br />
-                  <b>From: </b>{obj.From}<br />
-                </div>
-              })}
-
-
-              <Divider orientation="left" style={{ fontSize: '20px' }}>Debit</Divider>
-              <Text style={{ fontSize: '18px' }}>Utilized Funds: {this.state.totalu} </Text>
-              {this.state.debitlist && this.state.debitlist.map((obj) => {
-                return <div className="token-card">
-                  <b>Purpose: </b>{obj.Purpose}<br />
-                  <b>Funds: </b>{obj.Funds}<br />
-                  <b>To: </b>{obj.To}<br />
-                </div>
-              })}
-
-              {/* <Text mark>Remaining Funds: {this.state.totalr}</Text> */}
-
-
-            </Space>
-
-          </Drawer>
-
-
-          {/* Root drawer */}
-
-          <Drawer
-            width={310}
-            className="token-drawer-wrapper"
-            title={this.state.selectedNode}
-            placement="right"
-            closable={true}
-            onClose={() => this.handleToggleDrawerRoot(false)}
-            visible={this.state.drawerVisibleRoot}
-          >
-            <Space direction="vertical">
-
-              {/* <Title level={3}></Title> */}
-              <Divider orientation="left" style={{ fontSize: '20px' }}>Credit</Divider>
-
-              <Text style={{ fontSize: '18px' }}>Total Funds Received: {this.state.totalrecv} </Text>
-              <div className="token-drawer">
-                <Input
-                  value={this.state.searchTokenTxt}
-                  onChange={this.handleSearchToken}
-                  name="searchTokenTxt"
-                  className="search-tree-token"
-                  placeholder="Enter token key"
-                  prefix={<SearchOutlined />}
-                />
-
-                {this.state.tokenArray &&
-                  this.state.tokenArray.map((token) => {
-                    if (this.state.searchTokenTxt != "") {
-                      if (token.toLowerCase().includes(this.state.searchTokenTxt))
-                        return <div className="token-array">{token}</div>
-                    }
-                    else
-                      return <div className="token-array">{token}</div>
-                  })}
+    if (this.state.data.nodes.length <= 1) {
+      return (
+        <div className="loading">
+          <Spin tip="">
+            <Alert
+              message={<div style={{ textAlign: 'center', color: '#000', fontSize: '22px', fontFamily: '"Open Sans", sans-serif' }}>
+                Loading<br />Tree<br />
               </div>
-              <Divider orientation="left" style={{ fontSize: '20px' }}>Debit</Divider>
-              <Text style={{ fontSize: '18px' }}>Utilized Funds: {this.state.totalu} </Text>
-              {this.state.debitlist && this.state.debitlist.map((obj) => {
-                return <div className="token-card">
-                  <b>Purpose: </b>{obj.Purpose}<br />
-                  <b>Funds: </b>{obj.Funds}<br />
-                  <b>To: </b>{obj.To}<br />
-                </div>
-              })}
-
-              {/* <Text mark>Remaining Funds: {this.state.totalr}</Text> */}
-
-
-            </Space>
-
-          </Drawer>
-
-
-          {/* Link drawer */}
-
-          <Drawer
-            width={310}
-            className="token-drawer-wrapper"
-            title={"Source:" + this.state.selectedLinkSource + "Target:" + this.state.selectedLinkDestination}
-            placement="right"
-            closable={true}
-            onClose={() => this.handleToggleDrawerLink(false)}
-            visible={this.state.drawerVisibleLink}
-          >
-            <Space direction="vertical">
-              <Text style={{ fontSize: '18px' }}>Total Transfered: {this.state.totalrecv} </Text>
-              {this.state.linklist && this.state.linklist.map((obj) => {
-                return <div className="token-card">
-                  <b>Purpose: </b>{obj.Purpose}<br />
-                  <b>Funds: </b>{obj.Funds}<br />
-                </div>
-              })}
-            </Space>
-
-          </Drawer>
-          <Graph
-            id="graph-id" // id is mandatory, if no id is defined rd3g will throw an error
-            data={this.state.data}
-            config={myConfig}
-            onClickNode={this.onClickNode}
-            onClickLink={this.onClickLink}
-          />
+              }
+              description=""
+              type="info"
+            />
+          </Spin>
         </div>
-      </div>
-    );
+      )
+    }
+    else {
+      return (
+
+        <div className="tree">
+          <Title level={4}>Please click on the node or link to get more details.</Title>
+          <div id="treeWrapper" style={{ width: "100%", height: "80vh" }}>
+
+
+            {/* Normal drawer */}
+
+            <Drawer
+              width={310}
+              className="token-drawer-wrapper"
+              title={this.state.selectedNode}
+              placement="right"
+              closable={true}
+              onClose={() => this.handleToggleDrawer(false)}
+              visible={this.state.drawerVisible}
+            >
+              <Space direction="vertical">
+
+                {/* <Title level={3}></Title> */}
+                <Divider orientation="left" style={{ fontSize: '20px' }}>Credit</Divider>
+                <Text style={{ fontSize: '18px' }}>Total Funds Received: {this.state.totalrecv} </Text>
+                {this.state.creditlist && this.state.creditlist.map((obj) => {
+                  return <div className="token-card">
+                    <b>Purpose: </b>{obj.Purpose}<br />
+                    <b>Funds: </b>{obj.Funds}<br />
+                    <b>From: </b>{obj.From}<br />
+                  </div>
+                })}
+
+
+                <Divider orientation="left" style={{ fontSize: '20px' }}>Debit</Divider>
+                <Text style={{ fontSize: '18px' }}>Utilized Funds: {this.state.totalu} </Text>
+                {this.state.debitlist && this.state.debitlist.map((obj) => {
+                  return <div className="token-card">
+                    <b>Purpose: </b>{obj.Purpose}<br />
+                    <b>Funds: </b>{obj.Funds}<br />
+                    <b>To: </b>{obj.To}<br />
+                  </div>
+                })}
+
+                {/* <Text mark>Remaining Funds: {this.state.totalr}</Text> */}
+
+
+              </Space>
+
+            </Drawer>
+
+
+            {/* Root drawer */}
+
+            <Drawer
+              width={310}
+              className="token-drawer-wrapper"
+              title={this.state.selectedNode}
+              placement="right"
+              closable={true}
+              onClose={() => this.handleToggleDrawerRoot(false)}
+              visible={this.state.drawerVisibleRoot}
+            >
+              <Space direction="vertical">
+
+                {/* <Title level={3}></Title> */}
+                <Divider orientation="left" style={{ fontSize: '20px' }}>Credit</Divider>
+
+                <Text style={{ fontSize: '18px' }}>Total Funds Received: {this.state.totalrecv} </Text>
+                <div className="token-drawer">
+                  <Input
+                    value={this.state.searchTokenTxt}
+                    onChange={this.handleSearchToken}
+                    name="searchTokenTxt"
+                    className="search-tree-token"
+                    placeholder="Enter token key"
+                    prefix={<SearchOutlined />}
+                  />
+
+                  {this.state.tokenArray &&
+                    this.state.tokenArray.map((token) => {
+                      if (this.state.searchTokenTxt != "") {
+                        if (token.toLowerCase().includes(this.state.searchTokenTxt))
+                          return <div className="token-array">{token}</div>
+                      }
+                      else
+                        return <div className="token-array">{token}</div>
+                    })}
+                </div>
+                <Divider orientation="left" style={{ fontSize: '20px' }}>Debit</Divider>
+                <Text style={{ fontSize: '18px' }}>Utilized Funds: {this.state.totalu} </Text>
+                {this.state.debitlist && this.state.debitlist.map((obj) => {
+                  return <div className="token-card">
+                    <b>Purpose: </b>{obj.Purpose}<br />
+                    <b>Funds: </b>{obj.Funds}<br />
+                    <b>To: </b>{obj.To}<br />
+                  </div>
+                })}
+
+                {/* <Text mark>Remaining Funds: {this.state.totalr}</Text> */}
+
+
+              </Space>
+
+            </Drawer>
+
+
+            {/* Link drawer */}
+
+            <Drawer
+              width={310}
+              className="token-drawer-wrapper"
+              title={"Source:" + " " + this.state.selectedLinkSource + "     " + "Target:" + " " + this.state.selectedLinkDestination}
+              placement="right"
+              closable={true}
+              onClose={() => this.handleToggleDrawerLink(false)}
+              visible={this.state.drawerVisibleLink}
+            >
+              <Space direction="vertical">
+                <Text style={{ fontSize: '18px' }}>Total Transfered: {this.state.totalrecv} </Text>
+                {this.state.linklist && this.state.linklist.map((obj) => {
+                  return <div className="token-card">
+                    <b>Purpose: </b>{obj.Purpose}<br />
+                    <b>Funds: </b>{obj.Funds}<br />
+                  </div>
+                })}
+              </Space>
+
+            </Drawer>
+            <Graph
+              id="graph-id" // id is mandatory, if no id is defined rd3g will throw an error
+              data={this.state.data}
+              config={myConfig}
+              onClickNode={this.onClickNode}
+              onClickLink={this.onClickLink}
+            />
+          </div>
+        </div>
+      );
+    }
   }
 }
 
