@@ -83,7 +83,7 @@ class Landing extends React.Component {
 
 	createCampClicked = () => {
 
-		if (this.state.name.substring(0, 5) != "Check") {
+		if (this.state.name.substring(0, 5) == "Check") {
 			message.error('Fund name Check# is reserved for testing purposes, please use any other fund name');
 		}
 		else if (!this.state.checkifcampexists.hasOwnProperty(this.state.name)) {
