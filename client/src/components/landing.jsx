@@ -34,7 +34,9 @@ class Landing extends React.Component {
 					// Follwing are the funds in which the names of authorities were duplicaated beause of bug in frontend
 					// Due to which its functions are unstable
 					// If you are migratiing on new contart address on matic, remove this conditions
-					if (flag | (fundinfo.name != 'Federal Taxes' && fundinfo.name != 'Federal Tax' && fundinfo.name != 'pmcares')) {
+
+					//for "check" condition its included for testing on local host
+					if (flag | (fundinfo.name != 'Federal Taxes' && fundinfo.name != 'Federal Tax' && fundinfo.name != 'pmcares' && fundinfo.name.substring(0, 6) != "Check")) {
 						let t = this.state.liveCamp;
 						t.push({ 'name': fundinfo.name, 'owner': add });
 						this.setState({ liveCamp: t });
@@ -80,7 +82,10 @@ class Landing extends React.Component {
 
 	createCampClicked = () => {
 
-		if (!this.state.checkifcampexists.hasOwnProperty(this.state.name)) {
+		if (this.state.name.substring(0, 6) != "Check") {
+			message.error('Fund name Check# is reserved for testing purposes, please use any other fund name');
+		}
+		else if (!this.state.checkifcampexists.hasOwnProperty(this.state.name)) {
 			console.log(this.state.name, this.state.desc);
 			const { parentContract, accounts } = this.props.web3;
 			parentContract.methods.createFunds(this.state.name, this.state.desc).send({ from: accounts[0], gas: 3000000 })
