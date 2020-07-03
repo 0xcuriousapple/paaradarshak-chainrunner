@@ -10,7 +10,6 @@ import { Spin, Alert } from 'antd';
 import FactoryPaardarshak from "./contracts/factorypaardarshak.json";
 import Paardarshak from "./contracts/paardarshak.json";
 import getWeb3 from "./getWeb3";
-
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Typography, Space } from 'antd';
 import { Modal } from 'antd';

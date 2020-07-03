@@ -480,8 +480,8 @@ class MidAuth extends React.Component {
                             let k;
                             let promises = [];
                             for (k = 0; k <= breakp; k++) {
-                                let value = y[k];
-                                if (k == breakp) value = t;
+                                let value = y[k].value;
+                                if (k == breakp) value = requiredvaluedtoken;
                                 console.log(t);
                                 promises.push(
                                     new Promise((resolve, reject) => {
