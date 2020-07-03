@@ -75,6 +75,7 @@ class RTree extends React.Component {
       selectedLinkSource: "",
       selectedLinkDestination: "",
       linklist: [],
+      loadlist: true,
     };
   }
 
@@ -322,6 +323,7 @@ class RTree extends React.Component {
                   console.log(this.state.data);
                   console.log(ownerCompleteInfo);
                   console.log(linkvalue);
+                  this.setState({ loadlist: false })
                 });
               });
           }
@@ -441,7 +443,7 @@ class RTree extends React.Component {
   };
   render() {
 
-    if (this.state.data.nodes.length <= 1) {
+    if (this.state.loadlist) {
       return (
         <div className="loading">
           <Spin tip="">

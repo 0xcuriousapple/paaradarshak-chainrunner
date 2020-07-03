@@ -29,7 +29,7 @@ class Landing extends React.Component {
 
 			parentContract.methods.getDetailsOfFund(add).call({ from: accounts[0], gas: 3000000 })
 				.then((fundinfo) => {
-					// I you are wondering why did I add this weird conditions here
+					// If you are wondering why did I add this weird conditions here
 					// Thats due to immutabilty of blockchain, let me explain
 					// Follwing are the funds in which the names of authorities were duplicaated beause of bug in frontend
 					// Due to which its functions are unstable
