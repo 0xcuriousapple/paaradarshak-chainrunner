@@ -16,7 +16,7 @@ const { Text, Link } = Typography;
 class Landing extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { liveCampVisible: false, createCampVisible: false, liveCamp: [], name: '', desc: '', funds: [], mapNametoAddress: {}, checkifcampexists: {} };
+		this.state = { liveCampVisible: false, createCampVisible: false, liveCamp: [], name: '', desc: '', funds: [], mapNametoAddress: {}, checkifcampexists: {}, confirmLoading: false, ModalText: '' };
 	}
 	getDetails(add, parentContract, accounts) {
 
@@ -83,10 +83,17 @@ class Landing extends React.Component {
 
 	createCampClicked = () => {
 
+
+
 		if (this.state.name.substring(0, 5) == "Check") {
 			message.error('Fund name Check# is reserved for testing purposes, please use any other fund name');
 		}
 		else if (!this.state.checkifcampexists.hasOwnProperty(this.state.name)) {
+			this.setState({
+				ModalText: 'Please confirm transaction in your wallet provider, and wait till its confirmed',
+				confirmLoading: true,
+			});
+
 			console.log(this.state.name, this.state.desc);
 			const { parentContract, accounts } = this.props.web3;
 			parentContract.methods.createFunds(this.state.name, this.state.desc).send({ from: accounts[0], gas: 3000000 })
@@ -102,7 +109,10 @@ class Landing extends React.Component {
 							t.push({ name: this.state.name, owner: contractadd });
 							this.setState({ liveCamp: t });
 							this.setState({ createCampVisible: false, name: '', desc: '' });
-
+							this.setState({
+								ModalText: "",
+								confirmLoading: false,
+							});
 
 							let x = this.state.checkifcampexists;
 							x[this.state.name] = true;
@@ -112,6 +122,10 @@ class Landing extends React.Component {
 
 				.catch(() => {
 					message.error('Sorry your TX was not successful Please try again');
+					this.setState({
+						ModalText: "",
+						confirmLoading: false,
+					});
 				})
 
 		}
@@ -124,6 +138,7 @@ class Landing extends React.Component {
 			}
 
 		}
+
 	}
 	render() {
 		return (
@@ -169,9 +184,12 @@ class Landing extends React.Component {
 							visible={this.state.createCampVisible}
 							onOk={this.createCampClicked}
 							onCancel={() => this.toggleModal('createCampVisible', false)}
+							confirmLoading={this.state.confirmLoading}
 						>
 							<Input placeholder="Name" name='name' value={this.state.name} onChange={this.handleChange} /><br /><br />
 							<Input.TextArea placeholder="Description" name='desc' value={this.state.desc} onChange={this.handleChange} />
+							<Text type="warning">{this.state.ModalText}</Text>
+
 						</Modal>
 					</Col>
 					<Col style={{ textAlign: 'center' }} sm={24} md={12}>

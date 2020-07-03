@@ -4,6 +4,10 @@ import { UserOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 import sha256 from "crypto-js/sha256";
 import CryptoJS from "crypto-js";
+import { Typography, Space } from 'antd';
+import { Descriptions } from 'antd';
+
+const { Title, Paragraph, Text } = Typography;
 
 const data = [
 
@@ -558,6 +562,18 @@ class MidAuth extends React.Component {
 
                         <Table title={() => <div style={{ textAlign: 'left', fontSize: '20px', fontFamily: '"Open Sans", sans-serif' }}>{this.props.midAuthName}</div>} bordered style={{ overflowX: 'auto' }} columns={columns} dataSource={this.state.data} /><br /><br />
                         <Button type="primary" onClick={() => this.toggleModalVisible(true, 'authVisible')}>Add Authority</Button>
+                        <br /><br />  <br /><br />  <br /><br />  <br /><br />
+                        <Descriptions bordered>
+                            <Descriptions.Item label="Transfer">To Transfer funds to other authorities.</Descriptions.Item>
+                            <Descriptions.Item label="Payment">To pay amount to vendor/contractor/..(leaf nodes).</Descriptions.Item>
+                            <Descriptions.Item label="Add Authority">To add branch authority.</Descriptions.Item>
+                            <Descriptions.Item label="Breaking the token">  <Text type="secondary">Please note that if we have to break the token during Transfer/Payment, there are 2 transactions : 1)Breaking the token , 2)Transfer/Payment.</Text>
+                                <br />
+                                <Text type="secondary">Please</Text>  <Text type="danger" strong>confirm both transactions</Text>  <Text type="secondary">from wallet provider.</Text></Descriptions.Item>
+                        </Descriptions>
+                        <br /><br />
+
+
                     </Col>
                 </Row>
 

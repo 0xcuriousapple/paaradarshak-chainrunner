@@ -8,13 +8,13 @@ import CryptoJS from "crypto-js";
 import { Result } from 'antd';
 import Logo from './maticlogo.png';
 import emailjs from "emailjs-com"
-
+import { Spin } from 'antd';
 
 const { Paragraph } = Typography;
 class Campaign extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { name: '', value: '', success: false, donationkey: null, owner: "", desc: "" };
+		this.state = { name: '', value: '', success: false, donationkey: null, owner: "", desc: "", loading: false };
 		this.handleChange = this.handleChange.bind(this);
 	}
 	handleChange = (e, id) => {
@@ -48,29 +48,39 @@ class Campaign extends React.Component {
 
 	handleSubmit = () => {
 		// this is called when submit Btn is clicked
+		try {
+			this.setState({ loading: true });
+			let uhash = sha256(this.state.name + this.state.value + Date.now());
+			uhash = uhash.toString(CryptoJS.enc.Hex);
 
-		let uhash = sha256(this.state.name + this.state.value + Date.now());
-		uhash = uhash.toString(CryptoJS.enc.Hex);
+			// contract.methods.donate().send({ from: accounts[0], gas: 3000000, value: this.state.value })
+			// .then(() => {
+			// 	contract.methods.createToken("0x" + uhash, this.state.value, this.state.name).send({ from: accounts[0] })
+			// 		.then((receipt) => {
+			// 			message.success('Donation successful');
+			// 			console.log(receipt)
+			// 			this.setState({ success: true, donationkey: "0x" + uhash })
+			// 		})
+			// 		.catch((err) => message.error('Sorry your donation was not successful Please try again'))
+			// })
+			const { accounts, contract } = this.props.web3;
+			contract.methods.donate("0x" + uhash, this.state.value, this.state.name).send({ from: accounts[0], gas: 3000000, value: this.state.value })
+				.then((receipt) => {
 
-		// contract.methods.donate().send({ from: accounts[0], gas: 3000000, value: this.state.value })
-		// .then(() => {
-		// 	contract.methods.createToken("0x" + uhash, this.state.value, this.state.name).send({ from: accounts[0] })
-		// 		.then((receipt) => {
-		// 			message.success('Donation successful');
-		// 			console.log(receipt)
-		// 			this.setState({ success: true, donationkey: "0x" + uhash })
-		// 		})
-		// 		.catch((err) => message.error('Sorry your donation was not successful Please try again'))
-		// })
-		const { accounts, contract } = this.props.web3;
-		contract.methods.donate("0x" + uhash, this.state.value, this.state.name).send({ from: accounts[0], gas: 3000000, value: this.state.value })
-			.then((receipt) => {
-
-				message.success('Payment successful');
-				console.log(receipt)
-				this.setState({ success: true, donationkey: "0x" + uhash })
-			})
-			.catch((err) => message.error('Sorry your payment was not successful Please try again'))
+					message.success('Payment successful');
+					console.log(receipt)
+					this.setState({ success: true, donationkey: "0x" + uhash })
+					this.setState({ loading: false });
+				})
+				.catch((err) => {
+					message.error('Sorry your payment was not successful Please try again');
+					this.setState({ loading: false });
+				})
+		}
+		catch{
+			message.error('Sorry your payment was not successful Please try again');
+			this.setState({ loading: false });
+		}
 
 	};
 	render() {
@@ -78,7 +88,7 @@ class Campaign extends React.Component {
 			<div className="campaign-wrapper">
 				{this.state.success ? (<Result
 					status="success"
-					title={`We have received your payment with Token key `}
+					title={`We have received your payment with Token key`}
 					visible={this.state.success}
 					// subTitle={"Use this token key to track your donation, Thank you "}
 					extra={<Button type="primary" onClick={this.toggleSuccess}>Go Back</Button>}
@@ -117,19 +127,25 @@ class Campaign extends React.Component {
 								<Input
 									name="value"
 									addonAfter={<img src={Logo} style={{ height: '20px', width: 'auto' }} />}
-									placeholder="Enter Amount in Matic Tokens"
+									placeholder="Enter Amount in Matic Tokens (Wei)"
 									onChange={(e) => this.handleChangeNumber(e)}
 									value={this.state.value}
 								/>
 								<br />
 								<br />
-								<Button
-									type="primary"
-									onClick={this.handleSubmit}
-									block
-								>
-									Proceed
-								</Button>
+
+								{
+									(!this.state.loading) ? (
+										< Button
+											type="primary"
+											onClick={this.handleSubmit}
+											block
+										>
+											Proceed
+										</Button>)
+										: (
+											<Spin spinning={this.state.loading} className="donation-spin" />
+										)}
 							</Col>
 						</Row>
 

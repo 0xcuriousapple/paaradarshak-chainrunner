@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button, Row, Col, AutoComplete, message, Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Typography } from 'antd';
+import { Typography, Space } from 'antd';
 import sha256 from "crypto-js/sha256";
 import CryptoJS from "crypto-js";
 
@@ -339,8 +339,15 @@ class RootAuth extends React.Component {
                         <Button type="primary" onClick={() => this.toggleVisibleUtilize(true)}>Allot</Button>
                         <br /><br />
                         <Button type="primary" onClick={() => this.toggleVisibleAuth(true)}>Add Authority</Button>
+                        <br /><br />
+                        <Text type="secondary">Please note that if we have to break the token during allot, there are 2 transactions : 1)Breaking the token , 2)Allot</Text>
+                        <br />
+                        <Text type="secondary">Please</Text>  <Text type="danger" strong>confirm both transactions</Text>  <Text type="secondary">from wallet provider.</Text>
+
+
                     </Col>
                 </Row>
+
                 <Modal
                     title="Allot Funds"
                     visible={this.state.utilizeVisible}
@@ -373,6 +380,7 @@ class RootAuth extends React.Component {
                     <Input name='authName' onChange={(e) => this.handleChange(e, 'authName')} value={this.state.authName} placeholder='Name' /><br /><br />
                     <Input name='authAddr' onChange={(e) => this.handleChange(e, 'authAddr')} value={this.state.authAddr} placeholder='Address' /><br /><br />
                 </Modal>
+
             </div>
         )
     }
