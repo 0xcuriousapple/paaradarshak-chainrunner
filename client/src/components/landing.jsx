@@ -36,7 +36,8 @@ class Landing extends React.Component {
 					// If you are migratiing on new contart address on matic, remove this conditions
 
 					//for "check" condition its included for testing on local host
-					if (flag | (fundinfo.name != 'Federal Taxes' && fundinfo.name != 'Federal Tax' && fundinfo.name != 'pmcares' && fundinfo.name.substring(0, 6) != "Check")) {
+					console.log(fundinfo.name.substring(0, 5));
+					if (flag | (fundinfo.name != 'Federal Taxes' && fundinfo.name != 'Federal Tax' && fundinfo.name != 'pmcares' && fundinfo.name.substring(0, 5) != "Check")) {
 						let t = this.state.liveCamp;
 						t.push({ 'name': fundinfo.name, 'owner': add });
 						this.setState({ liveCamp: t });
@@ -82,7 +83,7 @@ class Landing extends React.Component {
 
 	createCampClicked = () => {
 
-		if (this.state.name.substring(0, 6) != "Check") {
+		if (this.state.name.substring(0, 5) != "Check") {
 			message.error('Fund name Check# is reserved for testing purposes, please use any other fund name');
 		}
 		else if (!this.state.checkifcampexists.hasOwnProperty(this.state.name)) {
