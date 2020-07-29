@@ -22,6 +22,11 @@ In conventional funds,
 - **Corruptionless** : The exchange of funds between authorities is publicly available and is immutable.
 
 
+
+## Working Demo 🔥  paaradarshak.herokuapp.com
+- [Demo](https://www.youtube.com/watch?v=Zh_QQSMK-cY)
+- Live on [Paardarshak](http://paaradarshak.herokuapp.com)
+
 ## Use Case Diagram ✏️
 
 ![Use Case Diagram (Small)](https://user-images.githubusercontent.com/34777376/85917978-71a02e80-b87c-11ea-92d0-8fdbc6af0ff5.png)
@@ -29,12 +34,6 @@ In conventional funds,
 ## Diagram for Token Creation, Allot, Transfer, Payment ✏️
 
 ![Block Diagram - Page 1 (Small)](https://user-images.githubusercontent.com/34777376/85947796-780cd400-b96a-11ea-8915-4003d27fe7f5.png)
-
-
-## Working Demo 🔥  paaradarshak.herokuapp.com
-- Live on [Paardarshak](http://paaradarshak.herokuapp.com)
-
-[![Paardarshak Demo](https://j.gifs.com/q7qWBk.gif)](https://www.youtube.com/watch?v=Zh_QQSMK-cY)
 
 ## Technologies Used ⚡️
 -  Front End Frameworks: **HTML, CSS, React, Javascript**
