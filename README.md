@@ -6,9 +6,10 @@
   <img width="100" height="100" src="https://i.ibb.co/85JrF8R/logo.png">
 </p>
 
-
-
 ### [Winning Entry In EthIndia- Chainrunner](https://devfolio.co/blog/announcing-winners-of-chain-runner-hackathon/)
+### Problem,Solution, Algorithm, Demo of Application | Everything covered - [Just 10 min video](https://www.youtube.com/watch?v=Zh_QQSMK-cY)
+### Live on [Paardarshak](http://paaradarshak.herokuapp.com)
+
 ## Problem 🌈
 In conventional funds, 
 - Payers are unaware of how their money is utilized
@@ -20,12 +21,6 @@ In conventional funds,
 - **Track** : Payer can track how his individual contribution is being used.
 - **Audit** : Anyone can audit how the total funds are being utilized
 - **Corruptionless** : The exchange of funds between authorities is publicly available and is immutable.
-
-
-
-## Working Demo 🔥  paaradarshak.herokuapp.com
-- [Demo](https://www.youtube.com/watch?v=Zh_QQSMK-cY)
-- Live on [Paardarshak](http://paaradarshak.herokuapp.com)
 
 ## Use Case Diagram ✏️
 
