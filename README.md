@@ -63,11 +63,11 @@ Truffle Compile
 ```sh
 $ truffle compile
 ```
-Truffle Migration Local Network
+Truffle Migration (To Deploy on Local Network)
 ```sh
 $ truffle migrate
 ```
-Truffle Migration Matic Network
+Truffle Migration (To Deploy on Matic Network)
 ```sh
 $ truffle migrate --network matic
 ```
