@@ -8,7 +8,6 @@
 
 ### [Winning Entry In EthIndia- Chainrunner](https://devfolio.co/blog/announcing-winners-of-chain-runner-hackathon/)
 ### [Problem, Solution, Algorithm, Demo of Application | Just 10 min Video](https://www.youtube.com/watch?v=Zh_QQSMK-cY)
-### Live on [Paardarshak](http://paaradarshak.herokuapp.com)
 
 ## Problem 🌈
 In conventional funds, 
