@@ -21,11 +21,11 @@
     "glamor": "^2.20.40",
     "glamorous": "^5.0.0",
     "govuk-colours": "^1.1.0",
-    "less": "^3.11.1",
+    "less": "^3.13.1",
     "less-loader": "^5.0.0",
     "maticjs": "^1.0.1",
     "memoize-one": "^5.1.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^9.0.0",
     "q": "^1.5.1",
     "react": "^16.13.1",
     "react-app-rewired": "^2.1.5",
@@ -37,9 +37,9 @@
     "react-horizontal-timeline": "^1.5.3",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "redux": "^4.0.5",
-    "web3": "^1.2.9"
+    "web3": "^4.0.3"
   },
   "scripts": {
     "start": "react-app-rewired start",
